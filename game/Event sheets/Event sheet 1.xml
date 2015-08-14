@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable comment="Seconds interval between spawning a new enemy." constant="0" name="EnemySpawnTime" sid="9733700866496226" static="0" type="number">2</variable>
+        <event-group description="" sid="1842704516502349" title="Enemy control">
+            <sub-events>
+                <comment>Kick off the first enemy moving.</comment>
+                <event-block sid="4956417946150232">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="3421271016664389" type="System" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Pathfinding" id="0" name="Find path" sid="9593362756709222" type="Enemy">
+                            <param id="0" name="X">EnemyTarget.X</param>
+                            <param id="1" name="Y">EnemyTarget.Y</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>Every 2 seconds, but gradually reducing the interval, spawn a new enemy and move it to the target.</comment>
+                <event-block sid="8545926017439012">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="3647219375439442" type="System">
+                            <param id="0" name="Interval (seconds)">EnemySpawnTime</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" sid="2729708998459393" type="EnemySpawner">
+                            <param id="0" name="Object">Enemy</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                        <action behavior="Pathfinding" id="0" name="Find path" sid="8556653592407917" type="Enemy">
+                            <param id="0" name="X">EnemyTarget.X</param>
+                            <param id="1" name="Y">EnemyTarget.Y</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <comment>Every time an enemy spawn, the spawn interval reduces slightly.  This makes them very gradually come faster!  Make sure it doesn&apos;t go below every 0.5 seconds though.</comment>
+                        <event-block sid="454667570255771">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="2696882603386011" type="System">
+                                    <param id="0" name="Variable">EnemySpawnTime</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Value">0.5</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-11" name="Subtract from" sid="2424984904676311" type="System">
+                                    <param id="0" name="Variable">EnemySpawnTime</param>
+                                    <param id="1" name="Value">0.01</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <comment>Once a path has been found, start moving along it.</comment>
+                <event-block sid="6901927546199799">
+                    <conditions>
+                        <condition behavior="Pathfinding" id="0" name="On path found" sid="7183135081900963" type="Enemy" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Pathfinding" id="1" name="Move along path" sid="6355061867340194" type="Enemy" />
+                    </actions>
+                </event-block>
+                <comment>When bullets hit enemies, make it subtract from health and spawn some particles.</comment>
+                <event-block sid="1722119880681344">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="2329021074050747" type="Bullet">
+                            <param id="0" name="Object">Enemy</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-12" name="Subtract from" sid="2541315613175576" type="Enemy">
+                            <param id="0" name="Instance variable">health</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-9" name="Destroy" sid="3766684416633562" type="Bullet" />
+                        <action id="0" name="Spawn another object" sid="7421442827515508" type="Bullet">
+                            <param id="0" name="Object">BulletImpactParticles</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>Destroy enemies with no health left, throwing in a particles effect.</comment>
+                <event-block sid="4307553399599679">
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" sid="9187697465758515" type="Enemy">
+                            <param id="0" name="Instance variable">health</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" sid="8255087721049353" type="Enemy">
+                            <param id="0" name="Object">EnemyDeadParticles</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                        <action id="-9" name="Destroy" sid="3388868482980902" type="Enemy" />
+                    </actions>
+                </event-block>
+                <comment>When an enemy reaches the target, destroy it, but also pick a random turret and destroy that.</comment>
+                <event-block sid="500360718917401">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="8898922230207618" type="Enemy">
+                            <param id="0" name="Object">EnemyTarget</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="2340613852373688" type="Enemy" />
+                    </actions>
+                    <sub-events>
+                        <event-block sid="3821901226638838">
+                            <conditions>
+                                <condition id="-16" name="Pick random instance" sid="7525910690819567" type="System">
+                                    <param id="0" name="Object">Turret</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="3971220118606349" type="Turret" />
+                                <action id="0" name="Spawn another object" sid="5829988338679144" type="Turret">
+                                    <param id="0" name="Object">EnemyDeadParticles</param>
+                                    <param id="1" name="Layer">&quot;Game&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="5895897985841676" title="Turret control">
+            <sub-events>
+                <comment>Tell the turrets to target the enemies.</comment>
+                <event-block sid="8807254036289938">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="1641458670774486" type="System" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Turret" id="1" name="Add object to target" sid="858505748618259" type="Turret">
+                            <param id="0" name="Target">Enemy</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>When shooting, spawn a bullet.</comment>
+                <event-block sid="9076800078368784">
+                    <conditions>
+                        <condition behavior="Turret" id="1" name="On shoot" sid="7235391811703755" type="Turret" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" sid="245850533924078" type="Turret">
+                            <param id="0" name="Object">Bullet</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>To prevent bullets that miss flying across the whole screen, destroy them when they&apos;ve travelled out of range.</comment>
+                <event-block sid="8847370602767101">
+                    <conditions>
+                        <condition behavior="Bullet" id="1" name="Compare distance travelled" sid="6249104607379092" type="Bullet">
+                            <param id="0" name="Comparison">5</param>
+                            <param id="1" name="Distance">100</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="9604652827940669" type="Bullet" />
+                    </actions>
+                </event-block>
+                <comment>Create new turrets by touching the walls.</comment>
+                <event-block sid="6763146471168433">
+                    <conditions>
+                        <condition id="3" name="On touched object" sid="1070548634084168" type="Touch">
+                            <param id="0" name="Object">Wall</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Create object" sid="3019151311209389" type="System">
+                            <param id="0" name="Object to create">Turret</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="X">round((Touch.X - 16) / 32) * 32 + 16</param>
+                            <param id="3" name="Y">round((Touch.Y - 16) / 32) * 32 + 16</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="2046854372986515">
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" sid="4458540200287578" type="Turret">
+                            <param id="0" name="Object">Turret</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="2575018229119602" type="Turret" />
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>
