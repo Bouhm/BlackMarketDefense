@@ -60,6 +60,7 @@ class RiotAPIData(object):
             ),
             {'includeTimeline':'true'}
         )
+
         BMB_mercs = self._get_BMB_mercs()
         teams_data = self._get_teams_data(match_data)
         if teams_data['winner']['teamId'] == '100':
@@ -72,10 +73,10 @@ class RiotAPIData(object):
             if 'events' in events.keys():
                 for event in events['events']:
                     if event['eventType'] == 'ITEM_PURCHASED':
-                        participant = str(event['participantId'])
                         item_id = event['itemId']
+                        participant = str(event['participantId'])
                         if item_id in [3611, 3612, 3613, 3614]: #Mercenaries
-                            player_mercs.update({participant:{'participant': participant,'merc': BMB_mercs[item_id].lower()}})
+                            player_mercs.update({participant:{'merc': BMB_mercs[item_id].lower()}})
                         elif item_id in [3621, 3624, 3615]: #First upgradess
                             if item_id == 3621:
                                 player_mercs[participant].update({'offense': 1})
@@ -91,32 +92,21 @@ class RiotAPIData(object):
                         elif item_id in [3616, 3617]:
                             player_mercs[participant]['upgrade'] += 1
 
-        for player in player_mercs.values():
-            if player['participant'] in winner:
+        for player in player_mercs:
+            if player in winner:
                 team = 'winner'
             else:
                 team = 'loser'
 
-
-            if player['merc'] in teams_data[team].keys():
-                teams_data[team][player['merc']][0] += 1
-                if 'offense' in player.keys() and 'offense' in teams_data[team][player['merc']][1].keys():
-                    teams_data[team][player['merc']][1]['offense'].append(player['offense'])
-                if 'defense' in player.keys() and 'defense' in teams_data[team][player['merc']][1].keys():
-                    teams_data[team][player['merc']][1]['defense'].append(player['defense'])
-                if 'upgrade' in player.keys() and 'upgrade' in teams_data[team][player['merc']][1].keys():
-                    teams_data[team][player['merc']][1]['upgrade'].append(player['upgrade'])
+            merc_data = player_mercs[player].copy()
+            if player_mercs[player]['merc'] in teams_data[team].keys():
+                del merc_data['merc']
+                teams_data[team][player_mercs[player]['merc']].append(merc_data)
             else:
-                teams_data[team].update({player['merc']:[]})
-                upgrades = [1, {}]
-                if 'offense' in player.keys():
-                    upgrades[1].update({'offense': [player['offense']]})
-                if 'defense' in player.keys():
-                    upgrades[1].update({'defense': [player['defense']]})
-                if 'upgrade' in player.keys():
-                    upgrades[1].update({'upgrade': [player['upgrade']]})
-                teams_data[team][player['merc']] = upgrades
+                del merc_data['merc']
+                teams_data[team].update({player_mercs[player]['merc']:[merc_data]})
         return teams_data
+
 
     def _get_teams_data(self, match_data):
         winner = 0
@@ -128,7 +118,7 @@ class RiotAPIData(object):
             '2043', '2044'
         ]
         for team in match_data['teams']:
-            if team['winner'] == 'true':
+            if team['winner'] == True:
                 winner = '100'
                 loser = '200'
             else:
@@ -146,25 +136,26 @@ class RiotAPIData(object):
                 result['loser']['champions'].append({'championId': player['championId'], 'items': items})
         return result
 
-    def get_all_items(self):
-        args = {'api_key': self.api_key}
-        api_url = API['item'].format(version=VER['lol_static_data'])
-        response = requests.get(
-            API['base_static_data'].format(
-                proxy = self.region,
-                region = self.region,
-                url = api_url
-            ),
-            params=args
-        )
-        items = response.json()
-        version = self._get_static_data_version()
-        item_list = []
-        for item in items['data'].values():
-            img_url = API['item_img'].format(version=version, item=item['id']) + ".png"
-            item_data = {'itemId': item['id'], 'name': item['name'], 'img': img_url}
-            item_list.append(item_data)
-        return item_list
+    def _id_to_name(self, dict):
+        with open("database/items.json") as file:
+            item_data = json.load(file)
+        with open("database/champions.json") as file:
+            champ_data = json.load(file)
+        for team in dict.values():
+            for key, value in team.items():
+                if key == 'champions':
+                    for champion in team[key]:
+                        for champ in champ_data:
+                            if champion['championId'] == champ['championId']:
+                                champion['name'] = champ['name']
+                        for champ in champ_data:
+                            champion.pop('championId', None)
+                        for item in champion['items']:
+                            for item_name in item_data:
+                                if item == item_name['itemId']:
+                                    champion['items'].append(item_name['name'])
+                        champion['items'] = [x for x in champion['items'] if not isinstance(x, int)]
+        return dict
 
     #Returns champion name string given champion id integer
     def _get_champion_by_id(self, champion_id):
@@ -193,6 +184,26 @@ class RiotAPIData(object):
         versions = response.json()
         return versions[0]
 
+    def get_all_items(self):
+        args = {'api_key': self.api_key}
+        api_url = API['item'].format(version=VER['lol_static_data'])
+        response = requests.get(
+            API['base_static_data'].format(
+                proxy = self.region,
+                region = self.region,
+                url = api_url
+            ),
+            params=args
+        )
+        items = response.json()
+        version = self._get_static_data_version()
+        item_list = []
+        for item in items['data'].values():
+            img_url = API['item_img'].format(version=version, item=item['id']) + ".png"
+            item_data = {'itemId': item['id'], 'name': item['name'], 'img': img_url}
+            item_list.append(item_data)
+        return json.dumps(item_list)
+
     def get_all_champs(self):
         version = self._get_static_data_version()
         args = {'api_key': self.api_key, 'champData': 'image'}
@@ -214,4 +225,4 @@ class RiotAPIData(object):
                 'img': API['champion_img'].format(version=version, champion=champion['image']['full'])
             }
             champions_data.append(champ_data)
-        return champions_data
+        return json.dumps(champions_data)

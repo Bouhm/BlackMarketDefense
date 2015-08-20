@@ -9,3 +9,5 @@ game/Animations
 game/Textures
 game/*.caproj
 game/*.capx
+database/champ_img
+database/item_img
