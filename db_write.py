@@ -1,13 +1,16 @@
 __author__ = 'Bouhm'
+#Program that uses methods from RiotAPIStats mainly for building database
 
-#Program that uses methods from RiotAPIStats mainly for testing/debugging
 from riot_API_data import RiotAPIData
+import data_aggr
 import keys
 import os.path
 import urllib.request
 import sys
 import requests
 import json
+import random
+import pprint
 import time
 
 def main():
@@ -18,15 +21,28 @@ def main():
         "accept-encoding": "gzip,deflate,sdch",
         "accept-language": "en-US,en;q=0.8",
     }
+
     api = RiotAPIData(keys.API_KEY)
     print("Options: ")
     print("(1) Update item list")
     print("(2) Update champion list")
+    print("(3) Update champion winrates")
+    print("(4) Update mercenary winrates")
+    print("(5) Update data from matches")
+    print("(6) Update game data")
     option = input(':')
     if option == '1':
         item_data(api, headers, False)
     elif option == '2':
         champion_data(api, headers, False)
+    elif option == '3':
+        champion_winrates(api)
+    elif option == '4':
+        merc_winrates(api)
+    elif option == '5':
+        data_from_matches(api, "NA", 2)
+    else:
+        game_data(api, 'NA', 2000)
 
 def item_data(api, headers, img):
     item_data = api.get_all_items()
@@ -50,7 +66,6 @@ def item_data(api, headers, img):
 
 def champion_data(api, headers, img):
     champion_data = api.get_all_champs()
-
     if not os.path.isfile("database/champions.json"):
         file = open("database/champions.json", 'w+')
         #for champ in champion_data:
@@ -68,6 +83,63 @@ def champion_data(api, headers, img):
                 sys.exit()
             urllib.request.urlretrieve(champ['img'], "database/champ_img/" + champ['name'] + ".png")
         urllib.request.urlcleanup()
+
+def champion_winrates(api):
+    return
+
+def merc_winrates(api):
+    return
+
+def game_data(api, region, num):
+    game_data = data_aggr.get_game_data_format(api, region, num)
+    json.dumps(game_data)
+    if not os.path.isfile("database/game_data.json"):
+        file = open("database/game_data.json", 'w+')
+        pprint.pprint(game_data, stream=file)
+    else:
+        with open("database/game_data.json", 'a') as file:
+            pprint.pprint(game_data, stream=file)
+    return
+
+def data_from_matches(api, region, num):
+    with open("dataset/" + region + ".json") as file:
+        matches_list = json.load(file)
+    matches = random.sample(range(1,10000), num)
+    matches_data = []
+    for match in matches:
+        matches_data.append(api.get_BMB_data(matches_list[match]))
+
+    json.dumps(matches_data)
+    if not os.path.isfile("database/matches_data.json"):
+        file = open("database/matches_data.json", 'w+')
+        for match in matches_data:
+            file.write("%s  \n" % match)
+    else:
+        with open("database/matches_data.json", 'a') as file:
+            for match in matches_data:
+                file.write("%s\n" % match)
+    return
+
+def id_to_name(dict):
+    with open("database/items.json") as file:
+        item_data = json.load(file)
+    with open("database/champions.json") as file:
+        champ_data = json.load(file)
+    for team in dict.values():
+        for key, value in team.items():
+            if key == 'champions':
+                for champion in team[key]:
+                    for champ in champ_data:
+                        if champion['championId'] == champ['championId']:
+                            champion['name'] = champ['name']
+                    for champ in champ_data:
+                        champion.pop('championId', None)
+                    for item in champion['items']:
+                        for item_name in item_data:
+                            if item == item_name['itemId']:
+                                champion['items'].append(item_name['name'])
+                    champion['items'] = [x for x in champion['items'] if not isinstance(x, int)]
+    return dict
 
 if __name__ == "__main__":
     main()

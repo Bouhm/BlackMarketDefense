@@ -3,7 +3,7 @@ keys.py
 .idea/
 venv/
 *.sqlite3
-game/*.uistate
+game/*.uistate.xml
 game/Files
 game/Animations
 game/Textures

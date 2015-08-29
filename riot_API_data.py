@@ -1,5 +1,6 @@
 __author__ = 'Bouhm'
-# File that gets data from API and does everything
+#Methods that access API and return dictionary/JSON files of data
+
 import requests
 import json
 import re
@@ -52,21 +53,24 @@ class RiotAPIData(object):
         merc.update({'mercUpgrades':merc_upgrade})
         return merc
 
-    def _get_BMB_items_data(self, match_id):
-        match_data = self._request(
-            API['match'].format(
-                version = VER['match'],
-                match_id = match_id
-            ),
-            {'includeTimeline':'true'}
-        )
-
-        BMB_mercs = self._get_BMB_mercs()
-        teams_data = self._get_teams_data(match_data)
-        if teams_data['winner']['teamId'] == '100':
-            winner = ['1', '2', '3', '4', '5']
+    def get_BMB_data(self, match_id=None, file=None):
+        if file == None:
+            match_data = self._request(
+                API['match'].format(
+                    version = VER['match'],
+                    match_id = match_id
+                ),
+                {'includeTimeline':'true'}
+            )
         else:
-            winner = ['6', '7', '8', '9', '10']
+            match_data = file
+
+        teams_data = self._get_teams_data(match_data)
+        # if teams_data['winner']['teamId'] == '100':
+        #     winner = ['1', '2', '3', '4', '5']
+        # else:
+        #     winner = ['6', '7', '8', '9', '10']
+
         player_mercs = {}
         timeline = match_data['timeline']['frames']
         for events in timeline:
@@ -76,27 +80,24 @@ class RiotAPIData(object):
                         item_id = event['itemId']
                         participant = str(event['participantId'])
                         if item_id in [3611, 3612, 3613, 3614]: #Mercenaries
-                            player_mercs.update({participant:{'merc': BMB_mercs[item_id].lower()}})
-                        elif item_id in [3621, 3624, 3615]: #First upgradess
-                            if item_id == 3621:
-                                player_mercs[participant].update({'offense': 1})
-                            elif item_id == 3624:
-                                player_mercs[participant].update({'defense': 1})
-                            elif item_id == 3615:
-                                player_mercs[participant].update({'upgrade': 1})
-                        elif item_id in [3622, 3623]:
-
+                            player_mercs.update({participant:{'merc': item_id}})
+                            player_mercs[participant].update({'offense': 0, 'defense':0, 'upgrade':0})
+                        elif item_id in [3621, 3622, 3623]:
                             player_mercs[participant]['offense'] += 1
-                        elif item_id in [3625, 3626]:
+                        elif item_id in [3624, 3625, 3626]:
                             player_mercs[participant]['defense'] += 1
-                        elif item_id in [3616, 3617]:
+                        elif item_id in [3615, 3616, 3617]:
                             player_mercs[participant]['upgrade'] += 1
 
         for player in player_mercs:
-            if player in winner:
-                team = 'winner'
-            else:
-                team = 'loser'
+            # if player in winner:
+            #     team = 'winner'
+            # else:
+            #     team = 'loser'
+            if float(player) < 6:
+                team = '100'
+            else :
+                team = '200'
 
             merc_data = player_mercs[player].copy()
             if player_mercs[player]['merc'] in teams_data[team].keys():
@@ -126,36 +127,15 @@ class RiotAPIData(object):
                 winner = '200'
             break
 
-        result = {'winner':{'teamId': winner, 'champions':[]}, 'loser':{'teamId': loser, 'champions': []}}
+        result = {'matchId':match_data['matchId'], winner:{'winner': True, 'champions':[]}, loser:{'winner': False, 'champions': []}}
         for player in match_data['participants']:
             if str(player['teamId']) == winner:
                 items = [value for key, value in player['stats'].items() if ('item' in key) and (str(value) not in item_exc)]
-                result['winner']['champions'].append({'championId': player['championId'], 'items': items})
+                result[winner]['champions'].append({'championId': player['championId'], 'items': items})
             else:
                 items = [value for key, value in player['stats'].items() if ('item' in key) and (str(value) not in item_exc)]
-                result['loser']['champions'].append({'championId': player['championId'], 'items': items})
+                result[loser]['champions'].append({'championId': player['championId'], 'items': items})
         return result
-
-    def _id_to_name(self, dict):
-        with open("database/items.json") as file:
-            item_data = json.load(file)
-        with open("database/champions.json") as file:
-            champ_data = json.load(file)
-        for team in dict.values():
-            for key, value in team.items():
-                if key == 'champions':
-                    for champion in team[key]:
-                        for champ in champ_data:
-                            if champion['championId'] == champ['championId']:
-                                champion['name'] = champ['name']
-                        for champ in champ_data:
-                            champion.pop('championId', None)
-                        for item in champion['items']:
-                            for item_name in item_data:
-                                if item == item_name['itemId']:
-                                    champion['items'].append(item_name['name'])
-                        champion['items'] = [x for x in champion['items'] if not isinstance(x, int)]
-        return dict
 
     #Returns champion name string given champion id integer
     def _get_champion_by_id(self, champion_id):
@@ -226,3 +206,8 @@ class RiotAPIData(object):
             }
             champions_data.append(champ_data)
         return json.dumps(champions_data)
+
+    # For offline testing
+    def _test_sample_data(self):
+        with open("sample.json") as file:
+            return json.load(file)

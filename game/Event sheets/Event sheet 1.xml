@@ -3,7 +3,9 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
     <events>
-        <variable comment="Seconds interval between spawning a new enemy." constant="0" name="EnemySpawnTime" sid="9733700866496226" static="0" type="number">2</variable>
+        <variable comment="Seconds interval between spawning a new enemy." constant="0" name="enemySpawnTime" sid="9733700866496226" static="0" type="number">2</variable>
+        <variable constant="0" name="selectedTowerUID" sid="4888073994746372" static="0" type="number">-1</variable>
+        <variable constant="0" name="gameTimer" sid="416639034642912" static="0" type="number">0</variable>
         <event-group description="" sid="1842704516502349" title="Enemy control">
             <sub-events>
                 <comment>Kick off the first enemy moving.</comment>
@@ -41,14 +43,14 @@
                         <event-block sid="454667570255771">
                             <conditions>
                                 <condition id="-14" name="Compare variable" sid="2696882603386011" type="System">
-                                    <param id="0" name="Variable">EnemySpawnTime</param>
+                                    <param id="0" name="Variable">enemySpawnTime</param>
                                     <param id="1" name="Comparison">4</param>
                                     <param id="2" name="Value">0.5</param>
                                 </condition>
                             </conditions>
                             <actions>
                                 <action id="-11" name="Subtract from" sid="2424984904676311" type="System">
-                                    <param id="0" name="Variable">EnemySpawnTime</param>
+                                    <param id="0" name="Variable">enemySpawnTime</param>
                                     <param id="1" name="Value">0.01</param>
                                 </action>
                             </actions>
@@ -186,17 +188,139 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-block sid="2046854372986515">
+                <event-block sid="2437343464599871">
                     <conditions>
-                        <condition id="1" name="Is overlapping another object" sid="4458540200287578" type="Turret">
+                        <condition id="17" name="On tap object" sid="9942579945973078" type="Touch">
                             <param id="0" name="Object">Turret</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-9" name="Destroy" sid="2575018229119602" type="Turret" />
+                        <action id="-15" name="Set visible" sid="6729292417229045" type="9patch">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
+                        <action id="-3" name="Set position" sid="6391073650008958" type="9patch">
+                            <param id="0" name="X">round((Turret.X - 16)/32)*32 - 64</param>
+                            <param id="1" name="Y">round((Turret.Y - 16)/32)*32 - 112</param>
+                        </action>
                     </actions>
                 </event-block>
             </sub-events>
         </event-group>
+        <event-group description="" sid="7074378795167876" title="Data">
+            <sub-events>
+                <event-block sid="7608648947117917">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="8209294513187064" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Load JSON" sid="1016750475540678" type="LoadJSON" />
+                        <action id="0" name="Set text" sid="1907675510655312" type="sizeText">
+                            <param id="0" name="Text">LoadJSON.GetRootKeysSize&amp;&quot; keys in JSON-file found&quot;</param>
+                        </action>
+                        <action id="1" name="Request project file" sid="3023082350381661" type="AJAX">
+                            <param id="0" name="Tag">&quot;matches&quot;</param>
+                            <param id="1" name="File">matches_data.json</param>
+                        </action>
+                        <action id="4" name="Load" sid="7599950281641318" type="Dictionary">
+                            <param id="0" name="JSON">&quot;matches&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="472015713546699" title="Timescale">
+            <sub-events>
+                <event-block sid="5611033329772964">
+                    <conditions>
+                        <condition id="-1" name="Every tick" sid="8066785406573296" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Add to" sid="1392904811653288" type="System">
+                            <param id="0" name="Variable">gameTimer</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="1539462166179589">
+                    <conditions>
+                        <condition id="3" name="On touched object" sid="3282261534846497" type="Touch">
+                            <param id="0" name="Object">ff</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-13" name="Set time scale" sid="6791856274482047" type="System">
+                            <param id="0" name="Time scale">2.0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="7100747664630742">
+                    <conditions>
+                        <condition id="17" name="On tap object" sid="1982519276680317" type="Touch">
+                            <param id="0" name="Object">Pause</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-13" name="Set time scale" sid="7585112022332498" type="System">
+                            <param id="0" name="Time scale">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="8415823428069207">
+                    <conditions>
+                        <condition id="17" name="On tap object" sid="4305359348360909" type="Touch">
+                            <param id="0" name="Object">Pause</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" sid="3633766849874903" type="System">
+                            <param id="0" name="First value">timescale</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-13" name="Set time scale" sid="7933488955098681" type="System">
+                            <param id="0" name="Time scale">1.0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-block sid="6633211220049296">
+            <conditions>
+                <condition id="0" name="On loading completed" sid="8666245212510282" type="LoadJSON" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="7291458883767647" type="sizeText2">
+                    <param id="0" name="Text">LoadJSON.GetData(&quot;champions&quot;, 0)</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="3481514446422902">
+            <conditions>
+                <condition id="0" name="On completed" sid="115786174463701" type="AJAX">
+                    <param id="0" name="Tag">&quot;matches&quot;</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="188313862543592" type="Text">
+                    <param id="0" name="Text">&quot;&quot;</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="7009178274206779">
+                    <conditions>
+                        <condition id="-10" name="For" sid="9075098156428988" type="System">
+                            <param id="0" name="Name">&quot;line&quot;</param>
+                            <param id="1" name="Start index">0</param>
+                            <param id="2" name="End index">tokencount(AJAX.LastData, &quot;,&quot;)-1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="1" name="Append text" sid="4777796324086135" type="Text">
+                            <param id="0" name="Text">newline&amp;&quot;Word number &quot;&amp;(loopindex+1)&amp;&quot; : &quot;&amp;tokenat(Dictionary.CurrentKey,loopindex,&quot;,&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
     </events>
 </c2eventsheet>
