@@ -3,84 +3,104 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
     <events>
+        <variable constant="0" name="placeTower" sid="6865279861712279" static="0" type="text"></variable>
+        <variable constant="0" name="mouseMode" sid="4966851346063013" static="0" type="number">0</variable>
+        <variable constant="0" name="waveNumber" sid="4761650927116621" static="0" type="number">20</variable>
         <variable comment="Seconds interval between spawning a new enemy." constant="0" name="enemySpawnTime" sid="9733700866496226" static="0" type="number">2</variable>
         <variable constant="0" name="selectedTowerUID" sid="4888073994746372" static="0" type="number">-1</variable>
         <variable constant="0" name="gameTimer" sid="416639034642912" static="0" type="number">0</variable>
         <event-group description="" sid="1842704516502349" title="Enemy control">
             <sub-events>
-                <comment>Kick off the first enemy moving.</comment>
                 <event-block sid="4956417946150232">
                     <conditions>
                         <condition id="-2" name="On start of layout" sid="3421271016664389" type="System" />
                     </conditions>
                     <actions>
-                        <action behavior="Pathfinding" id="0" name="Find path" sid="9593362756709222" type="Enemy">
-                            <param id="0" name="X">EnemyTarget.X</param>
-                            <param id="1" name="Y">EnemyTarget.Y</param>
+                        <action behavior="Pathfinding" id="0" name="Find path" sid="9593362756709222" type="Creep">
+                            <param id="0" name="X">Goal.X</param>
+                            <param id="1" name="Y">Goal.Y</param>
+                        </action>
+                        <action behavior="Pathfinding" id="0" name="Find path" sid="2358328468600369" type="mercenary">
+                            <param id="0" name="X">Goal.X</param>
+                            <param id="1" name="Y">Goal.Y</param>
+                        </action>
+                        <action behavior="Pathfinding2" disabled="1" id="0" name="Find path" sid="1207314059956559" type="wave">
+                            <param id="0" name="X">Goal.X</param>
+                            <param id="1" name="Y">Goal.Y</param>
                         </action>
                     </actions>
-                </event-block>
-                <comment>Every 2 seconds, but gradually reducing the interval, spawn a new enemy and move it to the target.</comment>
-                <event-block sid="8545926017439012">
-                    <conditions>
-                        <condition id="-6" name="Every X seconds" sid="3647219375439442" type="System">
-                            <param id="0" name="Interval (seconds)">EnemySpawnTime</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="0" name="Spawn another object" sid="2729708998459393" type="EnemySpawner">
-                            <param id="0" name="Object">Enemy</param>
-                            <param id="1" name="Layer">&quot;Game&quot;</param>
-                            <param id="2" name="Image point">0</param>
-                        </action>
-                        <action behavior="Pathfinding" id="0" name="Find path" sid="8556653592407917" type="Enemy">
-                            <param id="0" name="X">EnemyTarget.X</param>
-                            <param id="1" name="Y">EnemyTarget.Y</param>
-                        </action>
-                    </actions>
-                    <sub-events>
-                        <comment>Every time an enemy spawn, the spawn interval reduces slightly.  This makes them very gradually come faster!  Make sure it doesn&apos;t go below every 0.5 seconds though.</comment>
-                        <event-block sid="454667570255771">
-                            <conditions>
-                                <condition id="-14" name="Compare variable" sid="2696882603386011" type="System">
-                                    <param id="0" name="Variable">enemySpawnTime</param>
-                                    <param id="1" name="Comparison">4</param>
-                                    <param id="2" name="Value">0.5</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-11" name="Subtract from" sid="2424984904676311" type="System">
-                                    <param id="0" name="Variable">enemySpawnTime</param>
-                                    <param id="1" name="Value">0.01</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
                 </event-block>
                 <comment>Once a path has been found, start moving along it.</comment>
-                <event-block sid="6901927546199799">
+                <event-block sid="8425868545816386">
                     <conditions>
-                        <condition behavior="Pathfinding" id="0" name="On path found" sid="7183135081900963" type="Enemy" />
+                        <condition behavior="Pathfinding" id="0" name="On path found" sid="7262538828150544" type="mercenary" />
                     </conditions>
                     <actions>
-                        <action behavior="Pathfinding" id="1" name="Move along path" sid="6355061867340194" type="Enemy" />
+                        <action behavior="Pathfinding" id="1" name="Move along path" sid="6484436386460079" type="mercenary" />
+                        <action behavior="Pathfinding2" disabled="1" id="1" name="Move along path" sid="3353157876368857" type="wave" />
+                    </actions>
+                </event-block>
+                <event-block sid="7699228805396337">
+                    <conditions>
+                        <condition behavior="Pathfinding" id="0" name="On path found" sid="4147481607102315" type="Creep" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Pathfinding" id="1" name="Move along path" sid="7862383331010028" type="Creep" />
                     </actions>
                 </event-block>
                 <comment>When bullets hit enemies, make it subtract from health and spawn some particles.</comment>
                 <event-block sid="1722119880681344">
                     <conditions>
-                        <condition id="0" name="On collision with another object" sid="2329021074050747" type="Bullet">
-                            <param id="0" name="Object">Enemy</param>
+                        <condition id="0" name="On collision with another object" sid="2329021074050747" type="Ranged">
+                            <param id="0" name="Object">Creep</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-12" name="Subtract from" sid="2541315613175576" type="Enemy">
+                        <action id="-12" name="Subtract from" sid="2541315613175576" type="Creep">
                             <param id="0" name="Instance variable">health</param>
-                            <param id="1" name="Value">1</param>
+                            <param id="1" name="Value">5</param>
                         </action>
-                        <action id="-9" name="Destroy" sid="3766684416633562" type="Bullet" />
-                        <action id="0" name="Spawn another object" sid="7421442827515508" type="Bullet">
-                            <param id="0" name="Object">BulletImpactParticles</param>
+                        <action id="-9" name="Destroy" sid="3766684416633562" type="Ranged" />
+                        <action id="0" name="Spawn another object" sid="7421442827515508" type="Ranged">
+                            <param id="0" name="Object">RangedParticles</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="1895915614549556">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="6230005018853848" type="Magic">
+                            <param id="0" name="Object">Creep</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-12" name="Subtract from" sid="8400671002934909" type="Creep">
+                            <param id="0" name="Instance variable">health</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
+                        <action id="-9" name="Destroy" sid="9227259066376295" type="Magic" />
+                        <action id="0" name="Spawn another object" sid="3244573778451628" type="Magic">
+                            <param id="0" name="Object">Magic</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="4270818923227211">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="1491722105905502" type="Melee">
+                            <param id="0" name="Object">Creep</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-12" name="Subtract from" sid="2596231846318925" type="Creep">
+                            <param id="0" name="Instance variable">health</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
+                        <action id="-9" name="Destroy" sid="6941033844591371" type="Melee" />
+                        <action id="0" name="Spawn another object" sid="6672908848170461" type="Melee">
+                            <param id="0" name="Object">MeleeParticles</param>
                             <param id="1" name="Layer">&quot;Game&quot;</param>
                             <param id="2" name="Image point">1</param>
                         </action>
@@ -89,61 +109,556 @@
                 <comment>Destroy enemies with no health left, throwing in a particles effect.</comment>
                 <event-block sid="4307553399599679">
                     <conditions>
-                        <condition id="-7" name="Compare instance variable" sid="9187697465758515" type="Enemy">
+                        <condition id="-7" name="Compare instance variable" sid="9187697465758515" type="Creep">
                             <param id="0" name="Instance variable">health</param>
                             <param id="1" name="Comparison">3</param>
                             <param id="2" name="Value">0</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="0" name="Spawn another object" sid="8255087721049353" type="Enemy">
+                        <action id="0" name="Spawn another object" sid="8269982777377868" type="Creep">
                             <param id="0" name="Object">EnemyDeadParticles</param>
                             <param id="1" name="Layer">&quot;Game&quot;</param>
                             <param id="2" name="Image point">0</param>
                         </action>
-                        <action id="-9" name="Destroy" sid="3388868482980902" type="Enemy" />
+                        <action id="-9" name="Destroy" sid="1655344114122795" type="Creep" />
                     </actions>
                 </event-block>
                 <comment>When an enemy reaches the target, destroy it, but also pick a random turret and destroy that.</comment>
                 <event-block sid="500360718917401">
                     <conditions>
-                        <condition id="0" name="On collision with another object" sid="8898922230207618" type="Enemy">
-                            <param id="0" name="Object">EnemyTarget</param>
+                        <condition behavior="Pathfinding" id="5" name="On arrived" sid="8898922230207618" type="Creep" />
+                        <condition id="-7" name="Compare instance variable" sid="2761335091538931" type="Healthbar">
+                            <param id="0" name="Instance variable">belongsTo</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">Creep.UID</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-9" name="Destroy" sid="2340613852373688" type="Enemy" />
+                        <action id="-9" name="Destroy" sid="2340613852373688" type="Creep" />
+                        <action id="-9" name="Destroy" sid="1051538685475737" type="Healthbar" />
                     </actions>
-                    <sub-events>
-                        <event-block sid="3821901226638838">
-                            <conditions>
-                                <condition id="-16" name="Pick random instance" sid="7525910690819567" type="System">
-                                    <param id="0" name="Object">Turret</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-9" name="Destroy" sid="3971220118606349" type="Turret" />
-                                <action id="0" name="Spawn another object" sid="5829988338679144" type="Turret">
-                                    <param id="0" name="Object">EnemyDeadParticles</param>
-                                    <param id="1" name="Layer">&quot;Game&quot;</param>
-                                    <param id="2" name="Image point">0</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
+                </event-block>
+                <event-block sid="7920555665781596">
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" sid="9009351394058466" type="Healthbar">
+                            <param id="0" name="Instance variable">belongsTo</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">mercenary.UID</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-5" name="Set width" sid="8241905471536766" type="Healthbar">
+                            <param id="0" name="Width">20*(((mercenary.health*100)/Healthbar.maxHealth)/100)</param>
+                        </action>
+                    </actions>
                 </event-block>
             </sub-events>
         </event-group>
         <event-group description="" sid="5895897985841676" title="Turret control">
             <sub-events>
+                <event-block sid="1297193541801421">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="3925594600661405" type="System">
+                            <param id="0" name="Variable">mouseMode</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                        <condition id="7" name="Cursor is over object" sid="3533275930024198" type="Mouse">
+                            <param id="0" name="Object">Wall</param>
+                        </condition>
+                        <condition id="7" inverted="1" name="Cursor is over object" sid="3134026665285816" type="Mouse">
+                            <param id="0" name="Object">Turret</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Set position" sid="4966072005013692" type="highlight">
+                            <param id="0" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
+                            <param id="1" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                        </action>
+                        <action id="-15" name="Set visible" sid="6751935314477925" type="highlight">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
+                        <action id="0" name="Spawn another object" sid="6471252016826106" type="TurretUI">
+                            <param id="0" name="Object">highlight</param>
+                            <param id="1" name="Layer">&quot;UI&quot;</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="5367019687337619">
+                            <conditions>
+                                <condition id="6" name="On object clicked" sid="8950500567477138" type="Mouse">
+                                    <param id="0" name="Mouse button">0</param>
+                                    <param id="1" name="Click type">0</param>
+                                    <param id="2" name="Object clicked">Wall</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="587083586253555" type="System">
+                                    <param id="0" name="Object to create">Turret</param>
+                                    <param id="1" name="Layer">&quot;Game&quot;</param>
+                                    <param id="2" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
+                                    <param id="3" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                                </action>
+                                <action id="4" name="Set animation" sid="8713509597835724" type="Turret">
+                                    <param id="0" name="Animation">placeTower</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="4551678897777944" type="Turret">
+                                    <param id="0" name="Width">32</param>
+                                    <param id="1" name="Height">32</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="2647483193222844" type="System">
+                                    <param id="0" name="Variable">mouseMode</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="5231942795079336" type="highlight">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="9359785754933317">
+                                    <conditions>
+                                        <condition id="2" name="Is playing" sid="3518963688761224" type="TurretUI">
+                                            <param id="0" name="Animation">placeTower</param>
+                                        </condition>
+                                        <condition id="-15" name="Pick nearest/furthest" sid="5076682962338187" type="TurretUI">
+                                            <param id="0" name="Which">0</param>
+                                            <param id="1" name="X">highlight.X</param>
+                                            <param id="2" name="Y">highlight.Y</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Destroy" sid="354361511817483" type="TurretUI" />
+                                        <action id="-9" name="Destroy" sid="6223854292168569" type="highlight" />
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-group description="" sid="5607380159881887" title="Champions">
+                    <sub-events>
+                        <event-block any="1" sid="3402545599454068">
+                            <conditions>
+                                <condition id="2" name="Is playing" sid="8612634525572468" type="Turret">
+                                    <param id="0" name="Animation">&quot;Alistar&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6230667413009305" type="Turret">
+                                    <param id="0" name="Animation">&quot;Bard&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2225257242722649" type="Turret">
+                                    <param id="0" name="Animation">&quot;Blitzcrank&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2330713946441509" type="Turret">
+                                    <param id="0" name="Animation">&quot;Braum&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5227151027923208" type="Turret">
+                                    <param id="0" name="Animation">&quot;Janna&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7636940954918748" type="Turret">
+                                    <param id="0" name="Animation">&quot;Leona&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6231533048975086" type="Turret">
+                                    <param id="0" name="Animation">&quot;Morgana&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6768645178422276" type="Turret">
+                                    <param id="0" name="Animation">&quot;Nami&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6669113391309219" type="Turret">
+                                    <param id="0" name="Animation">&quot;Sona&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8283702148810341" type="Turret">
+                                    <param id="0" name="Animation">&quot;Soraka&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1887040707228756" type="Turret">
+                                    <param id="0" name="Animation">&quot;TahmKench&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9682894601566935" type="Turret">
+                                    <param id="0" name="Animation">&quot;Zilean&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7961051022168802" type="Turret">
+                                    <param id="0" name="Animation">&quot;Thresh&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Set value" sid="2374669432471118" type="Turret">
+                                    <param id="0" name="Instance variable">Attack</param>
+                                    <param id="1" name="Value">&quot;Support&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block any="1" sid="7698054471921833">
+                            <conditions>
+                                <condition id="2" name="Is playing" sid="2389839454734711" type="Turret">
+                                    <param id="0" name="Animation">&quot;Ahri&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3826963397116747" type="Turret">
+                                    <param id="0" name="Animation">&quot;Akali&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7103207167308692" type="Turret">
+                                    <param id="0" name="Animation">&quot;Anivia&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1727161648370065" type="Turret">
+                                    <param id="0" name="Animation">&quot;Annie&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5695214171068652" type="Turret">
+                                    <param id="0" name="Animation">&quot;Azir&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3370026396403649" type="Turret">
+                                    <param id="0" name="Animation">&quot;Brand&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1907392197128879" type="Turret">
+                                    <param id="0" name="Animation">&quot;Cassiopeia&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="4092965752190603" type="Turret">
+                                    <param id="0" name="Animation">&quot;ChoGath&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9486672993473737" type="Turret">
+                                    <param id="0" name="Animation">&quot;Diana&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="811728877518395" type="Turret">
+                                    <param id="0" name="Animation">&quot;Ekko&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3370282164802071" type="Turret">
+                                    <param id="0" name="Animation">&quot;Elise&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="4162340575104546" type="Turret">
+                                    <param id="0" name="Animation">&quot;Fiddlesticks&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5410271203521812" type="Turret">
+                                    <param id="0" name="Animation">&quot;Fizz&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8952672508518124" type="Turret">
+                                    <param id="0" name="Animation">&quot;Galio&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9186797643631931" type="Turret">
+                                    <param id="0" name="Animation">&quot;Karthus&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="780308569963773" type="Turret">
+                                    <param id="0" name="Animation">&quot;VelKoz&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7112839829031232" type="Turret">
+                                    <param id="0" name="Animation">&quot;Veigar&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5752202098998835" type="Turret">
+                                    <param id="0" name="Animation">&quot;Kassadin&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5758061003803718" type="Turret">
+                                    <param id="0" name="Animation">&quot;Katarina&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="4922528274302508" type="Turret">
+                                    <param id="0" name="Animation">&quot;Kayle&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2569595814938628" type="Turret">
+                                    <param id="0" name="Animation">&quot;Kennen&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6633797850768612" type="Turret">
+                                    <param id="0" name="Animation">&quot;LeBlanc&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2364051656627336" type="Turret">
+                                    <param id="0" name="Animation">&quot;Lissandra&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9216370141696438" type="Turret">
+                                    <param id="0" name="Animation">&quot;Lux&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8450237092218177" type="Turret">
+                                    <param id="0" name="Animation">&quot;Malzahar&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="859869052559517" type="Turret">
+                                    <param id="0" name="Animation">&quot;Mordekaiser&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="119169466725604" type="Turret">
+                                    <param id="0" name="Animation">&quot;Nidalee&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7516750696397677" type="Turret">
+                                    <param id="0" name="Animation">&quot;Orianna&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7650418893858863" type="Turret">
+                                    <param id="0" name="Animation">&quot;Rumble&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5267846565629661" type="Turret">
+                                    <param id="0" name="Animation">&quot;Ryze&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9841928505045191" type="Turret">
+                                    <param id="0" name="Animation">&quot;Swain&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9744368728578435" type="Turret">
+                                    <param id="0" name="Animation">&quot;Syndra&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5264220033032211" type="Turret">
+                                    <param id="0" name="Animation">&quot;Teemo&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="4097391228679636" type="Turret">
+                                    <param id="0" name="Animation">&quot;TwistedFate&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1585073546454015" type="Turret">
+                                    <param id="0" name="Animation">&quot;Viktor&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7770144752933075" type="Turret">
+                                    <param id="0" name="Animation">&quot;Vladimir&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7722375022070647" type="Turret">
+                                    <param id="0" name="Animation">&quot;Xerath&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2254696841306462" type="Turret">
+                                    <param id="0" name="Animation">&quot;Ziggs&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8399604363174789" type="Turret">
+                                    <param id="0" name="Animation">&quot;Zyra&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1705091736020648" type="Turret">
+                                    <param id="0" name="Animation">&quot;Karma&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Set value" sid="3136248725789461" type="Turret">
+                                    <param id="0" name="Instance variable">Attack</param>
+                                    <param id="1" name="Value">&quot;Magic&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block any="1" sid="4382011511757679">
+                            <conditions>
+                                <condition id="2" name="Is playing" sid="7753258698862424" type="Turret">
+                                    <param id="0" name="Animation">&quot;Aatrox&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8113680651802102" type="Turret">
+                                    <param id="0" name="Animation">&quot;Amumu&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="4152711459092179" type="Turret">
+                                    <param id="0" name="Animation">&quot;Zac&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9938445145862135" type="Turret">
+                                    <param id="0" name="Animation">&quot;Darius&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8068624632141728" type="Turret">
+                                    <param id="0" name="Animation">&quot;Zed&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5721355865182278" type="Turret">
+                                    <param id="0" name="Animation">&quot;DrMundo&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1945686460072222" type="Turret">
+                                    <param id="0" name="Animation">&quot;Evelynn&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5617258513818559" type="Turret">
+                                    <param id="0" name="Animation">&quot;Olaf&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7817540942461113" type="Turret">
+                                    <param id="0" name="Animation">&quot;Gangplank&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8481358642620625" type="Turret">
+                                    <param id="0" name="Animation">&quot;Garen&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2674691812827672" type="Turret">
+                                    <param id="0" name="Animation">&quot;Yorick&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="910096760965749" type="Turret">
+                                    <param id="0" name="Animation">&quot;Udyr&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1401936632562432" type="Turret">
+                                    <param id="0" name="Animation">&quot;Mordekaiser&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7063967165110643" type="Turret">
+                                    <param id="0" name="Animation">&quot;XinZhao&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5405088644675126" type="Turret">
+                                    <param id="0" name="Animation">&quot;Wukong&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="4507900236380362" type="Turret">
+                                    <param id="0" name="Animation">&quot;Warwick&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7371287837235428" type="Turret">
+                                    <param id="0" name="Animation">&quot;Volibear&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2051411612687972" type="Turret">
+                                    <param id="0" name="Animation">&quot;Fiora&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="4921886532442178" type="Turret">
+                                    <param id="0" name="Animation">&quot;Irelia&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1980282438621684" type="Turret">
+                                    <param id="0" name="Animation">&quot;JarvanIV&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1313392472050316" type="Turret">
+                                    <param id="0" name="Animation">&quot;Jax&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9604180440578664" type="Turret">
+                                    <param id="0" name="Animation">&quot;Vi&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9112410428135094" type="Turret">
+                                    <param id="0" name="Animation">&quot;Trundle&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1349391650939015" type="Turret">
+                                    <param id="0" name="Animation">&quot;Tryndamere&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5895228893627945" type="Turret">
+                                    <param id="0" name="Animation">&quot;Hecarim&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2275107650254187" type="Turret">
+                                    <param id="0" name="Animation">&quot;Skarner&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2990705300423803" type="Turret">
+                                    <param id="0" name="Animation">&quot;Sion&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="118934016311055" type="Turret">
+                                    <param id="0" name="Animation">&quot;Riven&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1231662050755703" type="Turret">
+                                    <param id="0" name="Animation">&quot;Shyvana&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2490712547733925" type="Turret">
+                                    <param id="0" name="Animation">&quot;Shaco&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3416895928638145" type="Turret">
+                                    <param id="0" name="Animation">&quot;Sejuani&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8248097989995441" type="Turret">
+                                    <param id="0" name="Animation">&quot;KhaZix&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5490833924898364" type="Turret">
+                                    <param id="0" name="Animation">&quot;Rengar&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6773195540542373" type="Turret">
+                                    <param id="0" name="Animation">&quot;Renekton&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3997050161647684" type="Turret">
+                                    <param id="0" name="Animation">&quot;Rammus&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2981550640907224" type="Turret">
+                                    <param id="0" name="Animation">&quot;Pantheon&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5040397684270674" type="Turret">
+                                    <param id="0" name="Animation">&quot;Nocturne&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3204461256778189" type="Turret">
+                                    <param id="0" name="Animation">&quot;Nautilus&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1708096476709927" type="Turret">
+                                    <param id="0" name="Animation">&quot;Nasus&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8396226760277457" type="Turret">
+                                    <param id="0" name="Animation">&quot;RekSai&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="9199624089860819" type="Turret">
+                                    <param id="0" name="Animation">&quot;Poppy&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7084509626217557" type="Turret">
+                                    <param id="0" name="Animation">&quot;LeeSin&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2538367477666997" type="Turret">
+                                    <param id="0" name="Animation">&quot;Malphite&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3660443419791704" type="Turret">
+                                    <param id="0" name="Animation">&quot;Maokai&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="857813628401698" type="Turret">
+                                    <param id="0" name="Animation">&quot;MasterYi&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6361749302755867" type="Turret">
+                                    <param id="0" name="Animation">&quot;Nunu&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="52231564458126" type="TurretUI">
+                                    <param id="0" name="Animation">&quot;Yasuo&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Set value" sid="2046867112332761" type="Turret">
+                                    <param id="0" name="Instance variable">Attack</param>
+                                    <param id="1" name="Value">&quot;Melee&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block any="1" sid="7744670048074389">
+                            <conditions>
+                                <condition id="2" name="Is playing" sid="25570766390538" type="Turret">
+                                    <param id="0" name="Animation">&quot;Ashe&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="545124610641111" type="Turret">
+                                    <param id="0" name="Animation">&quot;Caitlyn&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2223951984611592" type="Turret">
+                                    <param id="0" name="Animation">&quot;Corki&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5771769812424491" type="Turret">
+                                    <param id="0" name="Animation">&quot;Draven&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2265066982984647" type="Turret">
+                                    <param id="0" name="Animation">&quot;Ezreal&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="7394812208510421" type="Turret">
+                                    <param id="0" name="Animation">&quot;Jinx&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="88986476306006" type="Turret">
+                                    <param id="0" name="Animation">&quot;Kalista&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5524175643410072" type="Turret">
+                                    <param id="0" name="Animation">&quot;KogMaw&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3783258495819107" type="Turret">
+                                    <param id="0" name="Animation">&quot;Corki&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8187751518774001" type="Turret">
+                                    <param id="0" name="Animation">&quot;Jayce&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="3669846091928512" type="Turret">
+                                    <param id="0" name="Animation">&quot;Lucian&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2967527916906329" type="Turret">
+                                    <param id="0" name="Animation">&quot;Tristana&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="630891188645934" type="Turret">
+                                    <param id="0" name="Animation">&quot;Varus&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6830383976894597" type="Turret">
+                                    <param id="0" name="Animation">&quot;MissFortune&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="852485005492534" type="Turret">
+                                    <param id="0" name="Animation">&quot;Vayne&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="8827663617202444" type="Turret">
+                                    <param id="0" name="Animation">&quot;Gnar&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="1634466928246047" type="Turret">
+                                    <param id="0" name="Animation">&quot;Twitch&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6921947678285833" type="Turret">
+                                    <param id="0" name="Animation">&quot;Urgot&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="6557832717035901" type="Turret">
+                                    <param id="0" name="Animation">&quot;Quinn&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="5910001487577214" type="Turret">
+                                    <param id="0" name="Animation">&quot;Sivir&quot;</param>
+                                </condition>
+                                <condition id="2" name="Is playing" sid="2798778477279718" type="Turret">
+                                    <param id="0" name="Animation">&quot;Graves&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Set value" sid="9519163249293407" type="Turret">
+                                    <param id="0" name="Instance variable">Attack</param>
+                                    <param id="1" name="Value">&quot;Ranged&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-group>
                 <comment>Tell the turrets to target the enemies.</comment>
                 <event-block sid="8807254036289938">
                     <conditions>
                         <condition id="-2" name="On start of layout" sid="1641458670774486" type="System" />
                     </conditions>
                     <actions>
-                        <action behavior="Turret" id="1" name="Add object to target" sid="858505748618259" type="Turret">
-                            <param id="0" name="Target">Enemy</param>
+                        <action behavior="Turret" disabled="1" id="1" name="Add object to target" sid="858505748618259" type="Turret">
+                            <param id="0" name="Target">Creep</param>
+                        </action>
+                        <action behavior="Turret" disabled="1" id="1" name="Add object to target" sid="3724067934976576" type="Turret">
+                            <param id="0" name="Target">mercenary</param>
+                        </action>
+                        <action behavior="Turret" id="1" name="Add object to target" sid="5398034930346684" type="Turret">
+                            <param id="0" name="Target">wave</param>
                         </action>
                     </actions>
                 </event-block>
@@ -151,10 +666,52 @@
                 <event-block sid="9076800078368784">
                     <conditions>
                         <condition behavior="Turret" id="1" name="On shoot" sid="7235391811703755" type="Turret" />
+                        <condition id="-7" name="Compare instance variable" sid="9001666709841056" type="Turret">
+                            <param id="0" name="Instance variable">Attack</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">&quot;Ranged&quot;</param>
+                        </condition>
                     </conditions>
                     <actions>
                         <action id="0" name="Spawn another object" sid="245850533924078" type="Turret">
-                            <param id="0" name="Object">Bullet</param>
+                            <param id="0" name="Object">Ranged</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="3082103935539833">
+                    <conditions>
+                        <condition behavior="Turret" id="1" name="On shoot" sid="1714326634315876" type="Turret" />
+                        <condition id="-7" name="Compare instance variable" sid="2867033481667743" type="Turret">
+                            <param id="0" name="Instance variable">Attack</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">&quot;Melee&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" sid="1356974861420827" type="Turret">
+                            <param id="0" name="Object">Melee</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">1</param>
+                        </action>
+                        <action id="3" name="Start" sid="3398553033247701" type="Melee">
+                            <param id="0" name="From">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="2008925439263543">
+                    <conditions>
+                        <condition behavior="Turret" id="1" name="On shoot" sid="218328061822322" type="Turret" />
+                        <condition id="-7" name="Compare instance variable" sid="1793775647371297" type="Turret">
+                            <param id="0" name="Instance variable">Attack</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">&quot;Magic&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" sid="9365219150617706" type="Turret">
+                            <param id="0" name="Object">Magic</param>
                             <param id="1" name="Layer">&quot;Game&quot;</param>
                             <param id="2" name="Image point">1</param>
                         </action>
@@ -163,67 +720,13 @@
                 <comment>To prevent bullets that miss flying across the whole screen, destroy them when they&apos;ve travelled out of range.</comment>
                 <event-block sid="8847370602767101">
                     <conditions>
-                        <condition behavior="Bullet" id="1" name="Compare distance travelled" sid="6249104607379092" type="Bullet">
+                        <condition behavior="Bullet" id="1" name="Compare distance travelled" sid="6249104607379092" type="Ranged">
                             <param id="0" name="Comparison">5</param>
                             <param id="1" name="Distance">100</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-9" name="Destroy" sid="9604652827940669" type="Bullet" />
-                    </actions>
-                </event-block>
-                <comment>Create new turrets by touching the walls.</comment>
-                <event-block sid="6763146471168433">
-                    <conditions>
-                        <condition id="3" name="On touched object" sid="1070548634084168" type="Touch">
-                            <param id="0" name="Object">Wall</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-3" name="Create object" sid="3019151311209389" type="System">
-                            <param id="0" name="Object to create">Turret</param>
-                            <param id="1" name="Layer">&quot;Game&quot;</param>
-                            <param id="2" name="X">round((Touch.X - 16) / 32) * 32 + 16</param>
-                            <param id="3" name="Y">round((Touch.Y - 16) / 32) * 32 + 16</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="2437343464599871">
-                    <conditions>
-                        <condition id="17" name="On tap object" sid="9942579945973078" type="Touch">
-                            <param id="0" name="Object">Turret</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-15" name="Set visible" sid="6729292417229045" type="9patch">
-                            <param id="0" name="Visibility">1</param>
-                        </action>
-                        <action id="-3" name="Set position" sid="6391073650008958" type="9patch">
-                            <param id="0" name="X">round((Turret.X - 16)/32)*32 - 64</param>
-                            <param id="1" name="Y">round((Turret.Y - 16)/32)*32 - 112</param>
-                        </action>
-                    </actions>
-                </event-block>
-            </sub-events>
-        </event-group>
-        <event-group description="" sid="7074378795167876" title="Data">
-            <sub-events>
-                <event-block sid="7608648947117917">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="8209294513187064" type="System" />
-                    </conditions>
-                    <actions>
-                        <action id="0" name="Load JSON" sid="1016750475540678" type="LoadJSON" />
-                        <action id="0" name="Set text" sid="1907675510655312" type="sizeText">
-                            <param id="0" name="Text">LoadJSON.GetRootKeysSize&amp;&quot; keys in JSON-file found&quot;</param>
-                        </action>
-                        <action id="1" name="Request project file" sid="3023082350381661" type="AJAX">
-                            <param id="0" name="Tag">&quot;matches&quot;</param>
-                            <param id="1" name="File">matches_data.json</param>
-                        </action>
-                        <action id="4" name="Load" sid="7599950281641318" type="Dictionary">
-                            <param id="0" name="JSON">&quot;matches&quot;</param>
-                        </action>
+                        <action id="-9" name="Destroy" sid="9604652827940669" type="Ranged" />
                     </actions>
                 </event-block>
             </sub-events>
@@ -241,86 +744,756 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-block sid="1539462166179589">
+                <event-block sid="8108950611925745">
                     <conditions>
-                        <condition id="3" name="On touched object" sid="3282261534846497" type="Touch">
-                            <param id="0" name="Object">ff</param>
+                        <condition id="6" name="On object clicked" sid="8694057031531281" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                            <param id="1" name="Click type">0</param>
+                            <param id="2" name="Object clicked">Pause</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="3868037503608044">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="4095797584181395" type="System">
+                                    <param id="0" name="First value">timescale</param>
+                                    <param id="1" name="Comparison">1</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="4" name="Set animation" sid="641400358743516" type="Pause">
+                                    <param id="0" name="Animation">&quot;Play&quot;</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
+                                <action id="-13" name="Set time scale" sid="3221739958350902" type="System">
+                                    <param id="0" name="Time scale">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="2686039802963368">
+                            <conditions>
+                                <condition id="-22" name="Else" sid="9347961282555019" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="4" name="Set animation" sid="198737632009999" type="Pause">
+                                    <param id="0" name="Animation">&quot;Default&quot;</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
+                                <action id="-13" name="Set time scale" sid="7585112022332498" type="System">
+                                    <param id="0" name="Time scale">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="240205001838859">
+                    <conditions>
+                        <condition id="6" name="On object clicked" sid="3487386651652847" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                            <param id="1" name="Click type">0</param>
+                            <param id="2" name="Object clicked">ff</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="6767201905553007">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="2753940445435493" type="System">
+                                    <param id="0" name="First value">timescale</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">2.0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-13" name="Set time scale" sid="2017456875341347" type="System">
+                                    <param id="0" name="Time scale">1.0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="8665533884187279">
+                            <conditions>
+                                <condition id="-22" name="Else" sid="2220293726336821" type="System" />
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="8937275050168613">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="3158729750036087" type="System">
+                                            <param id="0" name="First value">timescale</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">1.0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-13" name="Set time scale" sid="6791856274482047" type="System">
+                                            <param id="0" name="Time scale">2.0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="7622461656576243" title="Core">
+            <sub-events>
+                <event-block any="1" sid="9591454631913924">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="5938183194901256" type="Keyboard">
+                            <param id="0" name="Key">27 (Esc)</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-13" name="Set time scale" sid="6791856274482047" type="System">
-                            <param id="0" name="Time scale">2.0</param>
+                        <action id="-9" name="Set value" sid="9486319480219253" type="System">
+                            <param id="0" name="Variable">mouseMode</param>
+                            <param id="1" name="Value">0</param>
                         </action>
                     </actions>
                 </event-block>
-                <event-block sid="7100747664630742">
+                <event-block sid="8938486053052152">
                     <conditions>
-                        <condition id="17" name="On tap object" sid="1982519276680317" type="Touch">
-                            <param id="0" name="Object">Pause</param>
-                        </condition>
+                        <condition id="-1" name="Every tick" sid="9824150813048786" type="System" />
                     </conditions>
                     <actions>
-                        <action id="-13" name="Set time scale" sid="7585112022332498" type="System">
-                            <param id="0" name="Time scale">0</param>
+                        <action disabled="1" id="-3" name="Set position" sid="8113178365067695" type="Camera">
+                            <param id="0" name="X">lerp(Self.X, Mouse.X, 0.03)</param>
+                            <param id="1" name="Y">lerp(Self.Y, Mouse.Y, 0.03)</param>
                         </action>
                     </actions>
                 </event-block>
-                <event-block sid="8415823428069207">
+                <event-block sid="1189124713853493">
                     <conditions>
-                        <condition id="17" name="On tap object" sid="4305359348360909" type="Touch">
-                            <param id="0" name="Object">Pause</param>
-                        </condition>
-                        <condition id="-8" name="Compare two values" sid="3633766849874903" type="System">
-                            <param id="0" name="First value">timescale</param>
-                            <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Second value">0</param>
+                        <condition id="-2" name="On start of layout" sid="4380316960481196" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="1" name="Request project file" sid="5121741644671721" type="AJAX">
+                            <param id="0" name="Tag">&quot;gameData&quot;</param>
+                            <param id="1" name="File">game_data_copy.xml</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="2574741605442107">
+                            <conditions>
+                                <condition id="-11" name="For Each" sid="8910658065197456" type="System">
+                                    <param id="0" name="Object">Healthbar</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="9173708479118283">
+                                    <conditions>
+                                        <condition id="-15" name="Pick nearest/furthest" sid="6475503744416139" type="Creep">
+                                            <param id="0" name="Which">0</param>
+                                            <param id="1" name="X">Healthbar.X</param>
+                                            <param id="2" name="Y">Healthbar.Y</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action behavior="Pin" id="0" name="Pin to object" sid="2744607486556572" type="Healthbar">
+                                            <param id="0" name="Pin to">Creep</param>
+                                            <param id="1" name="Mode">0</param>
+                                        </action>
+                                        <action id="-10" name="Set value" sid="9436450948679328" type="Healthbar">
+                                            <param id="0" name="Instance variable">belongsTo</param>
+                                            <param id="1" name="Value">Creep.UID</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="6992297408876083">
+                                    <conditions>
+                                        <condition id="-15" name="Pick nearest/furthest" sid="9184464990906326" type="mercenary">
+                                            <param id="0" name="Which">0</param>
+                                            <param id="1" name="X">Healthbar.X</param>
+                                            <param id="2" name="Y">Healthbar.Y</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action behavior="Pin" id="0" name="Pin to object" sid="7690422991461768" type="Healthbar">
+                                            <param id="0" name="Pin to">mercenary</param>
+                                            <param id="1" name="Mode">0</param>
+                                        </action>
+                                        <action id="-10" name="Set value" sid="1724914241941757" type="Healthbar">
+                                            <param id="0" name="Instance variable">belongsTo</param>
+                                            <param id="1" name="Value">mercenary.UID</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="7468063326284019">
+                    <conditions>
+                        <condition id="0" name="On completed" sid="4853524805726911" type="AJAX">
+                            <param id="0" name="Tag">&quot;gameData&quot;</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-13" name="Set time scale" sid="7933488955098681" type="System">
-                            <param id="0" name="Time scale">1.0</param>
+                        <action id="0" name="Load" sid="714064099410314" type="XML">
+                            <param id="0" name="XML">AJAX.LastData</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <variable constant="0" name="chooseRandom" sid="2880490589692553" static="0" type="number">0</variable>
+                        <event-block sid="6884123840736813">
+                            <conditions>
+                                <condition id="-10" name="For" sid="1651723899658255" type="System">
+                                    <param id="0" name="Name">&quot;randomLoop&quot;</param>
+                                    <param id="1" name="Start index">1</param>
+                                    <param id="2" name="End index">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="6545479179180745" type="System">
+                                    <param id="0" name="Variable">chooseRandom</param>
+                                    <param id="1" name="Value">round(random(1, XML.NodeCount(&quot;wave&quot;&amp;str(waveNumber))))</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="4968873413275823">
+                            <conditions>
+                                <condition id="0" name="For each node" sid="5526282433034401" type="XML">
+                                    <param id="0" name="XPath">&quot;wave&quot; &amp; str(waveNumber)</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="4876491931867814">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="8071921332577634" type="System">
+                                            <param id="0" name="First value">loopindex + 1</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">chooseRandom</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <comment>Waves&#x0D;&#x0A;Index = [Ironback, Razorfin, Ocklepod, Plundercrab]&#x0D;&#x0A;Axis: X : Offense, Y : Defense, Z : Upgrade</comment>
+                                        <event-block sid="9071818320983297">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="2512372754389253" type="XML">
+                                                    <param id="0" name="XPath">&quot;Ironback&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="10" name="Insert" sid="4640076588365208" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;offense/text()&quot;)</param>
+                                                    <param id="1" name="Index">0</param>
+                                                    <param id="2" name="Axis">0</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="2170775387145823" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;defense/text()&quot;)</param>
+                                                    <param id="1" name="Index">0</param>
+                                                    <param id="2" name="Axis">1</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="3622633013348928" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;upgrade/text()&quot;)</param>
+                                                    <param id="1" name="Index">0</param>
+                                                    <param id="2" name="Axis">2</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="1734571983742924">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="6269774228963145" type="XML">
+                                                    <param id="0" name="XPath">&quot;Razorfin&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="10" name="Insert" sid="4584425142166419" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;offense/text()&quot;)</param>
+                                                    <param id="1" name="Index">1</param>
+                                                    <param id="2" name="Axis">0</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="8833721965939393" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;defense/text()&quot;)</param>
+                                                    <param id="1" name="Index">1</param>
+                                                    <param id="2" name="Axis">1</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="5331651039872221" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;upgrade/text()&quot;)</param>
+                                                    <param id="1" name="Index">1</param>
+                                                    <param id="2" name="Axis">2</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="7864910128107138">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="6332966043903643" type="XML">
+                                                    <param id="0" name="XPath">&quot;Ocklepod&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="10" name="Insert" sid="3156073030126452" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;offense/text()&quot;)</param>
+                                                    <param id="1" name="Index">2</param>
+                                                    <param id="2" name="Axis">0</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="5651889279634318" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;defense/text()&quot;)</param>
+                                                    <param id="1" name="Index">2</param>
+                                                    <param id="2" name="Axis">1</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="873784922357913" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;upgrade/text()&quot;)</param>
+                                                    <param id="1" name="Index">2</param>
+                                                    <param id="2" name="Axis">2</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="1229539016379096">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="9447570122682188" type="XML">
+                                                    <param id="0" name="XPath">&quot;Plundercrab&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="10" name="Insert" sid="1821212925890282" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;offense/text()&quot;)</param>
+                                                    <param id="1" name="Index">3</param>
+                                                    <param id="2" name="Axis">0</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="7990008085438548" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;defense/text()&quot;)</param>
+                                                    <param id="1" name="Index">3</param>
+                                                    <param id="2" name="Axis">1</param>
+                                                </action>
+                                                <action id="10" name="Insert" sid="4272052058230172" type="mercWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;upgrade/text()&quot;)</param>
+                                                    <param id="1" name="Index">3</param>
+                                                    <param id="2" name="Axis">2</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="6522803187999386">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="1241527597861785" type="XML">
+                                                    <param id="0" name="XPath">&quot;champions&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="10" name="Insert" sid="3291736118825138" type="champWave">
+                                                    <param id="0" name="Value">XML.StringValue(&quot;text()&quot;)</param>
+                                                    <param id="1" name="Index">loopindex</param>
+                                                    <param id="2" name="Axis">0</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <comment>Player Towers &amp; Mercs</comment>
+                                        <variable constant="0" name="index" sid="1248316759182078" static="0" type="number">0</variable>
+                                        <event-block sid="9546290394703088">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="7250814166629214" type="XML">
+                                                    <param id="0" name="XPath">&quot;towers&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-3" name="Create object" sid="6233936428426609" type="System">
+                                                    <param id="0" name="Object to create">TurretUI</param>
+                                                    <param id="1" name="Layer">&quot;UI&quot;</param>
+                                                    <param id="2" name="X">480 + 32 * loopindex</param>
+                                                    <param id="3" name="Y">32</param>
+                                                </action>
+                                                <action id="4" name="Set animation" sid="7866216950248235" type="TurretUI">
+                                                    <param id="0" name="Animation">XML.StringValue(&quot;text()&quot;)</param>
+                                                    <param id="1" name="From">1</param>
+                                                </action>
+                                                <action id="-7" name="Set size" sid="2244426866931408" type="TurretUI">
+                                                    <param id="0" name="Width">32</param>
+                                                    <param id="1" name="Height">32</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="3386484835489748">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="4495423722164553" type="XML">
+                                                    <param id="0" name="XPath">&quot;wave/mercs/Razorfin&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-3" name="Create object" sid="3802603733523231" type="System">
+                                                    <param id="0" name="Object to create">mercenaryUI</param>
+                                                    <param id="1" name="Layer">&quot;UI&quot;</param>
+                                                    <param id="2" name="X">672 - 32 * index</param>
+                                                    <param id="3" name="Y">64</param>
+                                                </action>
+                                                <action id="4" name="Set animation" sid="8732351344404698" type="mercenaryUI">
+                                                    <param id="0" name="Animation">&quot;Razorfin&quot;</param>
+                                                    <param id="1" name="From">1</param>
+                                                </action>
+                                                <action id="-7" name="Set size" sid="9248030138371722" type="mercenaryUI">
+                                                    <param id="0" name="Width">32</param>
+                                                    <param id="1" name="Height">32</param>
+                                                </action>
+                                                <action id="-10" name="Add to" sid="9463192264169292" type="System">
+                                                    <param id="0" name="Variable">index</param>
+                                                    <param id="1" name="Value">1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="8372959115027875">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="189964447256493" type="XML">
+                                                    <param id="0" name="XPath">&quot;wave/mercs/Ironback&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-3" name="Create object" sid="6774685306648647" type="System">
+                                                    <param id="0" name="Object to create">mercenaryUI</param>
+                                                    <param id="1" name="Layer">&quot;UI&quot;</param>
+                                                    <param id="2" name="X">672 - 32 * index</param>
+                                                    <param id="3" name="Y">64</param>
+                                                </action>
+                                                <action id="4" name="Set animation" sid="4066720635290523" type="mercenaryUI">
+                                                    <param id="0" name="Animation">&quot;Ironback&quot;</param>
+                                                    <param id="1" name="From">1</param>
+                                                </action>
+                                                <action id="-7" name="Set size" sid="6943137963826077" type="mercenaryUI">
+                                                    <param id="0" name="Width">32</param>
+                                                    <param id="1" name="Height">32</param>
+                                                </action>
+                                                <action id="-10" name="Add to" sid="4542399230650453" type="System">
+                                                    <param id="0" name="Variable">index</param>
+                                                    <param id="1" name="Value">1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="5671430534575351">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="7908263371177144" type="XML">
+                                                    <param id="0" name="XPath">&quot;wave/mercs/Ocklepod&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-3" name="Create object" sid="8700971551696436" type="System">
+                                                    <param id="0" name="Object to create">mercenaryUI</param>
+                                                    <param id="1" name="Layer">&quot;UI&quot;</param>
+                                                    <param id="2" name="X">672 - 32 * index</param>
+                                                    <param id="3" name="Y">64</param>
+                                                </action>
+                                                <action id="4" name="Set animation" sid="837189750624554" type="mercenaryUI">
+                                                    <param id="0" name="Animation">&quot;Ocklepod&quot;</param>
+                                                    <param id="1" name="From">1</param>
+                                                </action>
+                                                <action id="-7" name="Set size" sid="5431676854919054" type="mercenaryUI">
+                                                    <param id="0" name="Width">32</param>
+                                                    <param id="1" name="Height">32</param>
+                                                </action>
+                                                <action id="-10" name="Add to" sid="6337853544065906" type="System">
+                                                    <param id="0" name="Variable">index</param>
+                                                    <param id="1" name="Value">1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="8192813620847367">
+                                            <conditions>
+                                                <condition id="0" name="For each node" sid="5643075322417321" type="XML">
+                                                    <param id="0" name="XPath">&quot;wave/mercs/Plundercrab&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-3" name="Create object" sid="2196431583016506" type="System">
+                                                    <param id="0" name="Object to create">mercenaryUI</param>
+                                                    <param id="1" name="Layer">&quot;UI&quot;</param>
+                                                    <param id="2" name="X">672 - 32 * index</param>
+                                                    <param id="3" name="Y">64</param>
+                                                </action>
+                                                <action id="4" name="Set animation" sid="6849023958752437" type="mercenaryUI">
+                                                    <param id="0" name="Animation">&quot;Plundercrab&quot;</param>
+                                                    <param id="1" name="From">1</param>
+                                                </action>
+                                                <action id="-7" name="Set size" sid="5233866268379911" type="mercenaryUI">
+                                                    <param id="0" name="Width">32</param>
+                                                    <param id="1" name="Height">32</param>
+                                                </action>
+                                                <action id="-10" name="Add to" sid="7691167838831444" type="System">
+                                                    <param id="0" name="Variable">index</param>
+                                                    <param id="1" name="Value">1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="6647943464568446">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="72878473129575" type="System">
+                            <param id="0" name="Interval (seconds)">0.5</param>
+                        </condition>
+                        <condition id="-23" name="While" sid="5174221493772593" type="System" />
+                        <condition id="6" inverted="1" name="Is empty" sid="1960913624493331" type="mercWave" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="1749269673497277" type="Function">
+                            <param id="0" name="Name">&quot;createCreep&quot;</param>
+                            <param id="1" name="Parameter {n}">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="7911120536259782">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="8944514040213613" type="System">
+                            <param id="0" name="Interval (seconds)">0.5</param>
+                        </condition>
+                        <condition id="-23" name="While" sid="7071724701051551" type="System" />
+                        <condition id="6" inverted="1" name="Is empty" sid="7969851569478068" type="champWave" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="9643695862178556" type="Function">
+                            <param id="0" name="Name">&quot;createCreep&quot;</param>
+                            <param id="1" name="Parameter {n}">2</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="3430685477085064">
+                    <conditions>
+                        <condition id="0" name="On function" sid="3465636460732995" type="Function">
+                            <param id="0" name="Name">&quot;createCreep&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="9309567350749558">
+                            <conditions>
+                                <condition id="1" name="Compare parameter" sid="8816377788183215" type="Function">
+                                    <param id="0" name="Index">0</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Spawn another object" sid="7091147081612085" type="Spawner">
+                                    <param id="0" name="Object">mercenary</param>
+                                    <param id="1" name="Layer">&quot;Game&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="Pathfinding" id="0" name="Find path" sid="3702288017839987" type="mercenary">
+                                    <param id="0" name="X">Goal.X</param>
+                                    <param id="1" name="Y">Goal.Y</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="4782437646804426" type="mercenary">
+                                    <param id="0" name="Object">Healthbar</param>
+                                    <param id="1" name="Layer">&quot;Game&quot;</param>
+                                    <param id="2" name="Image point">1</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="9219804815799044" type="mercenary">
+                                    <param id="0" name="Width">16</param>
+                                    <param id="1" name="Height">16</param>
+                                </action>
+                                <action behavior="Pin" id="0" name="Pin to object" sid="7196471629425514" type="Healthbar">
+                                    <param id="0" name="Pin to">mercenary</param>
+                                    <param id="1" name="Mode">1</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="1906969145557956" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Value">mercenary.UID</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="6546209552906829" type="mercenary">
+                                    <param id="0" name="Instance variable">offense</param>
+                                    <param id="1" name="Value">mercWave.CurX</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="3025745616547602" type="mercenary">
+                                    <param id="0" name="Instance variable">offense</param>
+                                    <param id="1" name="Value">mercWave.CurY</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="7968857256188135" type="mercenary">
+                                    <param id="0" name="Instance variable">offense</param>
+                                    <param id="1" name="Value">mercWave.CurZ</param>
+                                </action>
+                                <action id="6" name="Pop" sid="6013786894921724" type="mercWave">
+                                    <param id="0" name="Where">1</param>
+                                    <param id="1" name="Axis">0</param>
+                                </action>
+                                <action id="6" name="Pop" sid="3508133156052368" type="mercWave">
+                                    <param id="0" name="Where">1</param>
+                                    <param id="1" name="Axis">1</param>
+                                </action>
+                                <action id="6" name="Pop" sid="1384490954197979" type="mercWave">
+                                    <param id="0" name="Where">1</param>
+                                    <param id="1" name="Axis">2</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="5985223537697685">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="496210402549113" type="System">
+                                            <param id="0" name="First value">loopindex</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set animation" sid="7171669335989758" type="mercenary">
+                                            <param id="0" name="Animation">&quot;Ironback&quot;</param>
+                                            <param id="1" name="From">1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="2703267987770946">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="5673298758339921" type="System">
+                                            <param id="0" name="First value">loopindex</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set animation" sid="9268253265630207" type="mercenary">
+                                            <param id="0" name="Animation">&quot;Razorfin&quot;</param>
+                                            <param id="1" name="From">1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="2306514402826699">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="7081822435083497" type="System">
+                                            <param id="0" name="First value">loopindex</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">2</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set animation" sid="5745349978894203" type="mercenary">
+                                            <param id="0" name="Animation">&quot;Ocklepod&quot;</param>
+                                            <param id="1" name="From">1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="7560594635369405">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="4410051975171111" type="System">
+                                            <param id="0" name="First value">loopindex</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">3</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set animation" sid="9113938239823585" type="mercenary">
+                                            <param id="0" name="Animation">&quot;Plundercrab&quot;</param>
+                                            <param id="1" name="From">1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="5555482813371166">
+                            <conditions>
+                                <condition id="1" name="Compare parameter" sid="7202721904070774" type="Function">
+                                    <param id="0" name="Index">0</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">2</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Spawn another object" sid="1400746809226033" type="Spawner">
+                                    <param id="0" name="Object">Creep</param>
+                                    <param id="1" name="Layer">&quot;Game&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="Pathfinding" id="0" name="Find path" sid="3888821318849675" type="Creep">
+                                    <param id="0" name="X">Goal.X</param>
+                                    <param id="1" name="Y">Goal.Y</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="4220971874222048" type="Creep">
+                                    <param id="0" name="Object">Healthbar</param>
+                                    <param id="1" name="Layer">&quot;Game&quot;</param>
+                                    <param id="2" name="Image point">1</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="6473158413371824" type="Creep">
+                                    <param id="0" name="Width">32</param>
+                                    <param id="1" name="Height">32</param>
+                                </action>
+                                <action behavior="Pin" id="0" name="Pin to object" sid="8002764519018436" type="Healthbar">
+                                    <param id="0" name="Pin to">Creep</param>
+                                    <param id="1" name="Mode">1</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="5913085503481846" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Value">Creep.UID</param>
+                                </action>
+                                <action id="6" name="Pop" sid="2126160645307453" type="champWave">
+                                    <param id="0" name="Where">1</param>
+                                    <param id="1" name="Axis">0</param>
+                                </action>
+                                <action id="4" name="Set animation" sid="4153867051259063" type="Creep">
+                                    <param id="0" name="Animation">champWave.CurValue</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="2155573684646324" title="HUD Control">
+            <sub-events>
+                <event-block any="1" sid="111253299072924">
+                    <conditions>
+                        <condition id="1" name="On any click" sid="9853474980606977" type="Mouse" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="6601659905572775" type="highlighted" />
+                    </actions>
+                </event-block>
+                <event-block sid="3917733512227329">
+                    <conditions>
+                        <condition id="6" name="On object clicked" sid="6807958222928772" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                            <param id="1" name="Click type">0</param>
+                            <param id="2" name="Object clicked">TurretUI</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="9278935535511003" type="System">
+                            <param id="0" name="Variable">mouseMode</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="8337435410753454" type="System">
+                            <param id="0" name="Variable">placeTower</param>
+                            <param id="1" name="Value">TurretUI.AnimationName</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="7310399087042063">
+                    <conditions>
+                        <condition id="6" name="On object clicked" sid="9248404952133319" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                            <param id="1" name="Click type">0</param>
+                            <param id="2" name="Object clicked">Turret</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" sid="5363696349530481" type="Turret">
+                            <param id="0" name="Object">highlighted</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                        <action id="-3" name="Create object" sid="1525299278318031" type="System">
+                            <param id="0" name="Object to create">TurretUI</param>
+                            <param id="1" name="Layer">&quot;UI&quot;</param>
+                            <param id="2" name="X">172</param>
+                            <param id="3" name="Y">32</param>
+                        </action>
+                        <action id="4" name="Set animation" sid="6269658142362373" type="TurretUI">
+                            <param id="0" name="Animation">Turret.AnimationName</param>
+                            <param id="1" name="From">1</param>
+                        </action>
+                        <action id="0" name="Set text" sid="8865532222553041" type="TurretName">
+                            <param id="0" name="Text">Turret.AnimationName</param>
+                        </action>
+                        <action id="-7" name="Set size" sid="1071842368230371" type="TurretUI">
+                            <param id="0" name="Width">58</param>
+                            <param id="1" name="Height">58</param>
                         </action>
                     </actions>
                 </event-block>
             </sub-events>
         </event-group>
-        <event-block sid="6633211220049296">
-            <conditions>
-                <condition id="0" name="On loading completed" sid="8666245212510282" type="LoadJSON" />
-            </conditions>
-            <actions>
-                <action id="0" name="Set text" sid="7291458883767647" type="sizeText2">
-                    <param id="0" name="Text">LoadJSON.GetData(&quot;champions&quot;, 0)</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="3481514446422902">
-            <conditions>
-                <condition id="0" name="On completed" sid="115786174463701" type="AJAX">
-                    <param id="0" name="Tag">&quot;matches&quot;</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="0" name="Set text" sid="188313862543592" type="Text">
-                    <param id="0" name="Text">&quot;&quot;</param>
-                </action>
-            </actions>
-            <sub-events>
-                <event-block sid="7009178274206779">
-                    <conditions>
-                        <condition id="-10" name="For" sid="9075098156428988" type="System">
-                            <param id="0" name="Name">&quot;line&quot;</param>
-                            <param id="1" name="Start index">0</param>
-                            <param id="2" name="End index">tokencount(AJAX.LastData, &quot;,&quot;)-1</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="1" name="Append text" sid="4777796324086135" type="Text">
-                            <param id="0" name="Text">newline&amp;&quot;Word number &quot;&amp;(loopindex+1)&amp;&quot; : &quot;&amp;tokenat(Dictionary.CurrentKey,loopindex,&quot;,&quot;)</param>
-                        </action>
-                    </actions>
-                </event-block>
-            </sub-events>
-        </event-block>
     </events>
 </c2eventsheet>

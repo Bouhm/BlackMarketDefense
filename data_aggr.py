@@ -11,7 +11,7 @@ import time
 
 def main():
     api = RiotAPIData(keys.API_KEY)
-    pprint.pprint(get_game_data_format(api, 'NA', 10))
+    pprint.pprint(get_game_data_format(api, 'NA', 5))
 
 def id_to_name(dict):
     with open("database/items.json") as file:
@@ -46,10 +46,10 @@ def get_game_data_format(api, region, num):
     matches = random.sample(range(1,10000), num)
     matches_data = []
     all_waves = {}
-    waves = {}
     for match in matches:
         try:
             matches_data.append(id_to_name(api.get_BMB_data(matches_list[match])))
+            time.sleep(1.5)
         except:
             pass
 
@@ -59,6 +59,7 @@ def get_game_data_format(api, region, num):
         stats = 0
         upgrades = 0
         count = 0
+        waves = {}
         champions = []
         towers = []
         merc_wave = wave.copy()
@@ -67,7 +68,7 @@ def get_game_data_format(api, region, num):
         del merc_wave['champions']
         del mercs['winner']
         del mercs['champions']
-        merc_wave.update({'mercs': mercs})
+        merc_wave.update({'mercs': merc_wave})
 
         for champion in wave['champions']:
             if 'name' in champion.keys():
@@ -124,13 +125,11 @@ def get_game_data_format(api, region, num):
             waves.update({'wave': merc_wave})
             waves.update({'towers': towers})
             waves.update({'matchId': match['matchId']})
-
         if k in all_waves.keys():
             all_waves[k].append(waves)
         else:
             all_waves.update({k: [waves]})
-        time.sleep(1.5)
-    return all_waves
+    return json.dumps(all_waves)
 
 
 def winrate_data(api, match_id):

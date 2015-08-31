@@ -30,6 +30,7 @@ def main():
     print("(4) Update mercenary winrates")
     print("(5) Update data from matches")
     print("(6) Update game data")
+    print("(7) Condense game data")
     option = input(':')
     if option == '1':
         item_data(api, headers, False)
@@ -41,8 +42,10 @@ def main():
         merc_winrates(api)
     elif option == '5':
         data_from_matches(api, "NA", 2)
+    elif option == '6':
+        game_data(api, 'NA', 3000)
     else:
-        game_data(api, 'NA', 2000)
+        condense_data()
 
 def item_data(api, headers, img):
     item_data = api.get_all_items()
@@ -54,7 +57,6 @@ def item_data(api, headers, img):
         with open("database/items.json", 'a') as file:
             #for item in item_data:
             file.write("%s\n" % item_data)
-
     if(img):
         for item in item_data:
             r = requests.get(item['img'], headers=headers)
@@ -92,14 +94,40 @@ def merc_winrates(api):
 
 def game_data(api, region, num):
     game_data = data_aggr.get_game_data_format(api, region, num)
-    json.dumps(game_data)
     if not os.path.isfile("database/game_data.json"):
         file = open("database/game_data.json", 'w+')
-        pprint.pprint(game_data, stream=file)
+        #for champ in champion_data:
+        file.write("%s  \n" % game_data)
     else:
         with open("database/game_data.json", 'a') as file:
-            pprint.pprint(game_data, stream=file)
+            #for champ in champion_data:
+            file.write("%s\n" % game_data)
     return
+
+def condense_data():
+    with open("database/game_data.json") as file:
+        game_data = json.load(file)
+    for x in range (1, 31):
+        while len(game_data['wave' + str(x)]) > 10:
+            game_data['wave' + str(x)].remove(game_data['wave' + str(x)][random.randint(0, len(game_data['wave' + str(x)]))])
+    if not os.path.isfile("database/champions.json"):
+        file = open("database/game_data_min.json", 'w+')
+        #for champ in champion_data:
+        file.write("%s  \n" % game_data)
+    else:
+        with open("database/game_data_min.json", 'a') as file:
+            #for champ in champion_data:
+            file.write("%s\n" % game_data)
+    return
+
+#This method because I don't want to run a script for 3-5 hours again
+def modify_waves_data():
+    with open("database/game_data.json") as file:
+        game_data = json.load(file)
+
+    for data in game_data:
+
+
 
 def data_from_matches(api, region, num):
     with open("dataset/" + region + ".json") as file:
