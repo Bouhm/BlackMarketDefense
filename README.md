@@ -24,5 +24,7 @@ The champions are sorted into 4 categories, ranged, magic, melee, and support. T
 
 However, a long with a majority of implementations, the game is very incomplete as the game programming proved to be much more tedious than I thought.
 
-
 The project was a load of work and a load of work, and one hell of a learning experience. Although I'm extremely bummed out to not have completed in time, I plan on continuing to work on it in the future to make it into the complete product I originally envisioned.
+
+
+MAJORITY OF THE GAME IMAGE ASSETS ARE PROPERTY OF RIOT GAMES. Any other images that are not straight from Riot's static database assets are created by me.
