@@ -1,7 +1,7 @@
 # Black Market Defense (League of Legends fanmade game)
 For Riot Games API Challenge 2.0
 
-Demo game here (developer preview, incomplete): http://blackmarketdefense.bitballoon.com/
+Try the game out here: http://blackmarketdefense.bitballoon.com/
 
 For best results try it on Google Chrome browser.
 
@@ -35,7 +35,4 @@ The blue team represents towers that can be purchased (champions) and mercenarie
 The red team represents the waves that spawn (including both champions and mercenaries that were purchased, along with respective upgrades).
 All of the upgrades that were purchased for the mercenaries were to be considered to translate into individual stats to use as much information from the match data as possible, but has not been implemented. Due to the sheer number of assets (126+ for champions and such), some assets will at times not load in the game, probably due to inefficient game programming on my part or the result of some bootleg solution to other issues I've encountered. Any game art assets that are not from League of Legends were created by me (let a man have some pride in his Paint.NET skills).
 
-The blue team champions, played as towers, are sorted into 4 categories, ranged, magic, melee, and support, all sorted in the game engine under my discretion. For the most part, I decided that AD melee and AP tanks belong in melee, AP belong in magic, ranged AD belong in ranged, and meta supports belong in support. The ranged AD, magic, and melee vary in DPS and effects. Ranged projectiles have moderately low damage and high fire rate, magic projectiles have high damage and low fire rate, and melee attacks have low range, moderate damage, and area of effect. These features have not been completely implemented. I can continue to talk about some of the implementations I'd love putting into the game that are most definitely lacking currently, but I'd rather show them once they are actually implemented.
-
-The game is very incomplete as the game programming proved to be much more tedious than I thought. It is still possible to see the relevant match data in each wave, while not functional for gameplay. I am extremely bummed out that I was unable to complete the game project before the deadline, mostly due to my inexperience in game programming, the but rest of the project was still a great learning experience, and useful for other things, I swear.
-
+The blue team champions, played as towers, are sorted into 4 categories, ranged, magic, melee, and support, all sorted in the game engine under my discretion. For the most part, I decided that AD melee and AP tanks belong in melee, AP belong in magic, ranged AD belong in ranged, and meta supports belong in support. The ranged AD, magic, and melee vary in DPS and effects. Ranged projectiles have moderately low damage and high fire rate, magic projectiles have high damage and low fire rate, and melee attacks have low range, moderate damage, and area of effect. These features have not been completely implemented. I can continue to talk about some of the implementations I'd love putting into the game that are most definitely lacking currently, but I'd rather show them once they are actually implemented. However, It is still possible to see the relevant match data in each wave, with some functional gameplay. 
