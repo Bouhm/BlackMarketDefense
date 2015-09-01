@@ -49,7 +49,7 @@ def get_game_data_format(api, region, num):
     for match in matches:
         try:
             matches_data.append(id_to_name(api.get_BMB_data(matches_list[match])))
-            time.sleep(1.5)
+            time.sleep(1.3)
         except:
             pass
 
@@ -68,7 +68,7 @@ def get_game_data_format(api, region, num):
         del merc_wave['champions']
         del mercs['winner']
         del mercs['champions']
-        merc_wave.update({'mercs': merc_wave})
+        merc_wave.update({'mercs': mercs})
 
         for champion in wave['champions']:
             if 'name' in champion.keys():
@@ -108,17 +108,17 @@ def get_game_data_format(api, region, num):
                     num += 1
                 k = "wave" + str(num)
             elif upgrades/count < 1.5:
-                num = 5 + math.floor(stats / 3) #6 - 15
+                num = 5 + math.floor(stats / 6) #6 - 10
                 if num == 0:
                     num += 1
                 k = "wave" + str(num)
             elif upgrades/count < 2.5:
-                num = 15 + math.floor(stats / 3) #16 - 25
+                num = 10 + math.floor(stats / 6) #11 - 15
                 if num == 0:
                     num += 1
                 k = "wave" + str(num)
             else:
-                num = 25 + math.floor(stats / 6) #26 - 30
+                num = 15 + math.floor(stats / 6) #16 - 20
                 if num == 0:
                     num += 1
                 k = "wave" + str(num)

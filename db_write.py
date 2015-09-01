@@ -43,7 +43,7 @@ def main():
     elif option == '5':
         data_from_matches(api, "NA", 2)
     elif option == '6':
-        game_data(api, 'NA', 3000)
+        game_data(api, 'NA', 6000)
     else:
         condense_data()
 
@@ -94,8 +94,8 @@ def merc_winrates(api):
 
 def game_data(api, region, num):
     game_data = data_aggr.get_game_data_format(api, region, num)
-    if not os.path.isfile("database/game_data.json"):
-        file = open("database/game_data.json", 'w+')
+    if not os.path.isfile("database/game_data2.json"):
+        file = open("database/game_data2.json", 'w+')
         #for champ in champion_data:
         file.write("%s  \n" % game_data)
     else:
@@ -125,7 +125,7 @@ def modify_waves_data():
     with open("database/game_data.json") as file:
         game_data = json.load(file)
 
-    for data in game_data:
+    return
 
 
 
