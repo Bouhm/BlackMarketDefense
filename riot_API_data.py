@@ -1,5 +1,6 @@
 __author__ = 'Bouhm'
 #Methods that access API and return dictionary/JSON files of data
+#
 
 import requests
 import json

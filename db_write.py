@@ -1,5 +1,6 @@
 __author__ = 'Bouhm'
 #Program that uses methods from RiotAPIStats mainly for building database
+#Database used for game
 
 from riot_API_data import RiotAPIData
 import data_aggr

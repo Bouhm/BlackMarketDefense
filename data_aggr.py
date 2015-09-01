@@ -1,5 +1,6 @@
 __author__ = 'Bouhm'
 #Program that uses methods from RiotAPIStats for data aggregation
+#For data analysis and data format for game
 
 from riot_API_data import RiotAPIData
 import keys

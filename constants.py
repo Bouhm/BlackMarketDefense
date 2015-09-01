@@ -1,6 +1,7 @@
 __author__ = "Bouhm"
 #URLS, VERSION NUMBERS, ETC
 
+
 URL_RIOT_API = {
     'base': "https://{proxy}.api.pvp.net/api/lol/{region}/{url}",
     'base_static_data': "https://global.api.pvp.net/api/lol/static-data/{region}/{url}",
