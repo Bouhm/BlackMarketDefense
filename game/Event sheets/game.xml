@@ -32,10 +32,6 @@
                             <param id="0" name="X">Goal.X</param>
                             <param id="1" name="Y">Goal.Y</param>
                         </action>
-                        <action behavior="Pathfinding" id="0" name="Find path" sid="5424516967579586" type="playerMerc">
-                            <param id="0" name="X">Spawner.X</param>
-                            <param id="1" name="Y">Spawner.Y</param>
-                        </action>
                     </actions>
                     <sub-events>
                         <event-block sid="8425868545816386">
@@ -44,16 +40,14 @@
                             </conditions>
                             <actions>
                                 <action behavior="Pathfinding" id="1" name="Move along path" sid="6484436386460079" type="playerMerc" />
-                                <action behavior="Pathfinding2" disabled="1" id="1" name="Move along path" sid="3353157876368857" type="wave" />
                             </actions>
                         </event-block>
                         <event-block sid="2023073771876778">
                             <conditions>
-                                <condition behavior="Pathfinding" id="0" name="On path found" sid="7655458560205628" type="playerMerc" />
+                                <condition behavior="Pathfinding" id="0" name="On path found" sid="8890702191922992" type="mercenary" />
                             </conditions>
                             <actions>
                                 <action behavior="Pathfinding" id="1" name="Move along path" sid="9307484057791746" type="mercenary" />
-                                <action behavior="Pathfinding2" disabled="1" id="1" name="Move along path" sid="1449481213239149" type="wave" />
                             </actions>
                         </event-block>
                         <event-block sid="7699228805396337">
@@ -67,19 +61,19 @@
                     </sub-events>
                 </event-block>
                 <comment>When bullets hit enemies, make it subtract from health and spawn some particles.</comment>
-                <event-block sid="1722119880681344">
+                <event-block sid="9464493266390558">
                     <conditions>
-                        <condition id="0" name="On collision with another object" sid="2329021074050747" type="Ranged">
+                        <condition id="0" name="On collision with another object" sid="7087138456011545" type="Ranged">
                             <param id="0" name="Object">Creep</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-12" name="Subtract from" sid="2541315613175576" type="Creep">
+                        <action id="-12" name="Subtract from" sid="4057651541857736" type="Creep">
                             <param id="0" name="Instance variable">health</param>
                             <param id="1" name="Value">7</param>
                         </action>
-                        <action id="-9" name="Destroy" sid="3766684416633562" type="Ranged" />
-                        <action id="0" name="Spawn another object" sid="7421442827515508" type="Ranged">
+                        <action id="-9" name="Destroy" sid="4988336333707095" type="Ranged" />
+                        <action id="0" name="Spawn another object" sid="242286368107183" type="Ranged">
                             <param id="0" name="Object">RangedParticles</param>
                             <param id="1" name="Layer">&quot;Game&quot;</param>
                             <param id="2" name="Image point">1</param>
@@ -181,16 +175,8 @@
                 </event-block>
                 <comment>When an enemy reaches the target, destroy it, but also pick a random turret and destroy that.</comment>
                 <event-block sid="500360718917401">
-                    <conditions>
-                        <condition behavior="Pathfinding2" id="5" name="On arrived" sid="8898922230207618" type="wave" />
-                        <condition id="-7" name="Compare instance variable" sid="2761335091538931" type="Healthbar">
-                            <param id="0" name="Instance variable">belongsTo</param>
-                            <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">wave.UID</param>
-                        </condition>
-                    </conditions>
+                    <conditions />
                     <actions>
-                        <action id="-9" name="Destroy" sid="2340613852373688" type="wave" />
                         <action id="-9" name="Destroy" sid="1051538685475737" type="Healthbar" />
                         <action id="-11" name="Subtract from" sid="8936746391801802" type="System">
                             <param id="0" name="Variable">playerHealth</param>
@@ -755,9 +741,6 @@
                         <condition id="-2" name="On start of layout" sid="1641458670774486" type="System" />
                     </conditions>
                     <actions>
-                        <action behavior="Turret" id="1" name="Add object to target" sid="5398034930346684" type="Turret">
-                            <param id="0" name="Target">wave</param>
-                        </action>
                         <action behavior="Turret" id="7" name="Set rate of fire" sid="5180762526080661" type="Turret">
                             <param id="0" name="Rate of fire">5</param>
                         </action>
@@ -783,7 +766,6 @@
                             <param id="1" name="Comparison">0</param>
                             <param id="2" name="Value">&quot;Ranged&quot;</param>
                         </condition>
-                        <condition id="-3" name="Is on-screen" sid="5445657211218335" type="wave" />
                     </conditions>
                     <actions>
                         <action id="0" name="Spawn another object" sid="245850533924078" type="Turret">
@@ -801,7 +783,6 @@
                             <param id="1" name="Comparison">0</param>
                             <param id="2" name="Value">&quot;Melee&quot;</param>
                         </condition>
-                        <condition id="-3" name="Is on-screen" sid="1995448380168096" type="wave" />
                     </conditions>
                     <actions>
                         <action id="0" name="Spawn another object" sid="1356974861420827" type="Turret">
@@ -819,7 +800,6 @@
                             <param id="1" name="Comparison">0</param>
                             <param id="2" name="Value">&quot;Magic&quot;</param>
                         </condition>
-                        <condition id="-3" name="Is on-screen" sid="3640320449937428" type="wave" />
                     </conditions>
                     <actions>
                         <action id="0" name="Spawn another object" sid="9365219150617706" type="Turret">
@@ -999,7 +979,7 @@
                                 <condition id="-8" name="Compare two values" sid="2753940445435493" type="System">
                                     <param id="0" name="First value">timescale</param>
                                     <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">5.0</param>
+                                    <param id="2" name="Second value">3.5</param>
                                 </condition>
                             </conditions>
                             <actions>
@@ -1018,7 +998,7 @@
                             </conditions>
                             <actions>
                                 <action id="-13" name="Set time scale" sid="7706176655336749" type="System">
-                                    <param id="0" name="Time scale">5.0</param>
+                                    <param id="0" name="Time scale">3.5</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -1193,7 +1173,6 @@
                                                 <condition id="0" name="For each node" sid="5790055226295489" type="XML">
                                                     <param id="0" name="XPath">&quot;wave/Razorfin&quot;</param>
                                                 </condition>
-                                                <condition id="-4" name="Trigger once while true" sid="4936742901267827" type="System" />
                                             </conditions>
                                             <actions>
                                                 <action id="-3" name="Create object" sid="1790312395334985" type="System">
@@ -1258,7 +1237,6 @@
                                                 <condition id="0" name="For each node" sid="1008121890932308" type="XML">
                                                     <param id="0" name="XPath">&quot;wave/Ocklepod&quot;</param>
                                                 </condition>
-                                                <condition id="-4" name="Trigger once while true" sid="1181050653686298" type="System" />
                                             </conditions>
                                             <actions>
                                                 <action id="-3" name="Create object" sid="6058002372317364" type="System">
@@ -1327,7 +1305,6 @@
                                                 <condition id="0" name="For each node" sid="964844699968462" type="XML">
                                                     <param id="0" name="XPath">&quot;wave/Plundercrab&quot;</param>
                                                 </condition>
-                                                <condition id="-4" name="Trigger once while true" sid="9502592496214419" type="System" />
                                             </conditions>
                                             <actions>
                                                 <action id="-3" name="Create object" sid="8478128833766547" type="System">
@@ -1392,7 +1369,6 @@
                                                 <condition id="0" name="For each node" sid="7313677945133735" type="XML">
                                                     <param id="0" name="XPath">&quot;wave/champions&quot;</param>
                                                 </condition>
-                                                <condition id="-4" name="Trigger once while true" sid="5414485522551932" type="System" />
                                             </conditions>
                                             <actions>
                                                 <action id="-3" name="Create object" sid="7494391300146248" type="System">
@@ -1447,7 +1423,6 @@
                                                 <condition id="0" name="For each node" sid="5633748760704456" type="XML">
                                                     <param id="0" name="XPath">&quot;towers&quot;</param>
                                                 </condition>
-                                                <condition id="-4" name="Trigger once while true" sid="3998317663330476" type="System" />
                                             </conditions>
                                             <actions>
                                                 <action id="-3" name="Create object" sid="9323849036246997" type="System">
@@ -1457,7 +1432,11 @@
                                                     <param id="3" name="Y">32</param>
                                                 </action>
                                                 <action id="4" name="Set animation" sid="3795290408751925" type="TurretUI">
-                                                    <param id="0" name="Animation">XML.StringValue(&quot;text()&quot;)</param>
+                                                    <param id="0" name="Animation">tokenat(XML.StringValue(&quot;text()&quot;), 0, &quot; &quot;)&amp;tokenat(XML.StringValue(&quot;text()&quot;), 1, &quot; &quot;)</param>
+                                                    <param id="1" name="From">1</param>
+                                                </action>
+                                                <action id="4" name="Set animation" sid="6576786425931866" type="TurretUI">
+                                                    <param id="0" name="Animation">tokenat(XML.StringValue(&quot;text()&quot;), 0, &quot;&apos;&quot;)&amp;tokenat(XML.StringValue(&quot;text()&quot;), 1, &quot;&apos;&quot;)</param>
                                                     <param id="1" name="From">1</param>
                                                 </action>
                                                 <action id="-7" name="Set size" sid="6681288487501827" type="TurretUI">
@@ -1637,25 +1616,6 @@
                             </conditions>
                             <actions />
                             <sub-events>
-                                <event-block sid="7591309962564311">
-                                    <conditions>
-                                        <condition id="-15" name="Pick nearest/furthest" sid="8071604849308335" type="wave">
-                                            <param id="0" name="Which">0</param>
-                                            <param id="1" name="X">Healthbar.X</param>
-                                            <param id="2" name="Y">Healthbar.Y</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action behavior="Pin" id="0" name="Pin to object" sid="6480342512374639" type="Healthbar">
-                                            <param id="0" name="Pin to">wave</param>
-                                            <param id="1" name="Mode">0</param>
-                                        </action>
-                                        <action id="-10" name="Set value" sid="280008299736886" type="Healthbar">
-                                            <param id="0" name="Instance variable">belongsTo</param>
-                                            <param id="1" name="Value">wave.UID</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
                                 <event-block disabled="1" sid="9173708479118283">
                                     <conditions>
                                         <condition id="-15" name="Pick nearest/furthest" sid="6475503744416139" type="Creep">
@@ -1812,6 +1772,14 @@
         </event-group>
         <event-group description="" sid="2597773626327264" title="Mercenary">
             <sub-events>
+                <event-block sid="1590868551913333">
+                    <conditions>
+                        <condition behavior="Pathfinding" id="5" name="On arrived" sid="6887357515755673" type="playerMerc" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="3594692963469704" type="playerMerc" />
+                    </actions>
+                </event-block>
                 <event-block disabled="1" sid="5947890547015683">
                     <conditions>
                         <condition id="1" name="Is overlapping another object" sid="5623295511792736" type="playerMerc">
@@ -1888,12 +1856,30 @@
                         </action>
                     </actions>
                 </event-block>
+                <event-block sid="7557962754034304">
+                    <conditions>
+                        <condition id="-19" name="On destroyed" sid="2366383839010678" type="playerMerc" />
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="9545135340511991">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="3947824555841403" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">playerMerc.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="446197886386654" type="Healthbar" />
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
             </sub-events>
         </event-group>
         <event-block sid="676643242670442">
-            <conditions>
-                <condition id="-19" name="On destroyed" sid="8285444892327641" type="wave" />
-            </conditions>
+            <conditions />
             <actions>
                 <action id="-11" name="Subtract from" sid="1946341007841855" type="System">
                     <param id="0" name="Variable">waveCount</param>
@@ -1906,13 +1892,7 @@
             </actions>
             <sub-events>
                 <event-block sid="2715292035829346">
-                    <conditions>
-                        <condition id="-7" name="Compare instance variable" sid="9347320254827895" type="Healthbar">
-                            <param id="0" name="Instance variable">belongsTo</param>
-                            <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">wave.UID</param>
-                        </condition>
-                    </conditions>
+                    <conditions />
                     <actions>
                         <action id="-9" name="Destroy" sid="8317486164474267" type="Healthbar" />
                     </actions>
@@ -1950,14 +1930,6 @@
                 </action>
             </actions>
         </event-block>
-        <event-block sid="5477843962957047">
-            <conditions>
-                <condition id="1" name="Is overlapping another object" sid="9024273707845622" type="Support">
-                    <param id="0" name="Object">wave</param>
-                </condition>
-            </conditions>
-            <actions />
-        </event-block>
         <event-block sid="4285940993256459">
             <conditions>
                 <condition id="1" name="Is overlapping another object" sid="6333823042358009" type="Support">
@@ -1991,14 +1963,6 @@
                     <param id="0" name="Layer">&quot;GG&quot;</param>
                     <param id="1" name="Visibility">1</param>
                 </action>
-            </actions>
-        </event-block>
-        <event-block sid="1590868551913333">
-            <conditions>
-                <condition behavior="Pathfinding" id="5" name="On arrived" sid="6887357515755673" type="playerMerc" />
-            </conditions>
-            <actions>
-                <action id="-9" name="Destroy" sid="3594692963469704" type="playerMerc" />
             </actions>
         </event-block>
     </events>
