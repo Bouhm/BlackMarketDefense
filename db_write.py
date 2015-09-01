@@ -48,6 +48,7 @@ def main():
     else:
         condense_data()
 
+#Get static item data and save item name, ID, and image URI to local db
 def item_data(api, headers, img):
     item_data = api.get_all_items()
     if not os.path.isfile("database/items.json"):
@@ -67,6 +68,7 @@ def item_data(api, headers, img):
             urllib.request.urlretrieve(item['img'], "database/item_img/" + str(item['itemId']) + ".png")
         urllib.request.urlcleanup()
 
+#Get static champion data and store name, ID, and image URI to local db
 def champion_data(api, headers, img):
     champion_data = api.get_all_champs()
     if not os.path.isfile("database/champions.json"):
@@ -93,6 +95,7 @@ def champion_winrates(api):
 def merc_winrates(api):
     return
 
+#From match data get game data and save
 def game_data(api, region, num):
     game_data = data_aggr.get_game_data_format(api, region, num)
     if not os.path.isfile("database/game_data2.json"):
@@ -105,6 +108,7 @@ def game_data(api, region, num):
             file.write("%s\n" % game_data)
     return
 
+#For making adjustments to wave sorting in game data
 def condense_data():
     with open("database/game_data.json") as file:
         game_data = json.load(file)
@@ -129,7 +133,7 @@ def modify_waves_data():
     return
 
 
-
+#Get data from matches, more useful for data analysis
 def data_from_matches(api, region, num):
     with open("dataset/" + region + ".json") as file:
         matches_list = json.load(file)
@@ -149,6 +153,7 @@ def data_from_matches(api, region, num):
                 file.write("%s\n" % match)
     return
 
+#Convert all ids in python dictionary into names, key and value pairs are appropriately replaced
 def id_to_name(dict):
     with open("database/items.json") as file:
         item_data = json.load(file)

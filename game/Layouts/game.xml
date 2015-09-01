@@ -578,8 +578,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>32</x>
-                        <y>576</y>
+                        <x>41</x>
+                        <y>575</y>
                         <z>0</z>
                         <width>16</width>
                         <height>16</height>
@@ -716,9 +716,9 @@
                                 <range>150</range>
                                 <rate-of-fire>1</rate-of-fire>
                                 <rotate>Yes</rotate>
-                                <rotate-speed>360</rotate-speed>
+                                <rotate-speed>200</rotate-speed>
                                 <target-mode>First in range</target-mode>
-                                <predictive-aim>No</predictive-aim>
+                                <predictive-aim>Yes</predictive-aim>
                                 <projectile-speed>500</projectile-speed>
                                 <initial-state>Enabled</initial-state>
                                 <use-collision-cells>Yes</use-collision-cells>
@@ -749,7 +749,7 @@
                     </properties>
                     <instance-variables>
                         <health>30</health>
-                        <speed>100</speed>
+                        <speed>150</speed>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Pathfinding">
@@ -757,7 +757,7 @@
                                 <cell-size>29</cell-size>
                                 <cell-border>-1</cell-border>
                                 <obstacles>Solids</obstacles>
-                                <max-speed>80</max-speed>
+                                <max-speed>150</max-speed>
                                 <acceleration>1000</acceleration>
                                 <deceleration>2000</deceleration>
                                 <rotate-speed>135</rotate-speed>
@@ -1807,7 +1807,7 @@
                         <offense>0</offense>
                         <defense>0</defense>
                         <upgrade>0</upgrade>
-                        <speed>0</speed>
+                        <speed>150</speed>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Pathfinding">
@@ -1815,7 +1815,7 @@
                                 <cell-size>29</cell-size>
                                 <cell-border>-1</cell-border>
                                 <obstacles>Solids</obstacles>
-                                <max-speed>80</max-speed>
+                                <max-speed>150</max-speed>
                                 <acceleration>1000</acceleration>
                                 <deceleration>2000</deceleration>
                                 <rotate-speed>135</rotate-speed>
@@ -1835,7 +1835,7 @@
                         </behavior-instance>
                         <behavior-instance type="MoveTo">
                             <properties>
-                                <activated>Yes</activated>
+                                <activated>No</activated>
                                 <max-speed>400</max-speed>
                                 <acceleration>0</acceleration>
                                 <deceleration>0</deceleration>
@@ -1920,11 +1920,11 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <health>0</health>
+                        <health>30</health>
                         <offense>0</offense>
                         <defense>0</defense>
                         <upgrade>0</upgrade>
-                        <speed>0</speed>
+                        <speed>150</speed>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Pathfinding">
@@ -1932,7 +1932,7 @@
                                 <cell-size>29</cell-size>
                                 <cell-border>-1</cell-border>
                                 <obstacles>Solids</obstacles>
-                                <max-speed>200</max-speed>
+                                <max-speed>150</max-speed>
                                 <acceleration>1000</acceleration>
                                 <deceleration>2000</deceleration>
                                 <rotate-speed>135</rotate-speed>
@@ -1944,7 +1944,7 @@
                         <behavior-instance type="Flash" />
                         <behavior-instance type="MoveTo">
                             <properties>
-                                <activated>Yes</activated>
+                                <activated>No</activated>
                                 <max-speed>400</max-speed>
                                 <acceleration>0</acceleration>
                                 <deceleration>0</deceleration>
@@ -2002,11 +2002,11 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <health>0</health>
+                        <health>30</health>
                         <offense>0</offense>
                         <defense>0</defense>
                         <upgrade>0</upgrade>
-                        <speed>0</speed>
+                        <speed>150</speed>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Pathfinding">
@@ -2014,7 +2014,7 @@
                                 <cell-size>29</cell-size>
                                 <cell-border>-1</cell-border>
                                 <obstacles>Solids</obstacles>
-                                <max-speed>200</max-speed>
+                                <max-speed>150</max-speed>
                                 <acceleration>1000</acceleration>
                                 <deceleration>2000</deceleration>
                                 <rotate-speed>135</rotate-speed>
@@ -2026,7 +2026,7 @@
                         <behavior-instance type="Flash" />
                         <behavior-instance type="MoveTo">
                             <properties>
-                                <activated>Yes</activated>
+                                <activated>No</activated>
                                 <max-speed>400</max-speed>
                                 <acceleration>0</acceleration>
                                 <deceleration>0</deceleration>

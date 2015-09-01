@@ -14,6 +14,7 @@ def main():
     api = RiotAPIData(keys.API_KEY)
     pprint.pprint(get_game_data_format(api, 'NA', 5))
 
+#Convert all ids to names in python dictionary, key value pairs are appropriately replaced
 def id_to_name(dict):
     with open("database/items.json") as file:
         item_data = json.load(file)
@@ -41,6 +42,7 @@ def id_to_name(dict):
                         del team[key]
     return dict
 
+#From match data get game data
 def get_game_data_format(api, region, num):
     with open("dataset/" + region + ".json") as file:
         matches_list = json.load(file)
@@ -132,7 +134,7 @@ def get_game_data_format(api, region, num):
             all_waves.update({k: [waves]})
     return json.dumps(all_waves)
 
-
+#For data analysis
 def winrate_data(api, match_id):
     BMB_data = id_to_name(api.get_BMB_data(match_id))
     champion_wr = {}

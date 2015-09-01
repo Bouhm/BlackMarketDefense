@@ -14,6 +14,7 @@ class RiotAPIData(object):
         self.api_key = api_key
         self.region = region
 
+    #Fetch API url and get JSON data
     def _request(self, api_url, params={}):
         args = {'api_key': self.api_key}
         for key, value in params.items():
@@ -30,6 +31,8 @@ class RiotAPIData(object):
         )
         return response.json()
 
+    #Get all mercenaries and upgrades purchased in match
+    #Return python dictionary of mercenaries and upgrades
     def _get_BMB_mercs(self):
         args = {'api_key': self.api_key, 'itemListData': 'groups'}
         api_url = API['item'].format(version=VER['lol_static_data'])
@@ -54,6 +57,8 @@ class RiotAPIData(object):
         merc.update({'mercUpgrades':merc_upgrade})
         return merc
 
+    #Get all relevant data from BMB matches
+    #Return dictionary of champion ids, champion item ids, mercenaries, and respective upgrades
     def get_BMB_data(self, match_id=None, file=None):
         if file == None:
             match_data = self._request(
@@ -109,7 +114,8 @@ class RiotAPIData(object):
                 teams_data[team].update({player_mercs[player]['merc']:[merc_data]})
         return teams_data
 
-
+    #Get data from each team from given match data dictionary
+    #Return dictionary
     def _get_teams_data(self, match_data):
         winner = 0
         loser = 0
@@ -153,6 +159,7 @@ class RiotAPIData(object):
         champion_data = response.json()
         return champion_data['name']
 
+    #Get latest static version to access Riot's static data database
     def _get_static_data_version(self):
         args = {'api_key': self.api_key}
         api = API['versions'].format(version=VER['lol_static_data'])
@@ -185,6 +192,8 @@ class RiotAPIData(object):
             item_list.append(item_data)
         return json.dumps(item_list)
 
+    #Get all champion names, IDs, and image URIs
+    #Return JSON file of data
     def get_all_champs(self):
         version = self._get_static_data_version()
         args = {'api_key': self.api_key, 'champData': 'image'}

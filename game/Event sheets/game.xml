@@ -10,10 +10,68 @@
         <variable constant="0" name="waveStart" sid="2937362175570786" static="0" type="number">0</variable>
         <variable constant="0" name="placeTower" sid="6865279861712279" static="0" type="text"></variable>
         <variable constant="0" name="mouseMode" sid="4966851346063013" static="0" type="number">0</variable>
-        <variable constant="0" name="waveNumber" sid="4761650927116621" static="0" type="number">1</variable>
+        <variable constant="0" name="waveNumber" sid="4761650927116621" static="0" type="number">0</variable>
         <variable constant="0" name="gameTimer" sid="416639034642912" static="0" type="number">15</variable>
         <event-group description="" sid="1842704516502349" title="Enemy control">
             <sub-events>
+                <event-block sid="676643242670442">
+                    <conditions>
+                        <condition id="-19" name="On destroyed" sid="169067412926006" type="Creep" />
+                    </conditions>
+                    <actions>
+                        <action id="-11" name="Subtract from" sid="1946341007841855" type="System">
+                            <param id="0" name="Variable">waveCount</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-10" name="Add to" sid="8483426184316818" type="System">
+                            <param id="0" name="Variable">gold</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="2715292035829346">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="4443278478121472" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">Creep.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="8317486164474267" type="Healthbar" />
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="6568262175069621">
+                    <conditions>
+                        <condition id="-19" name="On destroyed" sid="6269531720863186" type="mercenary" />
+                    </conditions>
+                    <actions>
+                        <action id="-11" name="Subtract from" sid="2441384907942765" type="System">
+                            <param id="0" name="Variable">waveCount</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-10" name="Add to" sid="2661984794347531" type="System">
+                            <param id="0" name="Variable">gold</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="5233491727999706">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="4498437959185768" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">mercenary.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="3570774960870546" type="Healthbar" />
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
                 <comment>Once a path has been found, start moving along it.</comment>
                 <event-block sid="9226243028521068">
                     <conditions>
@@ -29,6 +87,10 @@
                             <param id="1" name="Y">Goal.Y</param>
                         </action>
                         <action behavior="Pathfinding" id="0" name="Find path" sid="8491455544318597" type="Creep">
+                            <param id="0" name="X">Goal.X</param>
+                            <param id="1" name="Y">Goal.Y</param>
+                        </action>
+                        <action behavior="Pathfinding" id="0" name="Find path" sid="5036879425752401" type="playerMerc">
                             <param id="0" name="X">Goal.X</param>
                             <param id="1" name="Y">Goal.Y</param>
                         </action>
@@ -79,6 +141,22 @@
                             <param id="2" name="Image point">1</param>
                         </action>
                     </actions>
+                    <sub-events>
+                        <event-block sid="6129365089557066">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="1534700264720917" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">Creep.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-5" name="Set width" sid="2938774174763418" type="Healthbar">
+                                    <param id="0" name="Width">20*(((Creep.health*100)/Healthbar.maxHealth)/100)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="8927809094047762">
                     <conditions>
@@ -98,6 +176,22 @@
                             <param id="2" name="Image point">1</param>
                         </action>
                     </actions>
+                    <sub-events>
+                        <event-block sid="4264827496776943">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="2339117740017704" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">mercenary.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-5" name="Set width" sid="2619803764653375" type="Healthbar">
+                                    <param id="0" name="Width">20*(((mercenary.health*100)/Healthbar.maxHealth)/100)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="1895915614549556">
                     <conditions>
@@ -112,6 +206,22 @@
                         </action>
                         <action id="-9" name="Destroy" sid="9227259066376295" type="Magic" />
                     </actions>
+                    <sub-events>
+                        <event-block sid="9450482846052263">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="1534327946479599" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">Creep.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-5" name="Set width" sid="4195749369386162" type="Healthbar">
+                                    <param id="0" name="Width">20*(((Creep.health*100)/Healthbar.maxHealth)/100)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="798414331812197">
                     <conditions>
@@ -126,6 +236,22 @@
                         </action>
                         <action id="-9" name="Destroy" sid="7047627458024581" type="Magic" />
                     </actions>
+                    <sub-events>
+                        <event-block sid="607334280659608">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="9514548935237047" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">mercenary.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-5" name="Set width" sid="9560993789820712" type="Healthbar">
+                                    <param id="0" name="Width">20*(((mercenary.health*100)/Healthbar.maxHealth)/100)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="4270818923227211">
                     <conditions>
@@ -140,6 +266,22 @@
                         </action>
                         <action id="-9" name="Destroy" sid="6941033844591371" type="Melee" />
                     </actions>
+                    <sub-events>
+                        <event-block sid="6087753486401749">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="3097146104838895" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">Creep.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-5" name="Set width" sid="2253426877822094" type="Healthbar">
+                                    <param id="0" name="Width">20*(((Creep.health*100)/Healthbar.maxHealth)/100)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="1205317619091217">
                     <conditions>
@@ -154,6 +296,22 @@
                         </action>
                         <action id="-9" name="Destroy" sid="7609860869441141" type="Melee" />
                     </actions>
+                    <sub-events>
+                        <event-block sid="4354045273985717">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="9269493142895312" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">mercenary.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-5" name="Set width" sid="9567393094992752" type="Healthbar">
+                                    <param id="0" name="Width">20*(((mercenary.health*100)/Healthbar.maxHealth)/100)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <comment>Destroy enemies with no health left, throwing in a particles effect.</comment>
                 <event-block sid="4307553399599679">
@@ -171,32 +329,85 @@
                             <param id="2" name="Image point">0</param>
                         </action>
                         <action id="-9" name="Destroy" sid="1655344114122795" type="Creep" />
+                        <action id="-10" name="Add to" sid="2896470298079153" type="System">
+                            <param id="0" name="Variable">gold</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="3798798036950309">
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" sid="638999871860119" type="mercenary">
+                            <param id="0" name="Instance variable">health</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Spawn another object" sid="839520841750198" type="mercenary">
+                            <param id="0" name="Object">EnemyDeadParticles</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                        <action id="-9" name="Destroy" sid="7263740760080586" type="mercenary" />
+                        <action id="-10" name="Add to" sid="8588023876552807" type="System">
+                            <param id="0" name="Variable">gold</param>
+                            <param id="1" name="Value">5</param>
+                        </action>
                     </actions>
                 </event-block>
                 <comment>When an enemy reaches the target, destroy it, but also pick a random turret and destroy that.</comment>
                 <event-block sid="500360718917401">
-                    <conditions />
+                    <conditions>
+                        <condition behavior="Pathfinding" id="5" name="On arrived" sid="2537703561013884" type="Creep" />
+                    </conditions>
                     <actions>
-                        <action id="-9" name="Destroy" sid="1051538685475737" type="Healthbar" />
                         <action id="-11" name="Subtract from" sid="8936746391801802" type="System">
                             <param id="0" name="Variable">playerHealth</param>
                             <param id="1" name="Value">10</param>
                         </action>
+                        <action id="-9" name="Destroy" sid="8427410648696027" type="Creep" />
                     </actions>
+                    <sub-events>
+                        <event-block sid="7920555665781596">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="9009351394058466" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">Creep.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="8241905471536766" type="Healthbar" />
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
-                <event-block sid="7920555665781596">
+                <event-block sid="2611098188424672">
                     <conditions>
-                        <condition id="-7" name="Compare instance variable" sid="9009351394058466" type="Healthbar">
-                            <param id="0" name="Instance variable">belongsTo</param>
-                            <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">mercenary.UID</param>
-                        </condition>
+                        <condition behavior="Pathfinding" id="5" name="On arrived" sid="3181824393645843" type="mercenary" />
                     </conditions>
                     <actions>
-                        <action id="-5" name="Set width" sid="8241905471536766" type="Healthbar">
-                            <param id="0" name="Width">20*(((mercenary.health*100)/Healthbar.maxHealth)/100)</param>
+                        <action id="-11" name="Subtract from" sid="4824623887927179" type="System">
+                            <param id="0" name="Variable">playerHealth</param>
+                            <param id="1" name="Value">10</param>
                         </action>
+                        <action id="-9" name="Destroy" sid="9553558099566417" type="mercenary" />
                     </actions>
+                    <sub-events>
+                        <event-block sid="734114852428326">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="7753458965476481" type="Healthbar">
+                                    <param id="0" name="Instance variable">belongsTo</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">mercenary.UID</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="4998156003249863" type="Healthbar" />
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block disabled="1" sid="7729448035179915">
                     <conditions>
@@ -741,19 +952,11 @@
                         <condition id="-2" name="On start of layout" sid="1641458670774486" type="System" />
                     </conditions>
                     <actions>
-                        <action behavior="Turret" id="7" name="Set rate of fire" sid="5180762526080661" type="Turret">
-                            <param id="0" name="Rate of fire">5</param>
+                        <action behavior="Turret" id="1" name="Add object to target" sid="9095242856630785" type="Turret">
+                            <param id="0" name="Target">Creep</param>
                         </action>
-                        <action behavior="Turret" id="12" name="Set projectile speed" sid="8653637592382768" type="Turret">
-                            <param id="0" name="Projectile speed">700</param>
-                        </action>
-                        <action id="-10" name="Set value" sid="300971971397503" type="Turret">
-                            <param id="0" name="Instance variable">Speed</param>
-                            <param id="1" name="Value">2</param>
-                        </action>
-                        <action id="-10" name="Set value" sid="1292278621873035" type="Turret">
-                            <param id="0" name="Instance variable">Dmg</param>
-                            <param id="1" name="Value">100</param>
+                        <action behavior="Turret" id="1" name="Add object to target" sid="7106371512729125" type="Turret">
+                            <param id="0" name="Target">mercenary</param>
                         </action>
                     </actions>
                 </event-block>
@@ -823,6 +1026,9 @@
                             <param id="0" name="Object">Support</param>
                             <param id="1" name="Layer">&quot;Game&quot;</param>
                             <param id="2" name="Image point">0</param>
+                        </action>
+                        <action behavior="Turret" id="5" name="Set enabled" sid="7244276167359697" type="Turret">
+                            <param id="0" name="State">0</param>
                         </action>
                     </actions>
                 </event-block>
@@ -1030,6 +1236,32 @@
         </event-group>
         <event-group description="" sid="7622461656576243" title="Core">
             <sub-events>
+                <event-block sid="8809714828762568">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="5350438275837888" type="System">
+                            <param id="0" name="Variable">waveCount</param>
+                            <param id="1" name="Comparison">3</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                        <condition id="-4" name="Trigger once while true" sid="9061027246902198" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="405253824367098" type="mercenaryUI" />
+                        <action id="-9" name="Destroy" sid="3071253343837868" type="TurretUI" />
+                        <action id="-10" name="Add to" sid="4608311544071814" type="System">
+                            <param id="0" name="Variable">waveNumber</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="592912688685779" type="System">
+                            <param id="0" name="Variable">gameTimer</param>
+                            <param id="1" name="Value">15</param>
+                        </action>
+                        <action id="0" name="Call function" sid="2104221864438642" type="Function">
+                            <param id="0" name="Name">&quot;getWaveData&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                </event-block>
                 <event-block sid="7632082164985748">
                     <conditions>
                         <condition id="-2" name="On start of layout" sid="4492384872858799" type="System" />
@@ -1780,6 +2012,14 @@
                         <action id="-9" name="Destroy" sid="3594692963469704" type="playerMerc" />
                     </actions>
                 </event-block>
+                <event-block sid="8535254675200394">
+                    <conditions>
+                        <condition behavior="Pathfinding" id="0" name="On path found" sid="2427112714145445" type="playerMerc" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Pathfinding" id="1" name="Move along path" sid="5911069739610405" type="playerMerc" />
+                    </actions>
+                </event-block>
                 <event-block disabled="1" sid="5947890547015683">
                     <conditions>
                         <condition id="1" name="Is overlapping another object" sid="5623295511792736" type="playerMerc">
@@ -1878,58 +2118,6 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-block sid="676643242670442">
-            <conditions />
-            <actions>
-                <action id="-11" name="Subtract from" sid="1946341007841855" type="System">
-                    <param id="0" name="Variable">waveCount</param>
-                    <param id="1" name="Value">1</param>
-                </action>
-                <action id="-10" name="Add to" sid="8483426184316818" type="System">
-                    <param id="0" name="Variable">gold</param>
-                    <param id="1" name="Value">5</param>
-                </action>
-            </actions>
-            <sub-events>
-                <event-block sid="2715292035829346">
-                    <conditions />
-                    <actions>
-                        <action id="-9" name="Destroy" sid="8317486164474267" type="Healthbar" />
-                    </actions>
-                </event-block>
-            </sub-events>
-        </event-block>
-        <event-block sid="8809714828762568">
-            <conditions>
-                <condition id="-14" name="Compare variable" sid="5350438275837888" type="System">
-                    <param id="0" name="Variable">waveCount</param>
-                    <param id="1" name="Comparison">3</param>
-                    <param id="2" name="Value">0</param>
-                </condition>
-                <condition id="-4" name="Trigger once while true" sid="9061027246902198" type="System" />
-                <condition id="-14" name="Compare variable" sid="7712052932488253" type="System">
-                    <param id="0" name="Variable">waveNumber</param>
-                    <param id="1" name="Comparison">4</param>
-                    <param id="2" name="Value">1</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="-9" name="Destroy" sid="405253824367098" type="mercenaryUI" />
-                <action id="-9" name="Destroy" sid="3071253343837868" type="TurretUI" />
-                <action id="-10" name="Add to" sid="4608311544071814" type="System">
-                    <param id="0" name="Variable">waveNumber</param>
-                    <param id="1" name="Value">1</param>
-                </action>
-                <action id="-9" name="Set value" sid="592912688685779" type="System">
-                    <param id="0" name="Variable">gameTimer</param>
-                    <param id="1" name="Value">15</param>
-                </action>
-                <action id="0" name="Call function" sid="2104221864438642" type="Function">
-                    <param id="0" name="Name">&quot;getWaveData&quot;</param>
-                    <param id="1" name="Parameter {n}"></param>
-                </action>
-            </actions>
-        </event-block>
         <event-block sid="4285940993256459">
             <conditions>
                 <condition id="1" name="Is overlapping another object" sid="6333823042358009" type="Support">
@@ -1944,7 +2132,7 @@
                 </action>
             </actions>
         </event-block>
-        <event-block sid="7271987547134293">
+        <event-block disabled="1" sid="7271987547134293">
             <conditions>
                 <condition id="-14" name="Compare variable" sid="2756172649020087" type="System">
                     <param id="0" name="Variable">playerHealth</param>
