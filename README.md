@@ -17,7 +17,7 @@ API usage:
 
 'matches' was used to get all of the data to be used in the game. For each match, information about the champions, the builds, and the mercenary purchases and upgrades were collected for each team and then formatted into a python dictionary, and saved as a JSON file.
 
-"db_write.py" is the program that uses the methods from "riot_API_data.py" to save static data in JSON and store into the database. The methods will saved a list of all the item names, IDs, image URIs, champion names, IDs, image URIs, list of match data outlined above, which is then reformatted to be used in the game. All of these files are stored in the local database.
+"db_write.py" is the program that uses the methods from "riot_API_data.py" to save static data in JSON and store into the database. The methods will saved a list of all the item names, IDs, image URIs, champion names, IDs, image URIs, list of match data outlined above, which is then reformatted to be used in the game. All of these files are stored in the local database, and other necessary modifications of the data for the game.
 
 "data_aggr.py" is the program that handles the data aggregation for the data from "riot_API_data.py." Although I originally intended to perform data analytics by collecting winrates of champions and Black Market Brawler-specific entities, I switched focus to handling the match datas as it seemed more intuitive for game implementation. Hence the progam handles reformatting the matches data into the game format.
 
