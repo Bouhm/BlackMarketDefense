@@ -36,8 +36,8 @@ The game was programmed using the Construct 2 game engine (visual programming). 
 #### How the data is implemented into the game
 Out of 20 waves (subject to change) total, each wave is picked randomly from a list of match data. So there are 20 lists of match data, each match sorted into a wave based on the mercenaries and upgrades purchased in the game such that stronger mercenaries spawn at later waves. With more matches to randomly choose from, the more you can test your random skills and the more variety you get with each play through of the game. For a visual representation of this:
 
-Match Data --(get mercenary data)--> Wave Sorting Algorithm --> Dictionary of Waves (Wave#: Match Data) --> Game Data
-Game --> From Game Data, grab a random match from list of mathes of current Wave# --> Generate wave for that wave number
+Match Data → Wave Sorting Algorithm → Dictionary of Waves (Wave#: Match Data) → Game Data
+Game → From game data, grab a random match from list of matches of current Wave# → Generate wave for that wave number
 
 The blue team represents towers that can be purchased (champions) and mercenaries that can be hired and spawned (the team's purchased mercenaries and respective upgrades);
 The red team represents the waves that spawn (including both champions and mercenaries that were purchased, along with respective upgrades).
