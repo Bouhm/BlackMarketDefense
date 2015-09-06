@@ -19,7 +19,7 @@ API usage:
 
 "db_write.py" is the program that uses the methods from "riot_API_data.py" to save static data in JSON and store into the database. The methods will saved a list of all the item names, IDs, image URIs, champion names, IDs, image URIs, list of match data outlined above, which is then reformatted to be used in the game. All of these files are stored in the local database, and other necessary modifications of the data for the game.
 
-"data_aggr.py" is the program that handles the data aggregation for the data from "riot_API_data.py." Although I originally intended to perform data analytics by collecting winrates of champions and Black Market Brawler-specific entities, I switched focus to handling the match datas as it seemed more intuitive for game implementation. Hence the progam handles reformatting the matches data into the game format.
+"data_aggr.py" is the program that handles the data aggregation for the data from "riot_API_data.py." Some data analytics by collecting winrates of champions and Black Market Brawler-specific entities are performed for the game, but mainly focuses on handling the match datas more intuitive for game implementation like reformatting the matches data into a format more easily read through the game engine.
 
 If any of the python code style looks familiar (particularly the part for fetching API url), it's because I used a redditor's guide to using Riot Games API to help get started. Other than that, everything else is 100% my own work.
 
@@ -42,6 +42,6 @@ Game → From game data, grab a random match from list of matches of current Wav
 
 The blue team represents towers that can be purchased (champions) and mercenaries that can be hired and spawned (the team's purchased mercenaries and respective upgrades);
 The red team represents the waves that spawn (including both champions and mercenaries that were purchased, along with respective upgrades).
-All of the upgrades that were purchased for the mercenaries were considered to translate into individual stats to use as much information from the match data as possible. 
+All of the upgrades that were purchased for the mercenaries were considered to translate into individual stats to use as much information from the match data as possible. There are also bosses that are determined by winrate statistics from the data.
 
 The blue team champions, played as towers, are sorted into 4 categories, ranged, magic, melee, and support, all sorted in the game engine under my discretion, and have different tower stats/dps/effects. More details can be found in the game. Not all of the features I planned have been implemented yet, and I'm looking forward to make more progress on this project!
