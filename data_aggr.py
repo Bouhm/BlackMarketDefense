@@ -12,7 +12,7 @@ import time
 
 def main():
     api = RiotAPIData(keys.API_KEY)
-    pprint.pprint(get_game_data_format(api, 'NA', 5))
+    pprint.pprint(get_game_data_format(api, 'NA', 100, 20))
 
 #Convert all ids to names in python dictionary, key value pairs are appropriately replaced
 def id_to_name(dict):
@@ -43,15 +43,17 @@ def id_to_name(dict):
     return dict
 
 #From match data get game data
-def get_game_data_format(api, region, num):
+def get_game_data_format(api, region, num, totalWaves):
     with open("dataset/" + region + ".json") as file:
         matches_list = json.load(file)
     matches = random.sample(range(1,10000), num)
     matches_data = []
     all_waves = {}
-    for match in matches:
+
+    for x in range (1, 10000):
+    #for match in matches:
         try:
-            matches_data.append(id_to_name(api.get_BMB_data(matches_list[match])))
+            matches_data.append(id_to_name(api.get_BMB_data(matches_list[x])))
             time.sleep(1.3)
         except:
             pass
@@ -82,78 +84,147 @@ def get_game_data_format(api, region, num):
             if 'name' in champion.keys():
                 towers.append(champion['name'])
 
-        #WAVE SORTING ALGORITHM (BASED ON UPGRADES & NUMBER OF MERCS AND RESPECTIVE DISTRIBUTION (ROUGH))
+        #WAVE SORTING ALGORITHM (BASED ON UPGRADES & NUMBER OF MERCS AND RESPECTIVE DISTRIBUTION (SUPER BASIC))
+        #Currently only optimized for 20
         if 'Ironback' in wave.keys():
             count += len(wave['Ironback'])
             for upgrade in wave['Ironback']:
                 stats += upgrade['offense'] + upgrade['defense']
-                upgrades += upgrade['upgrade']
+                upgrades += upgrade['upgrade'] * 2
         if 'Razorfin' in wave.keys():
             count += len(wave['Razorfin'])
             for upgrade in wave['Razorfin']:
                 stats += upgrade['offense'] + upgrade['defense']
-                upgrades += upgrade['upgrade']
+                upgrades += upgrade['upgrade'] * 2
         if 'Ocklepod' in wave.keys():
             count += len(wave['Ocklepod'])
             for upgrade in wave['Ocklepod']:
                 stats += upgrade['offense'] + upgrade['defense']
-                upgrades += upgrade['upgrade']
+                upgrades += upgrade['upgrade'] * 2
         if 'Plundercrab' in wave.keys():
             count += len(wave['Plundercrab'])
             for upgrade in wave['Plundercrab']:
                 stats += upgrade['offense'] + upgrade['defense']
-                upgrades += upgrade['upgrade']
+                upgrades += upgrade['upgrade'] * 2
 
-        if count != 0:
-            if upgrades/count < 0.5:
-                num = math.floor(stats / 6) #1 - 5
-                if num == 0:
-                    num += 1
-                k = "wave" + str(num)
-            elif upgrades/count < 1.5:
-                num = 5 + math.floor(stats / 6) #6 - 10
-                if num == 0:
-                    num += 1
-                k = "wave" + str(num)
-            elif upgrades/count < 2.5:
-                num = 10 + math.floor(stats / 6) #11 - 15
-                if num == 0:
-                    num += 1
-                k = "wave" + str(num)
-            else:
-                num = 15 + math.floor(stats / 6) #16 - 20
-                if num == 0:
-                    num += 1
-                k = "wave" + str(num)
+        if count > 3:
+            x = 0
+            for waveNum in range (1, totalWaves + 1):
+                if stats + upgrades <= x:
+                    k = "wave" + str(waveNum)
+                    break
+                x += 3
             waves.update({'wave': merc_wave})
             waves.update({'towers': towers})
             waves.update({'matchId': match['matchId']})
-        if k in all_waves.keys():
-            all_waves[k].append(waves)
-        else:
-            all_waves.update({k: [waves]})
+            if k in all_waves.keys():
+                all_waves[k].append(waves)
+            else:
+                all_waves.update({k: [waves]})
     return json.dumps(all_waves)
 
 #For data analysis
-def winrate_data(api, match_id):
-    BMB_data = id_to_name(api.get_BMB_data(match_id))
+def winrate_data(region):
+    with open("database/items.json") as file:
+        item_data = json.load(file)
+    with open("database/champions.json") as file:
+        champ_data = json.load(file)
+    with open("database/matches_data_" + region + ".json", 'r') as file:
+        BMB_data = json.load(file)
     champion_wr = {}
     mercenary_wr = {}
-    for key, value in BMB_data.items():
-        mercs = []
-        for item in value:
-            wins = 0
-            if key == 'winner':
-                wins += 1
+    item_wr = {}
+    #mercs = {"3611":"Razorfin", "3612":"Ironback", "3613":"Plundercrab", "3614":"Ocklepod"}
+    for match in BMB_data:
+        for x in range (1, 3):
+            if match[str(x * 100)]['winner'] == "True":
+                win = 1
+            else:
+                win = 0
 
-            if item == 'champions':
-                for champ in value[item]:
-                    champion_wr.update({champ['name']:{'wins': wins, 'games': 1}})
-            elif item != 'teamId':
-                mercs.append(item)
-        mercenary_wr.update({mercs:{'wins': wins, 'games': 1}})
-
-    return {'champions':champion_wr, 'mercenaries':mercenary_wr}
+            for champion in match[str(x * 100)]['champions']:
+                for champ in champ_data:
+                    if champion['championId'] == champ['championId']:
+                        if champ['name'] not in champion_wr.keys():
+                            champion_wr.update({champ['name']:{'wins':1, 'games':1, 'winrate':win}})
+                        else:
+                            champion_wr[champ['name']]['wins'] += win
+                            champion_wr[champ['name']]['games'] += 1
+                            champion_wr[champ['name']]['winrate'] = champion_wr[champ['name']]['wins']/champion_wr[champ['name']]['games']
+                for item in champion['items']:
+                    for item_name in item_data:
+                        if item == item_name['itemId']:
+                            if item_name['name'] not in item_wr.keys():
+                                item_wr.update({item_name['name']:{'wins':1, 'games':1, 'winrate':win}})
+                            else:
+                                item_wr[item_name['name']]['wins'] += win
+                                item_wr[item_name['name']]['games'] += 1
+                                item_wr[item_name['name']]['winrate'] = item_wr[item_name['name']]['wins']/item_wr[item_name['name']]['games']
+            if '3611' in match[str(x * 100)].keys():
+                for stats in match[str(x * 100)]['3611']:
+                    k = "off: " + str(stats['offense']) + ", def: " + str(stats['defense']) + ", upg: " + str(stats['upgrade'])
+                    if 'Razorfin' not in mercenary_wr.keys():
+                        mercenary_wr.update({'Razorfin':{'wins':win, 'games':1, 'winrate':win, k:{'wins':win, 'games':1, 'winrate':win}}})
+                    else:
+                        mercenary_wr['Razorfin']['wins'] += win
+                        mercenary_wr['Razorfin']['games'] += 1
+                        mercenary_wr['Razorfin']['winrate'] = mercenary_wr['Razorfin']['wins']/mercenary_wr['Razorfin']['games']
+                        if k not in  mercenary_wr['Razorfin'].keys():
+                            mercenary_wr['Razorfin'].update({k:{'wins':win, 'games':1, 'winrate':win}})
+                        else:
+                            mercenary_wr['Razorfin'][k]['wins'] += win
+                            mercenary_wr['Razorfin'][k]['games'] += 1
+                            mercenary_wr['Razorfin'][k]['winrate'] = mercenary_wr['Razorfin'][k]['wins']/ mercenary_wr['Razorfin'][k]['games']
+                #mercenary_wr['Razorfin'][k].sort(key=lambda e: e['winrate'])
+            if '3612' in match[str(x * 100)].keys():
+                for stats in match[str(x * 100)]['3612']:
+                    k = "off: " + str(stats['offense']) + ", def: " + str(stats['defense']) + ", upg: " + str(stats['upgrade'])
+                    if 'Ironback' not in mercenary_wr.keys():
+                        mercenary_wr.update({'Ironback':{'wins':win, 'games':1, 'winrate':win, k:{'wins':win, 'games':1, 'winrate':win}}})
+                    else:
+                        mercenary_wr['Ironback']['wins'] += win
+                        mercenary_wr['Ironback']['games'] += 1
+                        mercenary_wr['Ironback']['winrate'] = mercenary_wr['Ironback']['wins']/mercenary_wr['Ironback']['games']
+                        if k not in  mercenary_wr['Ironback'].keys():
+                            mercenary_wr['Ironback'].update({k:{'wins':win, 'games':1, 'winrate':win}})
+                        else:
+                            mercenary_wr['Ironback'][k]['wins'] += win
+                            mercenary_wr['Ironback'][k]['games'] += 1
+                            mercenary_wr['Ironback'][k]['winrate'] = mercenary_wr['Ironback'][k]['wins']/ mercenary_wr['Ironback'][k]['games']
+                    #mercenary_wr['Ironback'][k].sort(key=lambda e: e['winrate'])
+            if '3613' in match[str(x * 100)].keys():
+                for stats in match[str(x * 100)]['3613']:
+                    k = "off: " + str(stats['offense']) + ", def: " + str(stats['defense']) + ", upg: " + str(stats['upgrade'])
+                    if 'Plundercrab' not in mercenary_wr.keys():
+                        mercenary_wr.update({'Plundercrab':{'wins':win, 'games':1, 'winrate':win, k:{'wins':win, 'games':1, 'winrate':win}}})
+                    else:
+                        mercenary_wr['Plundercrab']['wins'] += win
+                        mercenary_wr['Plundercrab']['games'] += 1
+                        mercenary_wr['Plundercrab']['winrate'] = mercenary_wr['Plundercrab']['wins']/mercenary_wr['Plundercrab']['games']
+                        if k not in  mercenary_wr['Plundercrab'].keys():
+                            mercenary_wr['Plundercrab'].update({k:{'wins':win, 'games':1, 'winrate':win}})
+                        else:
+                            mercenary_wr['Plundercrab'][k]['wins'] += win
+                            mercenary_wr['Plundercrab'][k]['games'] += 1
+                            mercenary_wr['Plundercrab'][k]['winrate'] = mercenary_wr['Plundercrab'][k]['wins']/ mercenary_wr['Plundercrab'][k]['games']
+                #mercenary_wr['Plundercrab'][k].sort(key=lambda e: e['winrate'])
+            if '3614' in match[str(x * 100)].keys():
+                for stats in match[str(x * 100)]['3614']:
+                    k = "off: " + str(stats['offense']) + ", def: " + str(stats['defense']) + ", upg: " + str(stats['upgrade'])
+                    if 'Ocklepod' not in mercenary_wr.keys():
+                        mercenary_wr.update({'Ocklepod':{'wins':win, 'games':1, 'winrate':win, k:{'wins':win, 'games':1, 'winrate':win}}})
+                    else:
+                        mercenary_wr['Ocklepod']['wins'] += win
+                        mercenary_wr['Ocklepod']['games'] += 1
+                        mercenary_wr['Ocklepod']['winrate'] = mercenary_wr['Ocklepod']['wins']/mercenary_wr['Ocklepod']['games']
+                        if k not in  mercenary_wr['Ocklepod'].keys():
+                            mercenary_wr['Ocklepod'].update({k:{'wins':win, 'games':1, 'winrate':win}})
+                        else:
+                            mercenary_wr['Ocklepod'][k]['wins'] += win
+                            mercenary_wr['Ocklepod'][k]['games'] += 1
+                            mercenary_wr['Ocklepod'][k]['winrate'] = mercenary_wr['Ocklepod'][k]['wins']/ mercenary_wr['Ocklepod'][k]['games']
+                #mercenary_wr['Ocklepod'][k].sort(key=lambda e: e['winrate'])
+    return ({'champions':champion_wr, 'mercenaries':mercenary_wr, 'items':item_wr})
 
 def match_ids(region):
     return
