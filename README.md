@@ -3,6 +3,8 @@ For Riot Games API Challenge 2.0
 
 Try the game out here: https://Bouhm.github.io/BlackMarketDefense
 
+Mirror site: http://blackmarketdefense.bitballoon.com/
+
 For best results try it on Google Chrome browser.
 
 

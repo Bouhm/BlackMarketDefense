@@ -12,3 +12,4 @@ game/*.capx
 game/Assets
 database/champ_img
 database/item_img
+.htaccess
