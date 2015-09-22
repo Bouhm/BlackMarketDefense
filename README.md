@@ -1,7 +1,7 @@
-# Black Market Defense (League of Legends fanmade game)
+﻿# Black Market Defense (League of Legends fanmade game)
 For Riot Games API Challenge 2.0
 
-Try the game out here: http://blackmarketdefense.bitballoon.com/
+Try the game out here: https://Bouhm.github.io/BlackMarketDefense
 
 For best results try it on Google Chrome browser.
 

@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-#1442809228
+#1442942662
 data.js
 c2runtime.js
 jquery-2.1.1.min.js
@@ -79,8 +79,10 @@ images/towertxt-sheet0.png
 images/path.png
 images/supportmerc-sheet0.png
 images/boss2-sheet0.png
+images/boss2-sheet1.png
 images/gameinfobutton-sheet0.png
 images/boss1-sheet0.png
+images/boss1-sheet1.png
 images/x-sheet0.png
 images/healthbarplayer-sheet0.png
 images/lvltxt.png
@@ -90,10 +92,12 @@ images/towerrange-sheet0.png
 images/placehighlight-sheet0.png
 images/blackoutg-sheet0.png
 images/boss3-sheet0.png
+images/boss3-sheet1.png
 images/bossui-sheet0.png
 images/bossui-sheet1.png
 images/bossui-sheet2.png
 images/boss4a-sheet0.png
+images/boss4a-sheet1.png
 images/boss4b-sheet0.png
 images/boss4c-sheet0.png
 icon-16.png
