@@ -11,9 +11,6 @@
                 <action id="3" name="Start" sid="8474926262584607" type="playButt">
                     <param id="0" name="From">1</param>
                 </action>
-                <action id="3" name="Start" sid="6366118783408246" type="aboutButt">
-                    <param id="0" name="From">1</param>
-                </action>
             </actions>
         </event-block>
         <event-block sid="1197069962788238">
@@ -29,86 +26,6 @@
                     <param id="0" name="Layout">&quot;game&quot;</param>
                 </action>
             </actions>
-        </event-block>
-        <event-block sid="1377532129292972">
-            <conditions>
-                <condition id="7" name="Cursor is over object" sid="7707802565804802" type="Mouse">
-                    <param id="0" name="Object">aboutButt</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="-15" name="Set visible" sid="6369656275553547" type="lightbox">
-                    <param id="0" name="Visibility">1</param>
-                </action>
-                <action id="-15" name="Set visible" sid="3987067201020063" type="WIP">
-                    <param id="0" name="Visibility">1</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="2237915413176745">
-            <conditions>
-                <condition id="7" inverted="1" name="Cursor is over object" sid="5073513213454241" type="Mouse">
-                    <param id="0" name="Object">aboutButt</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action id="-15" name="Set visible" sid="2513565006804751" type="lightbox">
-                    <param id="0" name="Visibility">0</param>
-                </action>
-                <action id="-15" name="Set visible" sid="8709858865778098" type="WIP">
-                    <param id="0" name="Visibility">0</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="9059839378021584">
-            <conditions>
-                <condition id="-20" name="Is on mobile device" sid="6811878376349177" type="System" />
-            </conditions>
-            <actions />
-            <sub-events>
-                <event-block sid="5301053059805898">
-                    <conditions>
-                        <condition id="16" name="On hold over object" sid="8221080658639703" type="Touch">
-                            <param id="0" name="Object">aboutButt</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-15" name="Set visible" sid="5636767198097615" type="lightbox">
-                            <param id="0" name="Visibility">1</param>
-                        </action>
-                        <action id="-15" name="Set visible" sid="3064430807983694" type="WIP">
-                            <param id="0" name="Visibility">1</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="9537134981508053">
-                    <conditions>
-                        <condition id="4" inverted="1" name="Is touching object" sid="3257904376780321" type="Touch">
-                            <param id="0" name="Object">aboutButt</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-15" name="Set visible" sid="5566630508527383" type="lightbox">
-                            <param id="0" name="Visibility">0</param>
-                        </action>
-                        <action id="-15" name="Set visible" sid="3746683266353646" type="WIP">
-                            <param id="0" name="Visibility">0</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="7274027430480445">
-                    <conditions>
-                        <condition id="17" name="On tap object" sid="9810570106112242" type="Touch">
-                            <param id="0" name="Object">playButt</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-25" name="Go to layout (by name)" sid="3741713432448598" type="System">
-                            <param id="0" name="Layout">&quot;game&quot;</param>
-                        </action>
-                    </actions>
-                </event-block>
-            </sub-events>
         </event-block>
     </events>
 </c2eventsheet>
