@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>mazeMap</name>
+    <events>
+        <include>basicMap</include>
+        <event-block sid="4936938846282475">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="9464522377691313" type="System" />
+            </conditions>
+            <actions>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="3217063185689885" type="mercenary">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="6167624631431925" type="champion">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="6241939704568333" type="Boss1">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="566774013061517" type="Boss2">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="2047643184618744" type="Boss3">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="7352563571758165" type="Boss4a">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="1547443440737032" type="Boss4b">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action behavior="Pathfinding" id="5" name="Add obstacle" sid="4513998991415373" type="Boss4c">
+                    <param id="0" name="Obstacle">tower</param>
+                </action>
+                <action id="-9" name="Set value" sid="8378920619874312" type="System">
+                    <param id="0" name="Variable">gold</param>
+                    <param id="1" name="Value">10000</param>
+                </action>
+                <action behavior="Solid" id="0" name="Set enabled" sid="9111209890851288" type="Wall">
+                    <param id="0" name="State">0</param>
+                </action>
+                <action behavior="Solid" id="0" name="Set enabled" sid="1382647614238224" type="tower">
+                    <param id="0" name="State">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="7632401150725841">
+            <conditions>
+                <condition id="-14" name="Compare variable" sid="8382038849920256" type="System">
+                    <param id="0" name="Variable">mouseMode</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">1</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="4162100575861691">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="2110090338020082" type="Keyboard">
+                            <param id="0" name="Key">27 (Esc)</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-15" name="Set visible" sid="6617684005326399" type="highlight">
+                            <param id="0" name="Visibility">0</param>
+                        </action>
+                        <action id="-15" name="Set visible" sid="7851406919339264" type="towerRange">
+                            <param id="0" name="Visibility">0</param>
+                        </action>
+                        <action id="-3" name="Set position" sid="8698766276358501" type="towerUI">
+                            <param id="0" name="X">towerUI.prevX</param>
+                            <param id="1" name="Y">towerUI.prevY</param>
+                        </action>
+                        <action id="-16" name="Set opacity" sid="2639799175288959" type="towerUI">
+                            <param id="0" name="Opacity">100</param>
+                        </action>
+                        <action id="-10" name="Set value" sid="2627179505896914" type="towerUI">
+                            <param id="0" name="Instance variable">isSelected</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="6207998789044084" type="System">
+                            <param id="0" name="Variable">mouseMode</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="5184178033329396">
+                    <conditions>
+                        <condition id="7" inverted="1" name="Cursor is over object" sid="5079123215024481" type="Mouse">
+                            <param id="0" name="Object">tower</param>
+                        </condition>
+                        <condition id="7" name="Cursor is over object" sid="9430799142613169" type="Mouse">
+                            <param id="0" name="Object">Wall</param>
+                        </condition>
+                        <condition id="-7" name="Compare instance variable" sid="5675370137305195" type="towerUI">
+                            <param id="0" name="Instance variable">isSelected</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Set position" sid="1015711271347539" type="towerUI">
+                            <param id="0" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
+                            <param id="1" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                        </action>
+                        <action id="-16" name="Set opacity" sid="8379679893027302" type="towerUI">
+                            <param id="0" name="Opacity">50</param>
+                        </action>
+                        <action id="-15" name="Set visible" sid="9954671106393576" type="highlight">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
+                        <action id="-15" name="Set visible" sid="6199666943170765" type="towerRange">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
+                        <action id="-4" name="Set position to another object" sid="5084689824072462" type="towerRange">
+                            <param id="0" name="Object">towerUI</param>
+                            <param id="1" name="Image point (optional)">0</param>
+                        </action>
+                        <action id="-7" name="Set size" sid="1919063826308848" type="towerRange">
+                            <param id="0" name="Width">towerUI.range</param>
+                            <param id="1" name="Height">towerUI.range</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="7507821814495333">
+                    <conditions>
+                        <condition id="-15" name="Pick nearest/furthest" sid="8731896117647433" type="highlight">
+                            <param id="0" name="Which">0</param>
+                            <param id="1" name="X">Mouse.X</param>
+                            <param id="2" name="Y">Mouse.Y</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Set position" sid="7316602560825413" type="highlight">
+                            <param id="0" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
+                            <param id="1" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="9049328027283477">
+                    <conditions>
+                        <condition id="6" name="On object clicked" sid="1925996008261619" type="Mouse">
+                            <param id="0" name="Mouse button">0</param>
+                            <param id="1" name="Click type">0</param>
+                            <param id="2" name="Object clicked">Wall</param>
+                        </condition>
+                        <condition id="7" inverted="1" name="Cursor is over object" sid="9483645835193837" type="Mouse">
+                            <param id="0" name="Object">tower</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" sid="6313017406145687" type="System">
+                            <param id="0" name="Variable">gold</param>
+                            <param id="1" name="Comparison">5</param>
+                            <param id="2" name="Value">towerUI.cost</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Create object" sid="1113726803802861" type="System">
+                            <param id="0" name="Object to create">tower</param>
+                            <param id="1" name="Layer">&quot;Game&quot;</param>
+                            <param id="2" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
+                            <param id="3" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                        </action>
+                        <action id="4" name="Set animation" sid="2424872079577261" type="tower">
+                            <param id="0" name="Animation">placeAnim</param>
+                            <param id="1" name="From">1</param>
+                        </action>
+                        <action id="-7" name="Set size" sid="9834368065653783" type="tower">
+                            <param id="0" name="Width">32</param>
+                            <param id="1" name="Height">32</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="1014222072253254" type="System">
+                            <param id="0" name="Variable">mouseMode</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                        <action id="-10" name="Set value" sid="8911758462438409" type="tower">
+                            <param id="0" name="Instance variable">cost</param>
+                            <param id="1" name="Value">placeCost</param>
+                        </action>
+                        <action id="-11" name="Subtract from" sid="3057834530086427" type="System">
+                            <param id="0" name="Variable">gold</param>
+                            <param id="1" name="Value">placeCost</param>
+                        </action>
+                        <action id="-10" name="Add to" sid="2241667596319869" type="System">
+                            <param id="0" name="Variable">towerCount</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="-15" name="Set visible" sid="6110073078984629" type="highlight">
+                            <param id="0" name="Visibility">0</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="3448389249716373">
+                            <conditions>
+                                <condition id="2" name="Is playing" sid="2623676344825434" type="towerUI">
+                                    <param id="0" name="Animation">placeAnim</param>
+                                </condition>
+                                <condition id="-4" name="Trigger once while true" sid="8389852494842539" type="System" />
+                                <condition disabled="1" id="-15" name="Pick nearest/furthest" sid="2810745203608574" type="towerUI">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="X">highlight.X</param>
+                                    <param id="2" name="Y">highlight.Y</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Set value" sid="6100737984188218" type="tower">
+                                    <param id="0" name="Instance variable">type</param>
+                                    <param id="1" name="Value">towerUI.type</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="4869130259317212" type="tower">
+                                    <param id="0" name="Instance variable">damage</param>
+                                    <param id="1" name="Value">towerUI.damage</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="9855660890068465" type="tower">
+                                    <param id="0" name="Instance variable">attackSpeed</param>
+                                    <param id="1" name="Value">towerUI.attackSpeed</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="9598813362672964" type="tower">
+                                    <param id="0" name="Instance variable">range</param>
+                                    <param id="1" name="Value">towerUI.range</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="84141124788701" type="tower">
+                                    <param id="0" name="Instance variable">frUp</param>
+                                    <param id="1" name="Value">towerUI.frUp</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="4336665833884062" type="tower">
+                                    <param id="0" name="Instance variable">slow</param>
+                                    <param id="1" name="Value">towerUI.slow</param>
+                                </action>
+                                <action behavior="Turret" id="7" name="Set rate of fire" sid="2350302178898167" type="tower">
+                                    <param id="0" name="Rate of fire">tower.attackSpeed</param>
+                                </action>
+                                <action behavior="Turret" id="6" name="Set range" sid="68302648752869" type="tower">
+                                    <param id="0" name="Range">tower.range/2</param>
+                                </action>
+                                <action id="-9" name="Destroy" sid="3155771559385426" type="towerUI" />
+                                <action id="-15" name="Set visible" sid="7945563779009211" type="highlight">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block any="1" sid="4343208321133522">
+                    <conditions>
+                        <condition id="7" inverted="1" name="Cursor is over object" sid="6065929905854716" type="Mouse">
+                            <param id="0" name="Object">Wall</param>
+                        </condition>
+                        <condition id="7" name="Cursor is over object" sid="7139626405445699" type="Mouse">
+                            <param id="0" name="Object">tower</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-15" name="Set visible" sid="3078065959612426" type="highlight">
+                            <param id="0" name="Visibility">0</param>
+                        </action>
+                        <action id="-15" name="Set visible" sid="8422998212848726" type="towerRange">
+                            <param id="0" name="Visibility">0</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="3151621769782243">
+                            <conditions>
+                                <condition id="1" name="On any click" sid="43249638792276" type="Mouse" />
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="8203932291244661" type="System">
+                                    <param id="0" name="Variable">mouseMode</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="5806923835594222">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="7767690075850871" type="towerUI">
+                                            <param id="0" name="Instance variable">isSelected</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="7542832737314351" type="towerUI">
+                                            <param id="0" name="X">towerUI.prevX</param>
+                                            <param id="1" name="Y">towerUI.prevY</param>
+                                        </action>
+                                        <action id="-16" name="Set opacity" sid="8429936516384653" type="towerUI">
+                                            <param id="0" name="Opacity">100</param>
+                                        </action>
+                                        <action id="-10" name="Set value" sid="5011879081184865" type="towerUI">
+                                            <param id="0" name="Instance variable">isSelected</param>
+                                            <param id="1" name="Value">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-block>
+    </events>
+</c2eventsheet>

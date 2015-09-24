@@ -1,5 +1,9 @@
 ﻿CACHE MANIFEST
+<<<<<<< master
 #1442943792
+=======
+#1443104503
+>>>>>>> local
 data.js
 c2runtime.js
 jquery-2.1.1.min.js
@@ -100,6 +104,13 @@ images/boss4a-sheet0.png
 images/boss4a-sheet1.png
 images/boss4b-sheet0.png
 images/boss4c-sheet0.png
+<<<<<<< master
+=======
+images/arrow-sheet0.png
+images/tutorial-sheet0.png
+images/tutorial-sheet1.png
+images/next-sheet0.png
+>>>>>>> local
 icon-16.png
 icon-32.png
 icon-114.png
