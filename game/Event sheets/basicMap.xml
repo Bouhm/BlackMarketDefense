@@ -170,6 +170,11 @@
                                 <action id="5" name="Set frame" sid="5159160872001194" type="gate">
                                     <param id="0" name="Frame number">gate.AnimationFrame + 1</param>
                                 </action>
+                                <action id="0" name="Spawn another object" sid="6214111930941958" type="Boss1">
+                                    <param id="0" name="Object">EnemyDeadParticles</param>
+                                    <param id="1" name="Layer">&quot;Game&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
                             </actions>
                             <sub-events>
                                 <event-block sid="9803945114778202">
@@ -4981,7 +4986,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="8745392778867867" type="mercenary">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="9315083258353677" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
@@ -5108,7 +5113,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="8703890466707795" type="mercenary">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade*1.3) / 10)) + waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade*1.3) / 10)) + waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="613208148224661" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
@@ -5235,7 +5240,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="302570297404135" type="mercenary">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="1003809379788865" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
@@ -5362,7 +5367,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="28323614366973" type="mercenary">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/2) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade*1.3) / 10))+ waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/2) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade*1.3) / 10))+ waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="6644838915018561" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
@@ -5465,7 +5470,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="9099888909334601" type="champion">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round(random(waveNumber * 10, (waveNumber + 1) * 10)) + waveNumber * 3</param>
+                                                    <param id="1" name="Value">round(random(waveNumber * 10, (waveNumber + 1) * 10)) + waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="4117634835565102" type="champUI">
                                                     <param id="0" name="Instance variable">DPS</param>
@@ -5589,7 +5594,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="5332910417567915" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="2307601246383838" type="mercUI">
                                                     <param id="0" name="Instance variable">cost</param>
@@ -5648,7 +5653,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="8466686666308305" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="2387587715671423" type="mercUI">
                                                     <param id="0" name="Instance variable">cost</param>
@@ -5707,7 +5712,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="1960804607811844" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/3) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="5302075855530943" type="mercUI">
                                                     <param id="0" name="Instance variable">cost</param>
@@ -5766,7 +5771,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="9605824075640937" type="mercUI">
                                                     <param id="0" name="Instance variable">DPS</param>
-                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/2) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 3</param>
+                                                    <param id="1" name="Value">round((((waveNumber+1)*15)/2) * ((10 + mercenary.offense*2)/10) * ((10 + mercenary.upgrade) / 10))+ waveNumber * 8</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="2515416798395468" type="mercUI">
                                                     <param id="0" name="Instance variable">cost</param>
@@ -7799,7 +7804,7 @@
                                                         <condition id="-22" name="Else" sid="9834947243886185" type="System" />
                                                     </conditions>
                                                     <actions>
-                                                        <action id="0" name="Set text" sid="2401181270518071" type="healthText">
+                                                        <action disabled="1" id="0" name="Set text" sid="2401181270518071" type="healthText">
                                                             <param id="0" name="Text">&quot;Mastery: +1&quot;</param>
                                                         </action>
                                                         <action id="-11" name="Add to" sid="7654731524175844" type="tower">
@@ -8396,20 +8401,11 @@
                                         <condition id="2" name="Is playing" sid="4500738743636465" type="tower">
                                             <param id="0" name="Animation">towerUI.AnimationName</param>
                                         </condition>
-                                        <condition id="-7" name="Compare instance variable" sid="9815356246948386" type="towerUI">
-                                            <param id="0" name="Instance variable">priceIncreased</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">0</param>
-                                        </condition>
-                                        <condition id="-4" name="Trigger once while true" sid="7461900608664165" type="System" />
+                                        <condition disabled="1" id="-4" name="Trigger once while true" sid="7461900608664165" type="System" />
                                     </conditions>
                                     <actions>
                                         <action id="0" name="Set text" sid="8645174504937616" type="healthText">
                                             <param id="0" name="Text">&quot;Mastery: +1&quot;</param>
-                                        </action>
-                                        <action id="-11" name="Add to" sid="4358377324400208" type="towerUI">
-                                            <param id="0" name="Instance variable">cost</param>
-                                            <param id="1" name="Value">round(towerUI.cost / 5)</param>
                                         </action>
                                         <action id="0" name="Set text" sid="6774816170763399" type="cost">
                                             <param id="0" name="Text">&quot;Cost: &quot; &amp; towerUI.cost &amp; &quot;g&quot;</param>
@@ -8417,12 +8413,33 @@
                                         <action id="4" name="Set font color" sid="377277112039451" type="cost">
                                             <param id="0" name="Color">rgb(255, 255, 0)</param>
                                         </action>
-                                        <action id="-10" name="Set value" sid="937594446096424" type="towerUI">
-                                            <param id="0" name="Instance variable">priceIncreased</param>
-                                            <param id="1" name="Value">1</param>
-                                        </action>
                                     </actions>
                                     <sub-events>
+                                        <event-block sid="7334906523431521">
+                                            <conditions>
+                                                <condition id="-7" name="Compare instance variable" sid="6006689516311691" type="towerUI">
+                                                    <param id="0" name="Instance variable">priceIncreased</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">0</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-11" name="Add to" sid="4358377324400208" type="towerUI">
+                                                    <param id="0" name="Instance variable">cost</param>
+                                                    <param id="1" name="Value">round(towerUI.cost / 5)</param>
+                                                </action>
+                                                <action id="-10" name="Set value" sid="937594446096424" type="towerUI">
+                                                    <param id="0" name="Instance variable">priceIncreased</param>
+                                                    <param id="1" name="Value">1</param>
+                                                </action>
+                                                <action id="0" name="Set text" sid="5946464341996355" type="cost">
+                                                    <param id="0" name="Text">&quot;Cost: &quot; &amp; towerUI.cost &amp; &quot;g&quot;</param>
+                                                </action>
+                                                <action id="4" name="Set font color" sid="6217908883201326" type="cost">
+                                                    <param id="0" name="Color">rgb(255, 255, 0)</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
                                         <event-block sid="311425336402701">
                                             <conditions>
                                                 <condition id="-7" name="Compare instance variable" sid="4447713356417132" type="tower">
