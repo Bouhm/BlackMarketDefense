@@ -69,7 +69,7 @@
             <sub-events>
                 <event-block sid="5301053059805898">
                     <conditions>
-                        <condition id="17" name="On tap object" sid="8221080658639703" type="Touch">
+                        <condition id="4" name="Is touching object" sid="8221080658639703" type="Touch">
                             <param id="0" name="Object">aboutButt</param>
                         </condition>
                     </conditions>
@@ -82,10 +82,9 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-block sid="9537134981508053">
+                <event-block sid="9665418827781544">
                     <conditions>
-                        <condition id="14" name="On tap" sid="149532436741202" type="Touch" />
-                        <condition id="-9" name="Is visible" sid="4483371507670604" type="aboutButt" />
+                        <condition id="-22" name="Else" sid="9174563468061628" type="System" />
                     </conditions>
                     <actions>
                         <action id="-15" name="Set visible" sid="5566630508527383" type="lightbox">
