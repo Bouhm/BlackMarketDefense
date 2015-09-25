@@ -3853,11 +3853,11 @@
                         <x>400</x>
                         <y>256</y>
                         <z>0</z>
-                        <width>1186</width>
-                        <height>920</height>
+                        <width>531</width>
+                        <height>319</height>
                         <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.50108695</hotspotY>
+                        <hotspotX>0.500941634</hotspotX>
+                        <hotspotY>0.501567423</hotspotY>
                         <angle>0</angle>
                         <opacity>0.949999988</opacity>
                     </world>

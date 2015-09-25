@@ -3,7 +3,6 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>basicMap</name>
     <events>
-        <variable constant="0" name="tutorialComplete" sid="6814929423594742" static="0" type="number">0</variable>
         <variable constant="0" name="placeAttack" sid="1292365735161822" static="0" type="number">0</variable>
         <variable constant="0" name="isSelected" sid="4711592993549342" static="0" type="number">-1</variable>
         <variable constant="0" name="mercCount" sid="5507355245003137" static="0" type="number">0</variable>
@@ -804,7 +803,7 @@
                                 <action id="-9" name="Destroy" sid="1178954544754496" type="champUI" />
                                 <action id="-10" name="Set value" sid="953970464109531" type="Boss4a">
                                     <param id="0" name="Instance variable">maxHealth</param>
-                                    <param id="1" name="Value">8500</param>
+                                    <param id="1" name="Value">7800</param>
                                 </action>
                                 <action id="-10" name="Set value" sid="6394988158717054" type="Boss4a">
                                     <param id="0" name="Instance variable">health</param>
@@ -815,7 +814,7 @@
                                 </action>
                                 <action id="-10" name="Set value" sid="3057810211845192" type="Boss4b">
                                     <param id="0" name="Instance variable">maxHealth</param>
-                                    <param id="1" name="Value">10000</param>
+                                    <param id="1" name="Value">9000</param>
                                 </action>
                                 <action id="-10" name="Set value" sid="5949826497278585" type="Boss4b">
                                     <param id="0" name="Instance variable">health</param>
@@ -826,7 +825,7 @@
                                 </action>
                                 <action id="-10" name="Set value" sid="3277826122142934" type="Boss4c">
                                     <param id="0" name="Instance variable">maxHealth</param>
-                                    <param id="1" name="Value">12000</param>
+                                    <param id="1" name="Value">11000</param>
                                 </action>
                                 <action id="-10" name="Set value" sid="1532082691094841" type="Boss4c">
                                     <param id="0" name="Instance variable">health</param>
@@ -1720,7 +1719,7 @@
                                     <param id="0" name="Layer">&quot;GG&quot;</param>
                                     <param id="1" name="Visibility">1</param>
                                 </action>
-                                <action id="4" name="Set animation" sid="1605893747388643" type="GG">
+                                <action id="4" name="Set animation" sid="7305320008201395" type="GG">
                                     <param id="0" name="Animation">&quot;Victory&quot;</param>
                                     <param id="1" name="From">1</param>
                                 </action>
@@ -4133,7 +4132,7 @@
                             <param id="1" name="Click type">0</param>
                             <param id="2" name="Object clicked">Pause</param>
                         </condition>
-                        <condition id="-9" inverted="1" name="Layer is visible" sid="2789409726764679" type="System">
+                        <condition id="-9" inverted="1" name="Layer is visible" sid="4442144587563039" type="System">
                             <param id="0" name="Layer">&quot;tutorial&quot;</param>
                         </condition>
                     </conditions>
@@ -4181,7 +4180,7 @@
                             <param id="1" name="Click type">0</param>
                             <param id="2" name="Object clicked">ff</param>
                         </condition>
-                        <condition id="-9" inverted="1" name="Layer is visible" sid="4369576818366284" type="System">
+                        <condition id="-9" inverted="1" name="Layer is visible" sid="8185796740561875" type="System">
                             <param id="0" name="Layer">&quot;tutorial&quot;</param>
                         </condition>
                     </conditions>
@@ -4578,7 +4577,7 @@
                         <action id="0" name="Set text" sid="3615781013292244" type="WaveText">
                             <param id="0" name="Text">&quot;Defeat!&quot;</param>
                         </action>
-                        <action id="4" name="Set animation" sid="7486001580989331" type="GG">
+                        <action id="4" name="Set animation" sid="8321192048771818" type="GG">
                             <param id="0" name="Animation">&quot;Defeat&quot;</param>
                             <param id="1" name="From">1</param>
                         </action>
@@ -4874,7 +4873,7 @@
                                     <sub-events>
                                         <variable constant="0" name="index1" sid="1858048756086005" static="0" type="number">0</variable>
                                         <variable constant="0" name="BaseHealth" sid="3525852590951424" static="0" type="number">385</variable>
-                                        <variable constant="0" name="HealthScale" sid="7617953884802255" static="0" type="number">5</variable>
+                                        <variable constant="0" name="HealthScale" sid="7617953884802255" static="0" type="number">6</variable>
                                         <event-block sid="6417582166649396">
                                             <conditions>
                                                 <condition id="0" name="For each node" sid="3055409031800155" type="XML">
@@ -7240,7 +7239,7 @@
                         <condition id="0" name="On key pressed" sid="6060139067964048" type="Keyboard">
                             <param id="0" name="Key">73 (I)</param>
                         </condition>
-                        <condition id="-9" inverted="1" name="Layer is visible" sid="2333869343407984" type="System">
+                        <condition id="-9" inverted="1" name="Layer is visible" sid="2456362971436691" type="System">
                             <param id="0" name="Layer">&quot;tutorial&quot;</param>
                         </condition>
                     </conditions>
@@ -10770,7 +10769,7 @@
                                 <condition id="17" name="On tap object" sid="5431658759417321" type="Touch">
                                     <param id="0" name="Object">Pause</param>
                                 </condition>
-                                <condition id="-9" inverted="1" name="Layer is visible" sid="6579559447545551" type="System">
+                                <condition id="-9" inverted="1" name="Layer is visible" sid="3571346947538625" type="System">
                                     <param id="0" name="Layer">&quot;tutorial&quot;</param>
                                 </condition>
                             </conditions>
@@ -10816,7 +10815,7 @@
                                 <condition id="17" name="On tap object" sid="464820178911627" type="Touch">
                                     <param id="0" name="Object">ff</param>
                                 </condition>
-                                <condition id="-9" inverted="1" name="Layer is visible" sid="5609449103383101" type="System">
+                                <condition id="-9" inverted="1" name="Layer is visible" sid="521576295136546" type="System">
                                     <param id="0" name="Layer">&quot;tutorial&quot;</param>
                                 </condition>
                             </conditions>
@@ -12824,19 +12823,6 @@
                                 <action id="-10" name="Add to" sid="8875577183272013" type="System">
                                     <param id="0" name="Variable">mercTokens</param>
                                     <param id="1" name="Value">5</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="3330041716558606">
-                            <conditions>
-                                <condition id="17" name="On tap object" sid="8781946740405893" type="Touch">
-                                    <param id="0" name="Object">circleButton</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-9" name="Set value" sid="8359529295661259" type="System">
-                                    <param id="0" name="Variable">showInfo</param>
-                                    <param id="1" name="Value">0</param>
                                 </action>
                             </actions>
                         </event-block>
