@@ -50,6 +50,7 @@
                 <condition id="7" inverted="1" name="Cursor is over object" sid="5073513213454241" type="Mouse">
                     <param id="0" name="Object">aboutButt</param>
                 </condition>
+                <condition id="-20" inverted="1" name="Is on mobile device" sid="5093011989646631" type="System" />
             </conditions>
             <actions>
                 <action id="-15" name="Set visible" sid="2513565006804751" type="lightbox">

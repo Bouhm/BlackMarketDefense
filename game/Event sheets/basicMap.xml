@@ -10572,7 +10572,7 @@
                                     <param id="0" name="Object">playAgain</param>
                                 </condition>
                                 <condition id="-9" name="Layer is visible" sid="9057882503565045" type="System">
-                                    <param id="0" name="Layer">&quot;GG&quot;</param>
+                                    <param id="0" name="Layer">&quot;UI&quot;</param>
                                 </condition>
                             </conditions>
                             <actions>
@@ -11110,8 +11110,8 @@
                                         <action id="-3" name="Create object" sid="747079177969398" type="System">
                                             <param id="0" name="Object to create">tower</param>
                                             <param id="1" name="Layer">&quot;Game&quot;</param>
-                                            <param id="2" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
-                                            <param id="3" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                                            <param id="2" name="X">round((Touch.X - 16) / 32) * 32 + 16</param>
+                                            <param id="3" name="Y">round((Touch.Y - 16) / 32) * 32 + 16</param>
                                         </action>
                                         <action id="4" name="Set animation" sid="5527570976529139" type="tower">
                                             <param id="0" name="Animation">placeAnim</param>
@@ -11392,8 +11392,8 @@
                                     </conditions>
                                     <actions>
                                         <action id="-3" name="Set position" sid="5289153413331737" type="playerMerc">
-                                            <param id="0" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
-                                            <param id="1" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                                            <param id="0" name="X">round((Touch.X - 16) / 32) * 32 + 16</param>
+                                            <param id="1" name="Y">round((Touch.Y - 16) / 32) * 32 + 16</param>
                                         </action>
                                         <action id="-9" name="Set value" sid="5456622339681854" type="System">
                                             <param id="0" name="Variable">mouseMode</param>
@@ -12085,8 +12085,8 @@
                                 <action id="-3" name="Create object" sid="8540185431412401" type="System">
                                     <param id="0" name="Object to create">playerMerc</param>
                                     <param id="1" name="Layer">&quot;Game&quot;</param>
-                                    <param id="2" name="X">round((Mouse.X - 16) / 32) * 32 + 16</param>
-                                    <param id="3" name="Y">round((Mouse.Y - 16) / 32) * 32 + 16</param>
+                                    <param id="2" name="X">round((Touch.X - 16) / 32) * 32 + 16</param>
+                                    <param id="3" name="Y">round((Touch.Y - 16) / 32) * 32 + 16</param>
                                 </action>
                                 <action id="-9" name="Set value" sid="2506085085350821" type="System">
                                     <param id="0" name="Variable">placeCost</param>
@@ -12232,6 +12232,529 @@
                                         <action id="-10" name="Set value" sid="5586403234552299" type="playerMerc">
                                             <param id="0" name="Instance variable">DPS</param>
                                             <param id="1" name="Value">round((((waveNumber+1)*10)/3) * ((10 + playerMerc.offense)/10) * ((10 + playerMerc.upgrade) / 10))</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="6757732807621285">
+                            <conditions>
+                                <condition id="4" name="Is touching object" sid="9688247714274016" type="Touch">
+                                    <param id="0" name="Object">mercUI</param>
+                                </condition>
+                                <condition disabled="1" id="-4" name="Trigger once while true" sid="5571438589250607" type="System" />
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="1768768071784885">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="9680705910175952" type="mercUI">
+                                            <param id="0" name="Instance variable">isWave</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-15" name="Set visible" sid="7897825043999737" type="tp">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="3081864568294333" type="Sell">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="4" name="Set animation" sid="1849227880840396" type="selectedPort">
+                                            <param id="0" name="Animation">mercUI.AnimationName</param>
+                                            <param id="1" name="From">1</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="3445522042729121" type="UIName">
+                                            <param id="0" name="Text">mercUI.AnimationName</param>
+                                        </action>
+                                        <action id="-4" name="Set layer visible" sid="3415361138302574" type="System">
+                                            <param id="0" name="Layer">&quot;SelectedHUD&quot;</param>
+                                            <param id="1" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-7" name="Set size" sid="7624490137343756" type="selectedPort">
+                                            <param id="0" name="Width">56</param>
+                                            <param id="1" name="Height">56</param>
+                                        </action>
+                                        <action id="5" name="Set frame" sid="4573547226875921" type="mercDef">
+                                            <param id="0" name="Frame number">mercUI.defense</param>
+                                        </action>
+                                        <action id="5" name="Set frame" sid="8805301807072118" type="mercOff">
+                                            <param id="0" name="Frame number">mercUI.offense</param>
+                                        </action>
+                                        <action id="5" name="Set frame" sid="5994543601699992" type="mercUp">
+                                            <param id="0" name="Frame number">mercUI.upgrade</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="1768593745822054" type="mercOff">
+                                            <param id="0" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="7308213650645695" type="mercDef">
+                                            <param id="0" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="1147956071586893" type="mercUp">
+                                            <param id="0" name="Visibility">1</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="4737237573599713" type="selectedType">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="-9" name="Destroy" sid="7316301778978313" type="highlighted" />
+                                        <action id="0" name="Set text" sid="9950132940524973" type="levelText">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="2752472906806738" type="cost">
+                                            <param id="0" name="Text">&quot;Cost: &quot; &amp; mercUI.cost &amp; &quot;t&quot;</param>
+                                        </action>
+                                        <action id="4" name="Set font color" sid="4896314344200295" type="cost">
+                                            <param id="0" name="Color">rgb(200, 200, 200)</param>
+                                        </action>
+                                        <action id="4" name="Set font color" sid="722468810413624" type="UIName">
+                                            <param id="0" name="Color">rgb(0, 66, 99)</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="3101903395321209" type="dmgText">
+                                            <param id="0" name="Text">&quot;DPS: &quot;  &amp; mercUI.DPS</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="2551337010758824" type="firerateText">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="3179306232694241" type="healthText">
+                                            <param id="0" name="Text">&quot;Health: &quot; &amp;  mercUI.health &amp; &quot;/&quot; &amp; mercUI.maxHealth</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="9054443155946" type="expBarEmpty">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="9213917358889309" type="expBar">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="3472901712049055" type="towerRange">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="7004993064903174" type="Upgrade">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="6620391004820212">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="9985673131413066" type="System" />
+                                        <condition id="-14" name="Compare variable" sid="5359576552610911" type="System">
+                                            <param id="0" name="Variable">bossSpawn</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">0</param>
+                                        </condition>
+                                        <condition id="-16" name="Is on layer" sid="5687144560406322" type="mercUI">
+                                            <param id="0" name="Layer">&quot;waveInfo&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="7950015169554292" type="System">
+                                            <param id="0" name="Variable">isSelected</param>
+                                            <param id="1" name="Value">mercUI.belongsTo</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="9427992092970859" type="tp">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="3852893919692748" type="Sell">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="4" name="Set animation" sid="4016799508288534" type="selectedPort">
+                                            <param id="0" name="Animation">mercUI.AnimationName</param>
+                                            <param id="1" name="From">1</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="2678065396483552" type="UIName">
+                                            <param id="0" name="Text">mercUI.AnimationName</param>
+                                        </action>
+                                        <action id="-4" name="Set layer visible" sid="819104229762521" type="System">
+                                            <param id="0" name="Layer">&quot;SelectedHUD&quot;</param>
+                                            <param id="1" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-7" name="Set size" sid="1280478840697639" type="selectedPort">
+                                            <param id="0" name="Width">56</param>
+                                            <param id="1" name="Height">56</param>
+                                        </action>
+                                        <action id="5" name="Set frame" sid="1375387505075073" type="mercDef">
+                                            <param id="0" name="Frame number">mercUI.defense</param>
+                                        </action>
+                                        <action id="5" name="Set frame" sid="4934742767456355" type="mercOff">
+                                            <param id="0" name="Frame number">mercUI.offense</param>
+                                        </action>
+                                        <action id="5" name="Set frame" sid="5689016694466445" type="mercUp">
+                                            <param id="0" name="Frame number">mercUI.upgrade</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="7184270789763135" type="mercOff">
+                                            <param id="0" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="5408581628712815" type="mercDef">
+                                            <param id="0" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="8225305477222429" type="mercUp">
+                                            <param id="0" name="Visibility">1</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="9692513929855394" type="selectedType">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="-9" name="Destroy" sid="1364515964918341" type="highlighted" />
+                                        <action id="0" name="Set text" sid="8178458527549902" type="levelText">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="4" name="Set font color" sid="1343419568779421" type="UIName">
+                                            <param id="0" name="Color">rgb(128, 5, 5)</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="948855855211819" type="dmgText">
+                                            <param id="0" name="Text">&quot;DPS: &quot; &amp; mercUI.DPS</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="7050980332485705" type="firerateText">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="4823986052192854" type="expBarEmpty">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="9105946183062105" type="expBar">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="3628557532237377" type="towerRange">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="7123007661730535" type="healthText">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="2093040070397365" type="cost">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="5250003464995443" type="Upgrade">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                    </actions>
+                                    <sub-events>
+                                        <event-block sid="6832800763276469">
+                                            <conditions>
+                                                <condition id="-11" name="For Each" sid="3351382835015258" type="System">
+                                                    <param id="0" name="Object">mercenary</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="405560585419465">
+                                                    <conditions>
+                                                        <condition id="-7" name="Compare instance variable" sid="3526186638212675" type="mercUI">
+                                                            <param id="0" name="Instance variable">belongsTo</param>
+                                                            <param id="1" name="Comparison">0</param>
+                                                            <param id="2" name="Value">mercenary.UID</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Set text" sid="3645807935672689" type="healthText">
+                                                            <param id="0" name="Text">&quot;Health: &quot; &amp;  mercenary.health &amp; &quot;/&quot; &amp; mercenary.maxHealth</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block sid="9617749737437351">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="5292761247135283" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set font color" sid="5263680311967673" type="UIName">
+                                            <param id="0" name="Color">rgb(128, 5, 5)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="5657933024018735">
+                            <conditions>
+                                <condition id="4" name="Is touching object" sid="6266654563326953" type="Touch">
+                                    <param id="0" name="Object">champUI</param>
+                                </condition>
+                                <condition disabled="1" id="-4" name="Trigger once while true" sid="4117960878180059" type="System" />
+                                <condition id="-9" name="Layer is visible" sid="9292020262452436" type="System">
+                                    <param id="0" name="Layer">&quot;waveInfo&quot;</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="631522340937958" type="System">
+                                    <param id="0" name="Variable">bossSpawn</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                                <condition id="-16" name="Is on layer" sid="2426748820250904" type="champUI">
+                                    <param id="0" name="Layer">&quot;waveInfo&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="7417598278459314" type="System">
+                                    <param id="0" name="Variable">isSelected</param>
+                                    <param id="1" name="Value">champUI.belongsTo</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="4211905472588121" type="tp">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="5600088020506106" type="Sell">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="4" name="Set animation" sid="2966855622272138" type="selectedPort">
+                                    <param id="0" name="Animation">champUI.AnimationName</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
+                                <action id="-4" name="Set layer visible" sid="5275689213766163" type="System">
+                                    <param id="0" name="Layer">&quot;SelectedHUD&quot;</param>
+                                    <param id="1" name="Visibility">1</param>
+                                </action>
+                                <action id="0" name="Set text" sid="7679004591968279" type="UIName">
+                                    <param id="0" name="Text">champUI.AnimationName</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="5170488568777335" type="selectedPort">
+                                    <param id="0" name="Width">56</param>
+                                    <param id="1" name="Height">56</param>
+                                </action>
+                                <action id="0" name="Set text" sid="8903571556169249" type="levelText">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="4" name="Set font color" sid="8905869249092474" type="UIName">
+                                    <param id="0" name="Color">rgb(128, 5, 5)</param>
+                                </action>
+                                <action id="0" name="Set text" sid="3817690631551633" type="selectedType">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="0" name="Set text" sid="6983554055314452" type="dmgText">
+                                    <param id="0" name="Text">&quot;DPS: &quot; &amp; champUI.DPS</param>
+                                </action>
+                                <action id="0" name="Set text" sid="3525263403851428" type="firerateText">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="0" name="Set text" sid="5247967742506335" type="cost">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="8514457177449595" type="expBarEmpty">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="6819353251486438" type="expBar">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="3127911630967595" type="towerRange">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="2652931767996717" type="mercOff">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="6531823345644227" type="mercDef">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="6280764990714829" type="mercUp">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="3436065141037044" type="Upgrade">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="9670868022577255">
+                                    <conditions>
+                                        <condition id="-11" name="For Each" sid="7637760625489148" type="System">
+                                            <param id="0" name="Object">champion</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="9660000287204181">
+                                            <conditions>
+                                                <condition id="-7" name="Compare instance variable" sid="8596579020281145" type="champUI">
+                                                    <param id="0" name="Instance variable">belongsTo</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">champion.UID</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Set text" sid="2722257716919503" type="healthText">
+                                                    <param id="0" name="Text">&quot;Health: &quot; &amp;  champion.health &amp; &quot;/&quot; &amp; champion.maxHealth</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block sid="6845694015742727">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="1015011429132073" type="champUI">
+                                            <param id="0" name="Instance variable">type</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;Support&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="5397959787735823" type="selectedType">
+                                            <param id="0" name="Text">&quot;Type: &quot; &amp; champUI.type</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="9096617350243288" type="dmgText">
+                                            <param id="0" name="Text">&quot;DPS: 0&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="9065011228407505">
+                            <conditions>
+                                <condition id="4" name="Is touching object" sid="6402348317087397" type="Touch">
+                                    <param id="0" name="Object">bossUI</param>
+                                </condition>
+                                <condition disabled="1" id="-4" name="Trigger once while true" sid="6527195431984551" type="System" />
+                                <condition id="-9" name="Layer is visible" sid="1391847054507379" type="System">
+                                    <param id="0" name="Layer">&quot;waveInfo&quot;</param>
+                                </condition>
+                                <condition id="-16" name="Is on layer" sid="8948727088938486" type="bossUI">
+                                    <param id="0" name="Layer">&quot;waveInfo&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="4470356946735464" type="System">
+                                    <param id="0" name="Variable">isSelected</param>
+                                    <param id="1" name="Value">BossUI.belongsTo</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="9610322490987296" type="tp">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="7453491174128907" type="Sell">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="4" name="Set animation" sid="7248794728499712" type="selectedPort">
+                                    <param id="0" name="Animation">BossUI.AnimationName</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
+                                <action id="-4" name="Set layer visible" sid="1137968586621871" type="System">
+                                    <param id="0" name="Layer">&quot;SelectedHUD&quot;</param>
+                                    <param id="1" name="Visibility">1</param>
+                                </action>
+                                <action id="0" name="Set text" sid="8151987069364199" type="UIName">
+                                    <param id="0" name="Text">BossUI.AnimationName</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="4611829599258648" type="selectedPort">
+                                    <param id="0" name="Width">56</param>
+                                    <param id="1" name="Height">56</param>
+                                </action>
+                                <action id="0" name="Set text" sid="6599548361636276" type="levelText">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="4" name="Set font color" sid="1809509976163535" type="UIName">
+                                    <param id="0" name="Color">rgb(128, 5, 5)</param>
+                                </action>
+                                <action id="0" name="Set text" sid="9731566375401371" type="selectedType">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="0" name="Set text" sid="2786712311032827" type="healthText">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="0" name="Set text" sid="4666382323599874" type="cost">
+                                    <param id="0" name="Text">&quot;&quot;</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="2056564855080298" type="expBarEmpty">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="9950080522316686" type="expBar">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="2641562852182437" type="towerRange">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="4427710134525502" type="mercOff">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="1788854359638407" type="mercDef">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="4639287265393817" type="mercUp">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="7664519708102382" type="Upgrade">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="9128576992652049">
+                                    <conditions>
+                                        <condition id="2" name="Is playing" sid="2446323845768174" type="bossUI">
+                                            <param id="0" name="Animation">&quot;Amumu&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="3806918927413125" type="selectedType">
+                                            <param id="0" name="Text">&quot;Highest Win-rate Champ&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="9834830527456305" type="dmgText">
+                                            <param id="0" name="Text">&quot; 55.75% Win-rate&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="5382250106544617">
+                                    <conditions>
+                                        <condition id="2" name="Is playing" sid="1892601357902281" type="bossUI">
+                                            <param id="0" name="Animation">&quot;MissFortune&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="9990970664453943" type="selectedType">
+                                            <param id="0" name="Text">&quot;Most Played Champ&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="4766357995167509" type="dmgText">
+                                            <param id="0" name="Text">&quot; Picked 5,015 Times in 20,000 Matches&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="697438536002582">
+                                    <conditions>
+                                        <condition id="2" name="Is playing" sid="411670643721767" type="bossUI">
+                                            <param id="0" name="Animation">&quot;Plundercrab&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="7699613654492214" type="selectedType">
+                                            <param id="0" name="Text">&quot;Highest Win-rate Merc&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="3424042413738541" type="dmgText">
+                                            <param id="0" name="Text">&quot; 50.97% Win-rate&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="2639903719742419">
+                                    <conditions>
+                                        <condition id="2" name="Is playing" sid="5094515042570267" type="bossUI">
+                                            <param id="0" name="Animation">&quot;Puppeteer&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="3582287051221118" type="selectedType">
+                                            <param id="0" name="Text">&quot;Highest Win-rate Event Item&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="6668947477073902" type="dmgText">
+                                            <param id="0" name="Text">&quot; 58.91% Win-rate&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="3695872506080007">
+                                    <conditions>
+                                        <condition id="2" name="Is playing" sid="3425390826916085" type="bossUI">
+                                            <param id="0" name="Animation">&quot;Razorfin&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="5555409910147453" type="selectedType">
+                                            <param id="0" name="Text">&quot;Most Purchased Merc&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="2522310907020464" type="dmgText">
+                                            <param id="0" name="Text">&quot; Purchased 30,398 Times in 20,000 Matches&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="6665084460655074">
+                                    <conditions>
+                                        <condition id="2" name="Is playing" sid="7145003430205369" type="bossUI">
+                                            <param id="0" name="Animation">&quot;TyphoonClaws&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="8830567904363894" type="selectedType">
+                                            <param id="0" name="Text">&quot;Most Purchased Event Item&quot;</param>
+                                        </action>
+                                        <action id="0" name="Set text" sid="6447444760691661" type="dmgText">
+                                            <param id="0" name="Text">&quot; Purchased By 6,470 Times in 20,000 Matches &quot;</param>
                                         </action>
                                     </actions>
                                 </event-block>
