@@ -2619,11 +2619,11 @@
             <sub-events>
                 <event-group description="" sid="5607380159881887" title="Champions">
                     <sub-events>
-                        <variable constant="0" name="rangedDmg" sid="8315290149481118" static="0" type="number">85</variable>
+                        <variable constant="0" name="rangedDmg" sid="8315290149481118" static="0" type="number">90</variable>
                         <variable constant="0" name="rangedAS" sid="7816942748605186" static="0" type="number">0.85</variable>
                         <variable constant="0" name="meleeDmg" sid="4545425593906449" static="0" type="number">80</variable>
                         <variable constant="0" name="meleeAS" sid="7122538756215658" static="0" type="number">1.2</variable>
-                        <variable constant="0" name="magicDmg" sid="8874438223443589" static="0" type="number">140</variable>
+                        <variable constant="0" name="magicDmg" sid="8874438223443589" static="0" type="number">150</variable>
                         <variable constant="0" name="magicAS" sid="1496572057811847" static="0" type="number">1.4</variable>
                         <variable constant="0" name="slow" sid="4827673245480944" static="0" type="number">0.8</variable>
                         <variable constant="0" name="frUp" sid="6619989167215393" static="0" type="number">0.9</variable>
@@ -4049,7 +4049,7 @@
                             <actions>
                                 <action id="-10" name="Set value" sid="8462738088238493" type="tower">
                                     <param id="0" name="Instance variable">damage</param>
-                                    <param id="1" name="Value">round((1.03^(tower.Level - tower.prevLevel)) * tower.Damage)</param>
+                                    <param id="1" name="Value">round((1.04^(tower.Level - tower.prevLevel)) * tower.Damage)</param>
                                 </action>
                                 <action id="-10" name="Set value" sid="2245007255051314" type="tower">
                                     <param id="0" name="Instance variable">attackSpeed</param>
@@ -4877,8 +4877,8 @@
                                     </actions>
                                     <sub-events>
                                         <variable constant="0" name="index1" sid="1858048756086005" static="0" type="number">0</variable>
-                                        <variable constant="0" name="BaseHealth" sid="3525852590951424" static="0" type="number">385</variable>
-                                        <variable constant="0" name="HealthScale" sid="7617953884802255" static="0" type="number">8</variable>
+                                        <variable constant="0" name="BaseHealth" sid="3525852590951424" static="0" type="number">350</variable>
+                                        <variable constant="0" name="HealthScale" sid="7617953884802255" static="0" type="number">10</variable>
                                         <event-block sid="6417582166649396">
                                             <conditions>
                                                 <condition id="0" name="For each node" sid="3055409031800155" type="XML">
