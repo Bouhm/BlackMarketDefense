@@ -16,7 +16,7 @@
         <variable constant="0" name="towerCount" sid="9987298409190736" static="0" type="number">0</variable>
         <variable constant="0" name="showInfo" sid="5813153658809311" static="0" type="number">0</variable>
         <variable constant="0" name="playerHealth" sid="5056371759844655" static="0" type="number">100</variable>
-        <variable constant="0" name="gold" sid="9242877074709544" static="0" type="number">575</variable>
+        <variable constant="0" name="gold" sid="9242877074709544" static="0" type="number">600</variable>
         <variable constant="0" name="waveCount" sid="8475164688718491" static="0" type="number">0</variable>
         <variable constant="0" name="placeAnim" sid="6865279861712279" static="0" type="text"></variable>
         <variable constant="0" name="mouseMode" sid="4966851346063013" static="0" type="number">0</variable>
@@ -2619,11 +2619,11 @@
             <sub-events>
                 <event-group description="" sid="5607380159881887" title="Champions">
                     <sub-events>
-                        <variable constant="0" name="rangedDmg" sid="8315290149481118" static="0" type="number">80</variable>
+                        <variable constant="0" name="rangedDmg" sid="8315290149481118" static="0" type="number">85</variable>
                         <variable constant="0" name="rangedAS" sid="7816942748605186" static="0" type="number">0.85</variable>
-                        <variable constant="0" name="meleeDmg" sid="4545425593906449" static="0" type="number">75</variable>
+                        <variable constant="0" name="meleeDmg" sid="4545425593906449" static="0" type="number">80</variable>
                         <variable constant="0" name="meleeAS" sid="7122538756215658" static="0" type="number">1.2</variable>
-                        <variable constant="0" name="magicDmg" sid="8874438223443589" static="0" type="number">130</variable>
+                        <variable constant="0" name="magicDmg" sid="8874438223443589" static="0" type="number">140</variable>
                         <variable constant="0" name="magicAS" sid="1496572057811847" static="0" type="number">1.4</variable>
                         <variable constant="0" name="slow" sid="4827673245480944" static="0" type="number">0.8</variable>
                         <variable constant="0" name="frUp" sid="6619989167215393" static="0" type="number">0.9</variable>
@@ -4878,7 +4878,7 @@
                                     <sub-events>
                                         <variable constant="0" name="index1" sid="1858048756086005" static="0" type="number">0</variable>
                                         <variable constant="0" name="BaseHealth" sid="3525852590951424" static="0" type="number">385</variable>
-                                        <variable constant="0" name="HealthScale" sid="7617953884802255" static="0" type="number">6</variable>
+                                        <variable constant="0" name="HealthScale" sid="7617953884802255" static="0" type="number">8</variable>
                                         <event-block sid="6417582166649396">
                                             <conditions>
                                                 <condition id="0" name="For each node" sid="3055409031800155" type="XML">
@@ -6172,7 +6172,7 @@
                                 </action>
                                 <action id="-10" name="Set value" sid="5411612257215981" type="Sell">
                                     <param id="0" name="Instance variable">selectedCost</param>
-                                    <param id="1" name="Value">round(0.65 * (tower.cost * tower.Level + (3 * waveNumber)))</param>
+                                    <param id="1" name="Value">round(0.65 * (tower.cost + (tower.level-1) * 4 + tower.mastery * 6))</param>
                                 </action>
                                 <action id="-10" name="Set value" sid="6105039642514031" type="Sell">
                                     <param id="0" name="Instance variable">selectedTower</param>
@@ -6222,14 +6222,6 @@
                                 </action>
                                 <action id="-15" name="Set visible" sid="6360902199133922" type="Upgrade">
                                     <param id="0" name="Visibility">1</param>
-                                </action>
-                                <action id="-10" name="Set value" sid="9400245701778608" type="Sell">
-                                    <param id="0" name="Instance variable">selectedCost</param>
-                                    <param id="1" name="Value">round(0.65 * (tower.cost * tower.Level + (3 * waveNumber)))</param>
-                                </action>
-                                <action id="-10" name="Set value" sid="8404721509550483" type="Sell">
-                                    <param id="0" name="Instance variable">selectedTower</param>
-                                    <param id="1" name="Value">tower.AnimationName</param>
                                 </action>
                                 <action id="-10" name="Set value" sid="2466084704703283" type="Upgrade">
                                     <param id="0" name="Instance variable">selectedCost</param>
@@ -7809,7 +7801,7 @@
                                                         </action>
                                                         <action id="-11" name="Add to" sid="7654731524175844" type="tower">
                                                             <param id="0" name="Instance variable">damage</param>
-                                                            <param id="1" name="Value">round(tower.Damage / 4)</param>
+                                                            <param id="1" name="Value">round(tower.Damage / 5)</param>
                                                         </action>
                                                         <action id="-11" name="Add to" sid="9938033943983838" type="tower">
                                                             <param id="0" name="Instance variable">mastery</param>
@@ -7817,7 +7809,7 @@
                                                         </action>
                                                         <action id="-10" name="Set value" sid="5914678265291717" type="tower">
                                                             <param id="0" name="Instance variable">attackSpeed</param>
-                                                            <param id="1" name="Value">0.8 * tower.AttackSpeed</param>
+                                                            <param id="1" name="Value">0.9 * tower.AttackSpeed</param>
                                                         </action>
                                                         <action behavior="Turret" id="7" name="Set rate of fire" sid="2853885581423541" type="tower">
                                                             <param id="0" name="Rate of fire">tower.AttackSpeed</param>
@@ -8323,9 +8315,6 @@
                         <action id="4" name="Set font color" sid="4288077403873929" type="UIName">
                             <param id="0" name="Color">rgb(0, 66, 99)</param>
                         </action>
-                        <action id="0" name="Set text" sid="2081098907618386" type="healthText">
-                            <param id="0" name="Text">&quot;&quot;</param>
-                        </action>
                         <action id="-15" name="Set visible" sid="8896251412416911" type="expBarEmpty">
                             <param id="0" name="Visibility">0</param>
                         </action>
@@ -8390,7 +8379,7 @@
                         </event-block>
                         <event-block sid="479069809094785">
                             <conditions>
-                                <condition id="-11" name="For Each" sid="6691302945163775" type="System">
+                                <condition disabled="1" id="-11" name="For Each" sid="6691302945163775" type="System">
                                     <param id="0" name="Object">tower</param>
                                 </condition>
                             </conditions>
@@ -8439,6 +8428,37 @@
                                                     <param id="0" name="Color">rgb(255, 255, 0)</param>
                                                 </action>
                                             </actions>
+                                            <sub-events>
+                                                <event-block sid="7831339622085466">
+                                                    <conditions>
+                                                        <condition id="-7" name="Compare instance variable" sid="571324118308302" type="towerUI">
+                                                            <param id="0" name="Instance variable">cost</param>
+                                                            <param id="1" name="Comparison">4</param>
+                                                            <param id="2" name="Value">gold</param>
+                                                        </condition>
+                                                        <condition id="-7" name="Compare instance variable" sid="2214074957873306" type="towerUI">
+                                                            <param id="0" name="Instance variable">blacked</param>
+                                                            <param id="1" name="Comparison">0</param>
+                                                            <param id="2" name="Value">0</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Spawn another object" sid="6788815979859238" type="towerUI">
+                                                            <param id="0" name="Object">blackoutG</param>
+                                                            <param id="1" name="Layer">&quot;UI&quot;</param>
+                                                            <param id="2" name="Image point">0</param>
+                                                        </action>
+                                                        <action id="-10" name="Set value" sid="1299374234955746" type="towerUI">
+                                                            <param id="0" name="Instance variable">blacked</param>
+                                                            <param id="1" name="Value">1</param>
+                                                        </action>
+                                                        <action id="-10" name="Set value" sid="728954712178279" type="blackoutG">
+                                                            <param id="0" name="Instance variable">belongsTo</param>
+                                                            <param id="1" name="Value">towerUI.cost</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
                                         </event-block>
                                         <event-block sid="311425336402701">
                                             <conditions>
@@ -8466,6 +8486,16 @@
                                             </actions>
                                         </event-block>
                                     </sub-events>
+                                </event-block>
+                                <event-block sid="8723196530331282">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="464031435577501" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Set text" sid="4855404174099392" type="healthText">
+                                            <param id="0" name="Text">&quot;&quot;</param>
+                                        </action>
+                                    </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>
@@ -11009,9 +11039,9 @@
                                         <action id="-15" name="Set visible" sid="1517917879525402" type="Sell">
                                             <param id="0" name="Visibility">1</param>
                                         </action>
-                                        <action id="-10" name="Set value" sid="7666017025344438" type="Sell">
+                                        <action id="-10" name="Set value" sid="5278347815840169" type="Sell">
                                             <param id="0" name="Instance variable">selectedCost</param>
-                                            <param id="1" name="Value">round(0.65 * (tower.cost * tower.Level + (3 * waveNumber)))</param>
+                                            <param id="1" name="Value">round(0.65 * (tower.cost + (tower.level-1) * 4 + tower.mastery * 6))</param>
                                         </action>
                                         <action id="-10" name="Set value" sid="1359701782993935" type="Sell">
                                             <param id="0" name="Instance variable">selectedTower</param>
@@ -11061,14 +11091,6 @@
                                         </action>
                                         <action id="-15" name="Set visible" sid="9192602098787067" type="Upgrade">
                                             <param id="0" name="Visibility">1</param>
-                                        </action>
-                                        <action id="-10" name="Set value" sid="2424501255878547" type="Sell">
-                                            <param id="0" name="Instance variable">selectedCost</param>
-                                            <param id="1" name="Value">round(0.65 * (tower.cost * tower.Level + (3 * waveNumber)))</param>
-                                        </action>
-                                        <action id="-10" name="Set value" sid="1816226881024208" type="Sell">
-                                            <param id="0" name="Instance variable">selectedTower</param>
-                                            <param id="1" name="Value">tower.AnimationName</param>
                                         </action>
                                         <action id="-10" name="Set value" sid="8910864908427362" type="Upgrade">
                                             <param id="0" name="Instance variable">selectedCost</param>
@@ -12035,7 +12057,7 @@
                                                             <actions>
                                                                 <action id="-11" name="Add to" sid="30605828931234" type="tower">
                                                                     <param id="0" name="Instance variable">damage</param>
-                                                                    <param id="1" name="Value">round(tower.Damage / 4)</param>
+                                                                    <param id="1" name="Value">round(tower.Damage / 5)</param>
                                                                 </action>
                                                                 <action id="-11" name="Add to" sid="9346844274671969" type="tower">
                                                                     <param id="0" name="Instance variable">mastery</param>
@@ -12043,7 +12065,7 @@
                                                                 </action>
                                                                 <action id="-10" name="Set value" sid="1713400694361329" type="tower">
                                                                     <param id="0" name="Instance variable">attackSpeed</param>
-                                                                    <param id="1" name="Value">0.8 * tower.AttackSpeed</param>
+                                                                    <param id="1" name="Value">0.9 * tower.AttackSpeed</param>
                                                                 </action>
                                                                 <action behavior="Turret" id="7" name="Set rate of fire" sid="229943072215193" type="tower">
                                                                     <param id="0" name="Rate of fire">tower.AttackSpeed</param>
