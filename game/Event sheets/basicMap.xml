@@ -1720,6 +1720,10 @@
                                     <param id="0" name="Layer">&quot;GG&quot;</param>
                                     <param id="1" name="Visibility">1</param>
                                 </action>
+                                <action id="4" name="Set animation" sid="1605893747388643" type="GG">
+                                    <param id="0" name="Animation">&quot;Victory&quot;</param>
+                                    <param id="1" name="From">1</param>
+                                </action>
                             </actions>
                         </event-block>
                     </sub-events>
@@ -4122,12 +4126,15 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-block any="1" sid="8108950611925745">
+                <event-block sid="8108950611925745">
                     <conditions>
                         <condition id="6" name="On object clicked" sid="8694057031531281" type="Mouse">
                             <param id="0" name="Mouse button">0</param>
                             <param id="1" name="Click type">0</param>
                             <param id="2" name="Object clicked">Pause</param>
+                        </condition>
+                        <condition id="-9" inverted="1" name="Layer is visible" sid="2789409726764679" type="System">
+                            <param id="0" name="Layer">&quot;tutorial&quot;</param>
                         </condition>
                     </conditions>
                     <actions />
@@ -4173,6 +4180,9 @@
                             <param id="0" name="Mouse button">0</param>
                             <param id="1" name="Click type">0</param>
                             <param id="2" name="Object clicked">ff</param>
+                        </condition>
+                        <condition id="-9" inverted="1" name="Layer is visible" sid="4369576818366284" type="System">
+                            <param id="0" name="Layer">&quot;tutorial&quot;</param>
                         </condition>
                     </conditions>
                     <actions>
@@ -4567,6 +4577,10 @@
                         </action>
                         <action id="0" name="Set text" sid="3615781013292244" type="WaveText">
                             <param id="0" name="Text">&quot;Defeat!&quot;</param>
+                        </action>
+                        <action id="4" name="Set animation" sid="7486001580989331" type="GG">
+                            <param id="0" name="Animation">&quot;Defeat&quot;</param>
+                            <param id="1" name="From">1</param>
                         </action>
                     </actions>
                 </event-block>
@@ -7221,10 +7235,13 @@
                         </event-block>
                     </sub-events>
                 </event-block>
-                <event-block any="1" sid="5552041165511363">
+                <event-block sid="5552041165511363">
                     <conditions>
                         <condition id="0" name="On key pressed" sid="6060139067964048" type="Keyboard">
                             <param id="0" name="Key">73 (I)</param>
+                        </condition>
+                        <condition id="-9" inverted="1" name="Layer is visible" sid="2333869343407984" type="System">
+                            <param id="0" name="Layer">&quot;tutorial&quot;</param>
                         </condition>
                     </conditions>
                     <actions>
@@ -10748,10 +10765,13 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block any="1" sid="3734777608178787">
+                        <event-block sid="3734777608178787">
                             <conditions>
                                 <condition id="17" name="On tap object" sid="5431658759417321" type="Touch">
                                     <param id="0" name="Object">Pause</param>
+                                </condition>
+                                <condition id="-9" inverted="1" name="Layer is visible" sid="6579559447545551" type="System">
+                                    <param id="0" name="Layer">&quot;tutorial&quot;</param>
                                 </condition>
                             </conditions>
                             <actions />
@@ -10795,6 +10815,9 @@
                             <conditions>
                                 <condition id="17" name="On tap object" sid="464820178911627" type="Touch">
                                     <param id="0" name="Object">ff</param>
+                                </condition>
+                                <condition id="-9" inverted="1" name="Layer is visible" sid="5609449103383101" type="System">
+                                    <param id="0" name="Layer">&quot;tutorial&quot;</param>
                                 </condition>
                             </conditions>
                             <actions>
