@@ -9,6 +9,7 @@ import json
 import random
 import math
 import time
+import ast
 
 def main():
     api = RiotAPIData(keys.API_KEY)
@@ -43,20 +44,27 @@ def id_to_name(dict):
     return dict
 
 #From match data get game data
-def get_game_data_format(api, region, num, totalWaves):
-    with open("dataset/" + region + ".json") as file:
-        matches_list = json.load(file)
-    matches = random.sample(range(1,10000), num)
-    matches_data = []
+def get_game_data_format(api, region, num, totalWaves, local):
     all_waves = {}
+    matches_data = []
+    if local == 0:
+        with open("dataset/" + region + ".json") as file:
+            matches_list = json.load(file)
+        matches = random.sample(range(1,10000), num)
 
-    for x in range (1, 10000):
-    #for match in matches:
-        try:
-            matches_data.append(id_to_name(api.get_BMB_data(matches_list[x])))
-            time.sleep(1.3)
-        except:
-            pass
+        for x in range (1, 10000):
+        #for match in matches:
+            try:
+                matches_data.append(id_to_name(api.get_BMB_data(matches_list[x])))
+                time.sleep(1.3)
+            except:
+                pass
+    else:
+        with open("database/matches_data_" + region + ".json") as file:
+            matches_data = json.load(file)
+            for data in matches_data:
+                matches_data.append(id_to_name(data))
+
 
     for match in matches_data:
         team = match['100']

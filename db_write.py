@@ -48,7 +48,7 @@ def main():
     elif option == '5':
         combine_winrate_data('na', 'euw')
     elif option == '6':
-        game_data(api, 'EUW', 10, 20)
+        game_data(api, region, 10, 20, 1)
     elif option == '7':
         overflow_data(20)
     elif option == '8':
@@ -96,8 +96,8 @@ def champion_data(api, headers, img):
         urllib.request.urlcleanup()
 
 #From match data get game data and save
-def game_data(api, region, num, totalWaves):
-    game_data = json.dumps(data_aggr.get_game_data_format(api, region, num, totalWaves))
+def game_data(api, region, num, totalWaves, local):
+    game_data = json.dumps(data_aggr.get_game_data_format(api, region, num, totalWaves, local))
     if not os.path.isfile("database/game_data_" + region + ".json"):
         file = open("database/game_data_" + region + ".json", 'w+')
         #for champ in champion_data:
@@ -170,11 +170,11 @@ def data_from_matches(api, region, num):
         except:
             pass
 
-    if not os.path.isfile("database/matches_data_EUW.json"):
-        file = open("database/matches_data_EUW.json", 'w+')
+    if not os.path.isfile("database/matches_data_" + region + ".json"):
+        file = open("database/matches_data_" + region + " .json", 'w+')
         file.write("%s  \n" % matches_data)
     else:
-        with open("database/matches_data_EUW.json", 'a') as file:
+        with open("database/matches_data_" + region + ".json", 'a') as file:
             file.write("%s\n" % matches_data)
     return
 
