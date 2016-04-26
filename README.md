@@ -1,15 +1,15 @@
-﻿# Black Market Defense (League of Legends fanmade game)
+﻿# Black Market Defense (League of Legends fan game)
 For Riot Games API Challenge 2.0
 
-Try the game out here: https://Bouhm.github.io/BlackMarketDefense
+Link to game: https://Bouhm.github.io/BlackMarketDefense
 
-Mirror site: http://blackmarketdefense.bitballoon.com/
+
 
 For best results try it on Google Chrome browser.
 
 
 ## About the Project
-This project was created for the Riot Games API Challenge 2.0. The project consists of python programs that are used to collect data from the Riot Games API, store them in custom python dictionaries and JSON, and stored into local database to be accessed through the game engine in order to implement the data into the game. The game was programmed using the Construct 2 game engine. The vast majority of the game art assets are from League of Legends.
+This was a one-month solo project for the Riot Games API Challenge 2.0. The project consists of python programs that are used to collect data from the Riot Games API, store them in custom python dictionaries and JSON, and stored into local database to be accessed through the game engine in order to implement the data into the game. The game was programmed using the Construct 2 game engine. The vast majority of the game art assets are from League of Legends.
 
 ### Data collection and aggregation
 "riot_API_data.py" is the class that contains all of the methods to get data from the Riot Games API. 
