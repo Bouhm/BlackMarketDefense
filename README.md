@@ -1,7 +1,7 @@
 ﻿# Black Market Defense (League of Legends fan game)
 For Riot Games API Challenge 2.0
 
-Link to game: https://Bouhm.github.io/BlackMarketDefense
+Link to game: https://cdn.rawgit.com/Bouhm/black-market-defense/master/site/index.html
 
 
 
